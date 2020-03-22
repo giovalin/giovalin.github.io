@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+<meta name="viewport" content="initial-scale=0.6, user-scalable=no">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-combinatorics@0.5"></script>
+<script src="vue.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+:root {
+    --primary-color: #302AE6;
+    --secondary-color: #536390;
+    --font-color: #424242;
+    --bg-color: #fff;
+    --search-primary-color:#c9c9c9;
+    --search-border-color: #424242;
+    --colore-check-eroi:green;
+}
+
+  /* variabili del tema*/
+[data-theme="dark"] {
+    --primary-color: #9A97F3;
+    --secondary-color: #818cab;
+    --font-color: #A1AEBD;
+    --bg-color: #252B35;
+    --search-primary-color:#1e2126;
+    --search-border-color: #131417;
+    --colore-check-eroi:red;
+}
+  
+  
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--font-color); /* font color */
+}
+
+
+
+/* Full-width input fields */
+  
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+.button_login {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.button_login:hover {
+  opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.button_login_cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 200px;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+  
+div.toolbar {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  border: 3px solid #73AD21;
+}
+  
+span.heroImgList {
+    position: relative;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    margin-left: 12px;
+    margin-right: 12px;
+    font-weight: bold;
+    font-size:24px;
+    color: #221461;
+    /*The change*/
+    display:inline-block; /*or display:block;*/
+}
+.heroImgList:hover,
+.heroImgList:focus {
+  background-color:#ddd;
+  cursor: pointer;
+}
+.heroInTeam {
+  background-color:green;
+}
+  
+/* The Close Button (x) */
+.removeHero {
+  position: relative;
+  top: 0;
+  color: #A1AEBD;
+  font-size: 20px;
+  font-weight: bold;
+}
+.removeHero:hover,
+.removeHero:focus {
+  color: red;
+  cursor: pointer;
+}
+                  .center {
+                    max-width: 800px;
+                    margin: auto;
+                  }
+                  .topics {
+                    text-align:center; 
+                    font-family:sans-serif;
+                    font-size:16px
+                  }
+  
+  
+  
+.search_hero_area {
+}
+.search_hero_filter {
+  background-color: var(--search-primary-color); /* Green */
+  border: none;
+  text-align: center;
+  color: var(--font-color);
+  width: 50px;
+  height: 50px;
+  padding: 15px 8px;
+  text-align: center;
+  text-decoration: none;
+  position: static;
+  display: inline-block;
+  font-size: 10px;
+  border-style: ridge;
+  border-width: thin;
+  border-color: var(--search-border-color);
+} 
+  
+
+.box_advanced_settings {
+	background: var(--search-primary-color);
+  color: var(--font-color);
+	border-radius: 15px;
+}
+
+  
+  
+  
+  
+.icon-bar {
+  position:fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  background-color: #555;
+}
+
+.icon-bar span {
+  float: left;
+  width: 20%;
+  text-align: center;
+  padding: 12px 0;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 36px;
+}
+
+.icon-bar span:hover {
+  background-color: #000;
+}
+
+.active-icon-bar {
+  background-color: #4CAF50;
+}
+  
+  
+  
+  
+                  /* dark mode old */
+                  /*body { 
+                    background-color: #252B35;
+                    color: #A1AEBD;
+                  }
+                  .light-mode {
+                    background-color: white;
+                    color: black;
+                  }
+                  */
+  
+                  .topics {
+                    text-align:center; 
+                    font-family:sans-serif;
+                    font-size:16px
+                  }
+
+
+
+
+                  .switch {
+                    position: relative;
+                    display: inline-block;
+                    width: 60px;
+                    height: 35px;
+                  }
+
+                  /* Hide default HTML checkbox */
+                  .switch input {
+                    opacity: 0;
+                    width: 0;
+                    height: 0;
+                  }
+
+                  /* The slider */
+                  .slider {
+                    position: absolute;
+                    cursor: pointer;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: #ccc;
+                    -webkit-transition: .4s;
+                    transition: .4s;
+                  }
+
+                  .slider:before {
+                    position: absolute;
+                    content: "";
+                    height: 26px;
+                    width: 26px;
+                    left: 4px;
+                    bottom: 4px;
+                    background-color: white;
+                    -webkit-transition: .4s;
+                    transition: .4s;
+                  }
+
+                  input:checked + .slider {
+                    background-color: #2196F3;
+                  }
+
+                  input:focus + .slider {
+                    box-shadow: 0 0 1px #2196F3;
+                  }
+
+                  input:checked + .slider:before {
+                    -webkit-transform: translateX(26px);
+                    -ms-transform: translateX(26px);
+                    transform: translateX(26px);
+                  }
+
+                  /* Rounded sliders */
+                  .slider.round {
+                    border-radius: 34px;
+                  }
+
+                  .slider.round:before {
+                    border-radius: 50%;
+                  }
+
+  
+/* Lock icon */
+.top-right {
+  position: absolute;
+  top: 2px;
+  right: 7px;
+}
+.top-left {
+  position: absolute;
+  top: -15px;
+  left: -10px;
+  color: var(--colore-check-eroi);
+}
+.center_img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+ 
+  
+  
+.label {
+  padding: 12px;
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.label::before {
+  background-color: white;
+  color: white;
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 28px;
+  transition-duration: 0.4s;
+  transform: scale(0);
+}
+
+.label img {
+  height: 100px;
+  width: 100px;
+  transition-duration: 0.2s;
+  transform-origin: 50% 50%;
+}
+
+:checked+.label {
+  border-color: #ddd;
+}
+
+:checked+.label::before {
+  content: "✓";
+  background-color: grey;
+  transform: scale(1);
+}
+  
+</style>
+</head>
+<body>
+  <div id="app"><!-- vue.js -->
+    <div id="welcome" style="display: '';">
+        <h2> __USERNAME_VALUE__ benvenuto su Epic 7 Camp Simulator</h2>
+    </div>
+    <div id="add_window" style="display:none;">
+      <h2>Aggiungi <input style="padding-top: 7px;padding-bottom: 7px;width:250px;" type="text" id="inputInTuttiGliEroi" onkeyup="cercaEroe('lista_hero_disponibili')" placeholder="Cerca eroe..." title="Type in a name"></h2>
+      
+        <table id="lista_hero_disponibili">
+          <tr>
+            <td>
+              <span v-for="key in displayList" class="heroImgList">
+                <!--<div class="fa fa-check-circle top-left" v-bind:style="'font-size:38px;color:green;display:' + isInTeam(key.name)"></div>-->
+                <img v-bind:src="'https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + key.id + '_s.png'" style="width:70px" v-on:click="app.addHero(key.name)" v-bind:alt="key.name" v-bind:titolo="key.name"/>
+                <div class="top-left" v-bind:style="'font-size:38px;display:' + isInTeam(key.name)">✔</div>
+              </span>
+            </td>
+          </tr>
+        </table>
+	      <br><br><br><br> <!-- -->
+    </div>
+    <div id="manage_window" style="display:none;">
+      <h2>I tuoi eroi <input style="padding-top: 7px;padding-bottom: 7px;width:250px;" type="text" id="inputInMyHeroes" onkeyup="cercaEroe('myHeroes')" placeholder="Cerca eroe..." title="Type in a name"></h2>
+        <table id="myHeroes">
+          <tr>
+            <td>
+              <span v-for="key in myHeroesList" class="heroImgList">
+                <img v-bind:src="'https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + heroId(key) + '_s.png'" style="width:70px" v-on:click="app.lockHero(key)" v-bind:alt="key" v-bind:titolo="key"/><span v-on:click="app.removeHero(key)" class="removeHero" v-bind:title="'Remove ' + key">×</span>
+		            <div class="top-right" v-bind:style="'display:' + isLocked(key)">&#128274;</div>
+              </span>
+            </td>
+          </tr>
+      </table>
+      <br><br><br><br> <!-- -->
+    </div>
+  <div id="advanced_window" style="display:none;">
+	  <h2>Impostazioni avanzate</h2>
+		<input type="checkbox" id="AoE" name="AoE" value="AoE">
+		<label for="AoE"> Team deve contenere AoE</label><br>
+		<input type="checkbox" id="noS1debuffs" name="noS1debuffs" value="noS1debuffs">
+		<label for="noS1debuffs"> No S1 Debuffs (Esclusi: Provoke, Sleep e Stun)</label><br>
+		<input type="checkbox" id="noDebuffs" name="noDebuffs" value="noDebuffs">
+		<label for="noDebuffs"> No Debuffs</label><br><br>
+    <div id="advanced_classe" class="box_advanced_settings" style="height:auto;width:100%;display:inline-block;padding-bottom: 25px;padding-top: 5px;">
+      <center>Classe:</center>
+        <input type="checkbox" id="checkbox_knight" name="classe" value="knight" style="display:none">
+      <label for="checkbox_knight" class="label"> <img src="https://epic7x.com/wp-content/themes/epic-seven/assets/img/Knight.png" style="height:60px;width:60px;" /><p style="position:absolute;bottom:-20px;text-align:center;">Knight</p></label>
+
+        <input type="checkbox" id="checkbox_thief" name="classe" value="thief" style="display:none">
+        <label for="checkbox_thief" class="label"> <img src="https://epic7x.com/wp-content/themes/epic-seven/assets/img/Thief.png" style="height:60px;width:60px;" /><p style="position:absolute;bottom:-20px;text-align:center;">Thief</p></label>
+
+        <input type="checkbox" id="checkbox_warrior" name="classe" value="warrior" style="display:none">
+        <label for="checkbox_warrior" class="label"> <img src="https://epic7x.com/wp-content/themes/epic-seven/assets/img/Warrior.png" style="height:60px;width:60px;" /><p style="position:absolute;bottom:-20px;text-align:center;">Warrior</p></label>
+      
+        <input type="checkbox" id="checkbox_ranger" name="classe" value="ranger" style="display:none">
+        <label for="checkbox_ranger" class="label"> <img src="https://epic7x.com/wp-content/themes/epic-seven/assets/img/Ranger.png" style="height:60px;width:60px;" /><p style="position:absolute;bottom:-20px;text-align:center;">Ranger</p></label>
+      
+        <input type="checkbox" id="checkbox_mage" name="classe" value="mage" style="display:none">
+        <label for="checkbox_mage" class="label"> <img src="https://epic7x.com/wp-content/themes/epic-seven/assets/img/Mage.png" style="height:60px;width:60px;" /><p style="position:absolute;bottom:-20px;text-align:center;">Mage</p></label>
+      
+        <input type="checkbox" id="checkbox_soul-weaver" name="classe" value="soul-weaver" style="display:none">
+        <label for="checkbox_soul-weaver" class="label"> <img src="https://epic7x.com/wp-content/themes/epic-seven/assets/img/Soul%20Weaver.png" style="height:60px;width:60px;" /><p style="position:absolute;bottom:-35px;text-align:center;">Soul Weaver</p></label>
+    </div>
+    <br><br>
+    <div id="advanced_elemento" class="box_advanced_settings" style="height:auto;width:100%;display:inline-block;padding-bottom: 25px;padding-top: 5px;">
+      <center>Elemento:</center>
+        <input type="checkbox" id="checkbox_fire" name="elemento" value="fire" style="display:none">
+      <label for="checkbox_fire" class="label"> <img src="https://epic7x.com/wp-content/themes/epic-seven/assets/img/Fire.png" style="height:60px;width:60px;" /><p style="position:absolute;bottom:-20px;text-align:center;">Fire</p></label>
+
+        <input type="checkbox" id="checkbox_ice" name="elemento" value="ice" style="display:none">
+        <label for="checkbox_ice" class="label"> <img src="https://epic7x.com/wp-content/themes/epic-seven/assets/img/Ice.png" style="height:60px;width:60px;" /><p style="position:absolute;bottom:-20px;text-align:center;">Ice</p></label>
+
+        <input type="checkbox" id="checkbox_earth" name="elemento" value="earth" style="display:none">
+        <label for="checkbox_earth" class="label"> <img src="https://epic7x.com/wp-content/themes/epic-seven/assets/img/Earth.png" style="height:60px;width:60px;" /><p style="position:absolute;bottom:-20px;text-align:center;">Earth</p></label>
+      
+        <input type="checkbox" id="checkbox_light" name="elemento" value="light" style="display:none">
+        <label for="checkbox_light" class="label"> <img src="https://epic7x.com/wp-content/themes/epic-seven/assets/img/Light.png" style="height:60px;width:60px;" /><p style="position:absolute;bottom:-20px;text-align:center;">Light</p></label>
+      
+        <input type="checkbox" id="checkbox_dark" name="elemento" value="dark" style="display:none">
+        <label for="checkbox_dark" class="label"> <img src="https://epic7x.com/wp-content/themes/epic-seven/assets/img/Dark.png" style="height:60px;width:60px;" /><p style="position:absolute;bottom:-20px;text-align:center;">Dark</p></label>
+      
+    </div>
+    <br><br>
+    <div id="advanced_buff" class="box_advanced_settings" style="height:auto;width:100%;display:inline-block;padding-bottom: 25px;padding-top: 5px;">
+      <center>Buff:</center>
+      <span v-for="(value,key) in buffList" style="display:inline-block;position:relative;top:0px;text-align:center;height:200px;padding-bottom:10px;">
+        <input type="checkbox" v-bind:id="'checkbox_'+ key" name="buff" v-bind:value="key" style="position:relative;top:0px;display:none">
+        <label v-bind:for="'checkbox_'+ key" class="label" style="position:relative;top:0px;"> <img v-bind:src="'https://assets.epicsevendb.com/buff/' + key + '.png'" style="postion:relative;top:0px;height:60px;width:60px;" /></label>
+        <p>{{value}}</p>
+      </span>
+    </div>
+    <br><br>
+    <div id="advanced_debuff" class="box_advanced_settings" style="height:auto;width:100%;display:inline-block;padding-bottom: 25px;padding-top: 5px;">
+      <center>Debuff:</center>
+      <span v-for="(value,key) in debuffList" style="display:inline-block;text-align:center;padding-bottom:10px;">
+        <input type="checkbox" v-bind:id="'checkbox_'+ key" name="debuff" v-bind:value="key" style="display:none">
+        <label v-bind:for="'checkbox_'+ key" class="label" style="position:relative;top:0;"> <img v-bind:src="'https://assets.epicsevendb.com/buff/' + key + '.png'" style="position:relative;top:0;height:60px;width:60px;" /></label>
+        <p style="position:relative;">{{value}}</p>
+      </span>
+    </div>
+    <br><br><br><br><br> <!-- -->
+  </div>
+  <div id="calculate_window" class="center" style="display:none;">
+        <h2>Risultati</h2>
+        <table>
+          <tbody>
+            <th></th>
+            <th colspan="4">Team</th>
+            <th>Topics</th>
+            <th>Morale</th>
+          </tbody>
+          <tbody>
+            <tr v-for="(item, index) in risultati">
+              <td width="4%" style="padding-top: 30px;padding-bottom: 30px;">{{index+1}}</td>
+              <td><img v-bind:src="'https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + heroId(item.team[0]) + '_s.png'" style="width:55px;height:55px;" v-bind:alt="item.team[0]" v-bind:titolo="item.team[0]"/></td>
+              <td><img v-bind:src="'https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + heroId(item.team[1]) + '_s.png'" style="width:55px;height:55px;" v-bind:alt="item.team[1]" v-bind:titolo="item.team[1]"/></td>
+              <td><img v-bind:src="'https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + heroId(item.team[2]) + '_s.png'" style="width:55px;height:55px;" v-bind:alt="item.team[2]" v-bind:titolo="item.team[2]"/></td>
+              <td><img v-bind:src="'https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + heroId(item.team[3]) + '_s.png'" style="width:55px;height:55px;" v-bind:alt="item.team[3]" v-bind:titolo="item.team[3]"/></td>
+              <td class="topics"><b>{{item.migliorPG1}}</b>: <i>{{capitalize(item.opzioneMigliore1)}}</i><br><b>{{item.migliorPG2}}</b>: <i>{{capitalize(item.opzioneMigliore2)}}</i></td>
+              <td style="text-align:center; font-family:sans-serif;font-size:17px" width="3%">{{item.morale}}</td>
+            </tr>
+          </tbody>
+        </table>
+	<br><br><br><br> <!-- -->
+    </div>
+    <div id="settings_window" style="display:none;">
+      <h2>Impostazioni</h2><br>
+      <span style="position:relative;top:8px;">Dark mode: </span>
+                                <label class="switch" style="position: relative">
+                                  <input type="checkbox" id="darkModeCheck" name="darkModeCheck" onchange="toggleCheck()">
+                                  <span class="slider round"></span>
+                                </label>
+      
+      <p>Link account a CeciliaBot: <font color="red">no</font></p>
+        <button type="button" onclick="logout()" class="button_login_cancelbtn">Logout</button>
+    </div>
+    <div id="toolbar" class="icon-bar">
+      <span id="icon-bar_add_window" onclick="setWindow('add_window')"><!--&#43;--><i class="fa fa-plus" aria-hidden="true"></i></span>
+      <span id="icon-bar_manage_window" onclick="setWindow('manage_window')"><!--&#9998;--><i class="fa fa-pencil" aria-hidden="true"></i></span>
+      <span id="icon-bar_advanced_window" onclick="setWindow('advanced_window')">&#9876;</span>
+      <span id="icon-bar_calculate_window" onclick="app.calcolaRisultati(); setWindow('calculate_window');" style="height:100%;font-size:30px;">
+        Calcola
+        <!--<i class="fa fa-free-code-camp" aria-hidden="true"></i>Calcola-->
+      </span>
+      <span id="icon-bar_settings_window" onclick="setWindow('settings_window')"><!--&#9881;--><i class="fa fa-cog"></i></span>
+    </div>
+  </div><!-- div id = app -->
+
+
+  <script>
+
+    function toggleCheck() {
+        if (document.getElementById("darkModeCheck").checked === true) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark'); // salva preferenza per future visite
+        }
+        else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light'); // salva preferenza per future visite
+        }    
+    };
+    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+    if (currentTheme) {
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        if (currentTheme === 'dark') {
+            var checkBoxes = $("input[name=darkModeCheck]");
+            checkBoxes.attr('checked', true);
+        }
+    }
+    
+    
+    
+    function setWindow(current) {
+      document.getElementById('welcome').style.display='none';
+      document.getElementById('add_window').style.display='none';
+      document.getElementById('manage_window').style.display='none';
+      document.getElementById('advanced_window').style.display='none';
+      document.getElementById('calculate_window').style.display='none';
+      document.getElementById('settings_window').style.display='none';
+      //toolbar
+      document.getElementById("icon-bar_add_window").className = "";
+      document.getElementById("icon-bar_manage_window").className = "";
+      document.getElementById("icon-bar_advanced_window").className = "";
+      document.getElementById("icon-bar_calculate_window").className = "";
+      document.getElementById("icon-bar_settings_window").className = "";
+                              
+      switch (current) {
+        case 'add_window':
+          document.getElementById('add_window').style.display='block';
+          document.getElementById("icon-bar_add_window").className = "active-icon-bar";
+          break;
+        case 'manage_window':
+          document.getElementById('manage_window').style.display='block';
+          document.getElementById("icon-bar_manage_window").className = "active-icon-bar";
+          break;
+        case 'advanced_window':
+          document.getElementById('advanced_window').style.display='block';
+          document.getElementById("icon-bar_advanced_window").className = "active-icon-bar";
+          break;
+        case 'calculate_window':
+          document.getElementById('calculate_window').style.display='block';
+          document.getElementById("icon-bar_calculate_window").className = "active-icon-bar";
+          break;
+        case 'settings_window':
+          document.getElementById('settings_window').style.display='block';
+          document.getElementById("icon-bar_settings_window").className = "active-icon-bar";
+          break;
+      };  
+    };
+    
+    function logout() {
+        $.ajax({
+          type: 'POST',
+          contentType: 'application/json',
+          url: "logout",
+          data: "",
+          success: function(html) {
+            window.location.href='/'
+          },
+          error: function(html) {
+            // in caso di errore
+          }
+        });
+        event.preventDefault();
+    };
+
+
+		  /// Cerca in aggiungi e rimuovi / lock eroe
+                  function cercaEroe(table) {
+                    var input, filter, table, tr, hero1, i, txtValue;
+                    if (table == "lista_hero_disponibili") input = document.getElementById("inputInTuttiGliEroi")
+		                else if (table == "myHeroes") input = document.getElementById("inputInMyHeroes");
+                    filter = input.value.toLowerCase().replace(/ +/g," ");
+                    table = document.getElementById(table);
+                    hero1 = table.getElementsByTagName("span");
+                      if (hero1) {
+                        for (var i = 0; i < hero1.length;i++){
+                          txtValue = [...hero1[i].children];
+                          if (txtValue[0] && txtValue[0].alt) {
+                            if (txtValue[0].alt.toLowerCase().indexOf(filter) != -1 ) {
+                               hero1[i].style.display = ""; // mostra lo <span> contente l'eroe
+                            } else {
+                               hero1[i].style.display = "none"; // nascondi lo <span> che non contiene l'eroe
+                            }
+                          };
+                        };
+                     };
+                  };
+
+
+
+    var HeroDB = __HERO_DB__;
+    var heroesArray = __HERO_ARRAY__;
+    var AoEHeroes = __AOE_HEROES_ARRAY__;
+    var app = new Vue({
+        el: '#app',
+        data: function () {
+            return {
+              heroList: HeroDB,
+              buffList: {"stic_debuf_impossible":"Immunity","stic_att_up":"Attack up","stic_att_up2":"Attack up (Greater)","stic_def_up":"Defense up","stic_speed_up":"Speed up","stic_dodge_up":"Evasion","stic_protect":"Barrier","stic_cri_up":"Crit chance up","stic_cridmg_up":"Crit damage up","stic_crires_up":"Crit Resistance","stic_invincible":"Invincibility","stic_endure":"Skill nullifier","stic_heal":"Continuous Healing","stic_hide":"Stealth","stic_immortality":"Immortality","stic_reflect":"Reflect","stic_counter":"Counter"},
+              debuffList: {"stic_def_dn":"Def down","stic_speed_dn":"Speed down","stic_att_dn":"Attack down","stic_blind":"Blind","stic_dodge_dn":"Evasion down","stic_sign":"Target","stic_buf_impossible":"Unbuffable","stic_heal_impossible":"Unhealable","stic_stun":"Stun","stic_provoke":"Provoke","stic_nail":"Magic Nail","stic_silence":"Silence","stic_sleep":"Sleep","stic_blood":"Bleed","stic_dot":"Poison","stic_blaze":"Burn","stic_vampire":"Vampire","stic_bomb":"Bomb"},
+              displayList: HeroDB,
+              myHeroesList: __HERO_ARRAY__,
+              locked: [],
+              classe: [],
+              elemento: [],
+              debuffs: [],
+              buffs: [],
+              AoE: false,
+              noS1debuffs: false,
+              noDebuffs:  false,
+              risultati: []
+            }
+        },
+        methods: {
+          heroId: function (hero) {
+            return this.heroList[hero].id;
+          },
+          capitalize: function(string) {
+              return string[0].toUpperCase() + string.slice(1).replace(/-/gi," "); 
+          },
+          updateUserData: function() { // aggiorna i dati sul server
+            $.ajax({
+              type: 'POST',
+              contentType: 'application/json',
+              url: "server_update_user",
+              data: JSON.stringify({userHero: this.myHeroesList, locked: this.locked}),
+              success: function(html) {
+                //update success
+              },
+              error: function(html) {
+                // login token error, reload page
+                window.location.href='/';
+              }
+            });
+            event.preventDefault();
+          },
+          addHero: function (hero) {
+            if (!this.myHeroesList.includes(hero)) {
+              this.myHeroesList.push(hero);
+              app.updateUserData();
+            }
+          },
+          removeHero: function (hero) {
+            this.myHeroesList.splice(this.myHeroesList.indexOf(hero), 1);
+	    if (this.locked.includes(hero)) { // lock
+		this.locked.splice(this.locked.indexOf(hero), 1)
+	    };
+            app.updateUserData();
+          },
+	  isInTeam: function(hero) {
+      if (this.myHeroesList.includes(hero)) {
+        return ''
+      } else return "none";
+	  },
+	  isLocked: function(hero) {
+      if (this.locked.includes(hero)) {
+        return ""
+      } else return "none";
+	  },
+	  lockHero: function(hero) {
+      if (!this.locked.includes(hero)) { // lock
+        if (this.locked.length < 4) {
+		      this.locked.push(hero);
+        } else {}
+	    } else { // già locked -> sblocca
+		    this.locked.splice(this.locked.indexOf(hero), 1)
+	    };
+          },
+          nuovoCampSimulatorTeam2: function(inputTeam) {
+            let pg1 = inputTeam[0];
+            let pg2 = inputTeam[1];
+            let pg3 = inputTeam[2];
+            let pg4 = inputTeam[3];
+            
+            var tabConTagNome = [
+                  {personaggio: HeroDB[pg1].name, opzione: HeroDB[pg1].camping.options[0],risultato: HeroDB[pg2].camping.reactions[HeroDB[pg1].camping.options[0]]+HeroDB[pg3].camping.reactions[HeroDB[pg1].camping.options[0]]+HeroDB[pg4].camping.reactions[HeroDB[pg1].camping.options[0]]},
+                  {personaggio: HeroDB[pg1].name, opzione: HeroDB[pg1].camping.options[1],risultato: HeroDB[pg2].camping.reactions[HeroDB[pg1].camping.options[1]]+HeroDB[pg3].camping.reactions[HeroDB[pg1].camping.options[1]]+HeroDB[pg4].camping.reactions[HeroDB[pg1].camping.options[1]]},
+                  {personaggio: HeroDB[pg2].name, opzione: HeroDB[pg2].camping.options[0],risultato: HeroDB[pg1].camping.reactions[HeroDB[pg2].camping.options[0]]+HeroDB[pg3].camping.reactions[HeroDB[pg2].camping.options[0]]+HeroDB[pg4].camping.reactions[HeroDB[pg2].camping.options[0]]},
+                  {personaggio: HeroDB[pg2].name, opzione: HeroDB[pg2].camping.options[1],risultato: HeroDB[pg1].camping.reactions[HeroDB[pg2].camping.options[1]]+HeroDB[pg3].camping.reactions[HeroDB[pg2].camping.options[1]]+HeroDB[pg4].camping.reactions[HeroDB[pg2].camping.options[1]]},
+                  {personaggio: HeroDB[pg3].name, opzione: HeroDB[pg3].camping.options[0],risultato: HeroDB[pg1].camping.reactions[HeroDB[pg3].camping.options[0]]+HeroDB[pg2].camping.reactions[HeroDB[pg3].camping.options[0]]+HeroDB[pg4].camping.reactions[HeroDB[pg3].camping.options[0]]},
+                  {personaggio: HeroDB[pg3].name, opzione: HeroDB[pg3].camping.options[1],risultato: HeroDB[pg1].camping.reactions[HeroDB[pg3].camping.options[1]]+HeroDB[pg2].camping.reactions[HeroDB[pg3].camping.options[1]]+HeroDB[pg4].camping.reactions[HeroDB[pg3].camping.options[1]]},
+                  {personaggio: HeroDB[pg4].name, opzione: HeroDB[pg4].camping.options[0],risultato: HeroDB[pg1].camping.reactions[HeroDB[pg4].camping.options[0]]+HeroDB[pg2].camping.reactions[HeroDB[pg4].camping.options[0]]+HeroDB[pg3].camping.reactions[HeroDB[pg4].camping.options[0]]},
+                  {personaggio: HeroDB[pg4].name, opzione: HeroDB[pg4].camping.options[1],risultato: HeroDB[pg1].camping.reactions[HeroDB[pg4].camping.options[1]]+HeroDB[pg2].camping.reactions[HeroDB[pg4].camping.options[1]]+HeroDB[pg3].camping.reactions[HeroDB[pg4].camping.options[1]]}
+            ];
+
+
+            //Ordina per risultato				   
+            tabConTagNome.sort(function(a, b) {
+                return ((a.risultato > b.risultato) ? -1 : ((a.risultato == b.risultato) ? 0 : 1));
+            });   
+
+             while (tabConTagNome[0].opzione === tabConTagNome[1].opzione) {
+                tabConTagNome.splice(1, 1);
+             };
+              var campMiglioreRisultato1 = tabConTagNome[0].risultato;
+              var campNomeMigliorScelta1 = tabConTagNome[0].opzione;
+              var campMigliorePG1 = tabConTagNome[0].personaggio;
+
+              var campMiglioreRisultato2 = tabConTagNome[1].risultato;
+              var campNomeMigliorScelta2 = tabConTagNome[1].opzione;
+              var campMigliorePG2 = tabConTagNome[1].personaggio;
+
+               var moraleTotaleGuadagnato = campMiglioreRisultato1 + campMiglioreRisultato2;
+
+            let soluzioni = {}; 
+                soluzioni.morale = moraleTotaleGuadagnato;
+                soluzioni.opzioneMigliore1 = campNomeMigliorScelta1;
+                soluzioni.risultatoScelta1 = campMiglioreRisultato1;
+                soluzioni.opzioneMigliore2 = campNomeMigliorScelta2;
+                soluzioni.risultatoScelta2 = campMiglioreRisultato2;
+                soluzioni.migliorPG1 = campMigliorePG1;
+                soluzioni.migliorPG2 = campMigliorePG2;
+                soluzioni.team = [HeroDB[pg1].name,HeroDB[pg2].name,HeroDB[pg3].name,HeroDB[pg4].name];
+
+            return soluzioni;
+          },  
+          calcolaRisultati: function () {
+            //resetta per un nuovo calcolo
+            this.risultati = [];
+            this.classe = [];
+            this.elemento = [];
+            this.debuffs = [];
+            this.buffs = [];
+            
+            //Raccogli le impostazioni avanzate
+            var classi = document.getElementsByName("classe");
+            var elemento_checkbox = document.getElementsByName("elemento");
+            var debuffs_checkbox = document.getElementsByName("debuff");
+            var buffs_checkbox = document.getElementsByName("buff");
+            for(var i = 0; i < classi.length; i++)  
+            {  
+                if (classi[i].checked) this.classe.push(classi[i].value);
+            }; 
+            for(var i = 0; i < elemento_checkbox.length; i++)  
+            {  
+                if (elemento_checkbox[i].checked) this.elemento.push(elemento_checkbox[i].value);
+            }; 
+            for(var i = 0; i < debuffs_checkbox.length; i++)  
+            {  
+                if (debuffs_checkbox[i].checked) this.debuffs.push(debuffs_checkbox[i].value);
+            }; 
+            for(var i = 0; i < buffs_checkbox.length; i++)  
+            {  
+                if (buffs_checkbox[i].checked) this.buffs.push(buffs_checkbox[i].value);
+            }; 
+            
+            if ($('#AoE').is(":checked"))
+            {
+            this.AoE = true;
+            } else this.AoE = false;
+
+            if ($('#noS1debuffs').is(":checked"))
+            {
+            this.noS1debuffs = true;
+            } else this.noS1debuffs = false;
+
+            if ($('#noDebuffs').is(":checked"))
+            {
+            this.noDebuffs = true;
+            } else this.noDebuffs = false;
+            
+            
+            
+            
+            
+            var campList = this.myHeroesList.slice();
+                        if (this.locked.length > 0 ) {
+                          for (var i = 0; i< this.locked.length; i++){
+                              campList.splice( campList.indexOf(this.locked[i]),1);
+                            };
+                        };
+
+            Combinatorics.bigCombination(campList,4-this.locked.length).forEach(teamComb => {
+                            if (teamComb.length>4) teamComb = []; // Se locked = 4 allora team deve riportare array vuota
+                            var team = [].concat(teamComb, this.locked);
+                            let elementoFiltro = teamComb;
+                            let elementoRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].element }).flat();
+                            let buffsRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].buffs }).flat();
+                            let debuffsRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].debuffs }).flat();
+                            let S1debuffsRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].skills[0].debuffs }).flat();
+                            let classeRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].classType }).flat();
+                            let AoE_inTeam = AoEHeroes.some(i => elementoFiltro.includes(i));
+                            if (this.locked.every(i => team.includes(i)) &&
+                                this.classe.every(i => classeRisultati.includes(i)) && 
+                                this.elemento.every(i => elementoRisultati.includes(i)) &&
+                                this.debuffs.every(i => debuffsRisultati.includes(i)) &&
+                                this.buffs.every(i => buffsRisultati.includes(i)) &&
+                                (this.AoE === false || (this.AoE === true && AoE_inTeam )) &&
+                                (this.noS1debuffs === false || (this.noS1debuffs === true &&  S1debuffsRisultati.filter(function (team) {return team != "stic_stun" && team != "stic_provoke" && team != "stic_sleep"}).length === 0)) &&
+                                (this.noDebuffs === false || (this.noDebuffs === true && debuffsRisultati.filter(function (team) {return team != "stic_stun" && team != "stic_provoke" && team != "stic_sleep"}).length === 0)  )
+                            ){
+                                if (this.risultati.length < 200) {
+                                  this.risultati.push(app.nuovoCampSimulatorTeam2(team));
+                                  this.risultati.sort(function(a, b)  {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0 : 1));});
+                                } else {
+                                      let risultatoDiQuestoTeam = app.nuovoCampSimulatorTeam2(team)
+                                      this.risultati.sort(function(a, b) {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0 : 1));});	 
+                                      if  (risultatoDiQuestoTeam.morale > this.risultati[this.risultati.length-1].morale) this.risultati.unshift(risultatoDiQuestoTeam),this.risultati.splice(200);
+                                };
+                             };
+            });
+            this.risultati.sort(function (a,b) {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0: 1))}); // riordina l'ultimo elemento aggiunto
+          }
+        }
+    });
+              
+  </script>
+</body>
+</html>
