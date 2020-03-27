@@ -1272,7 +1272,7 @@ span.heroImgList {
   // Genera un worker per eseguire i calcoli del camp
   var camperino = new Worker('./worker.js');
   camperino.onmessage = function(e) {
-     this.isLoadingResults = false;
+     app.isLoadingResults = false; // disattiva angelica
      console.log(e.data)
      app.risultati = e.data;
   }  
