@@ -1,4 +1,4 @@
-const Combinatorics = importScripts('js-combinatorics@0.5.js');
+importScripts('js-combinatorics@0.5.js');
 
 onmessage = function(e) {
          var HeroDB = e.HeroDB;
