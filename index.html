@@ -1205,6 +1205,7 @@ span.heroImgList {
                 this.noDebuffs = true;
                 } else this.noDebuffs = false;
             },
+    },
     computed: {
           calcolaRisultati: function () { // in computed per evitare di calcolare 2 volte il risultato se non si è cambiato niente
            //resetta per un nuovo calcolo
@@ -1232,7 +1233,7 @@ span.heroImgList {
 
 
             this.isLoadingResults = false;
-        };
+          };
       }
   }, // computed
   watcher: {
