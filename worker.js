@@ -75,10 +75,10 @@ onmessage = function(e) {
                                 (e.noDebuffs === false || (e.noDebuffs === true && debuffsRisultati.filter(function (team) {return team != "20" && team != "25" && team != "21"}).length === 0)  )
                             ){
                                 if (e.risultati.length < 200) {
-                                  e.risultati.push(app.nuovoCampSimulatorTeam2(team));
+                                  e.risultati.push(nuovoCampSimulatorTeam2(team));
                                   e.risultati.sort(function(a, b)  {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0 : 1));});
                                 } else {
-                                      let risultatoDiQuestoTeam = app.nuovoCampSimulatorTeam2(team)
+                                      let risultatoDiQuestoTeam = nuovoCampSimulatorTeam2(team)
                                       e.risultati.sort(function(a, b) {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0 : 1));});	 
                                       if  (risultatoDiQuestoTeam.morale > e.risultati[e.risultati.length-1].morale) e.risultati.unshift(risultatoDiQuestoTeam),e.risultati.splice(200);
                                 };
