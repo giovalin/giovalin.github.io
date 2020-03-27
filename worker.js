@@ -47,44 +47,7 @@ onmessage = function(HeroDB, campList, classe, elemento, debuffs, buffs, AoE, no
                   soluzioni.migliorPG2 = campMigliorePG2;
                   soluzioni.team = [HeroDB[pg1].name,HeroDB[pg2].name,HeroDB[pg3].name,HeroDB[pg4].name];
               return soluzioni;
-            }, 
-            impostaLingua: function () {
-              var language = window.navigator.userLanguage || window.navigator.language;
-              if (language == "it-IT") {
-                this.strings = {
-                  messaggio_di_benvenuto: "Benvenuto su Epic 7 Camp Simulator",
-                  aggiungi: "Aggiungi ",
-                  i_tuoi_eroi: "I tuoi eroi",
-                  cerca_eroe: "Cerca eroe...",
-                  impostazioni_avanzate: "Impostazioni avanzate",
-                  deve_contenere_AoE: "Team deve contenere AoE",
-                  no_s1_debuffs: "No S1 Debuffs (Esclusi: Provoke, Sleep e Stun)",
-                  no_debuffs: "No Debuffs (Except: Provoke, Sleep e Stun)",
-                  classe: "Classe:",
-                  elemento: "Elemento:",
-                  possibili_combinazioni: "Possibili combinazioni:",
-                  risultati: "Risultati",
-                  impostazioni: "Impostazioni"
-                };
-              } else {
-                this.strings = {
-                  messaggio_di_benvenuto: "Welcome to Epic Seven Camp simulator",
-                  aggiungi: "Add hero ",
-                  i_tuoi_eroi: "Your heroes",
-                  cerca_eroe: "Search..",
-                  impostazioni_avanzate: "Advanced settings",
-                  deve_contenere_AoE: "Team must have AoE",
-                  no_s1_debuffs: "No S1 Debuffs (Except: Provoke, Sleep and Stun)",
-                  no_debuffs: "No Debuffs (Except: Provoke, Sleep and Stun)",
-                  classe: "Class:",
-                  elemento: "Element:",
-                  possibili_combinazioni: "Combinations:",
-                  risultati: "Results",
-                  impostazioni: "Settings"
-                };
-              };
-            }
-    };
+            };
                this.risultati = [];
                Combinatorics.bigCombination(campList,4-this.locked.length).forEach(teamComb => {
                             if (teamComb.length>4) teamComb = []; // Se locked = 4 allora team deve riportare array vuota

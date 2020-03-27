@@ -1044,8 +1044,8 @@ span.heroImgList {
               noS1debuffs: false,
               noDebuffs:  false,
               risultati: [],
-	      displayStyle: "grid",
-	      isLoadingResults: false,
+	            displayStyle: "grid",
+	            isLoadingResults: false,
               inizializzazione: false, //nascondi tutto durante il caricamento iniziale di vue
               numeroCombinazioniPossibili: "/"
             }
@@ -1205,9 +1205,45 @@ span.heroImgList {
                 this.noDebuffs = true;
                 } else this.noDebuffs = false;
             },
-    },
+            impostaLingua: function () {
+              var language = window.navigator.userLanguage || window.navigator.language;
+              if (language == "it-IT") {
+                this.strings = {
+                  messaggio_di_benvenuto: "Benvenuto su Epic 7 Camp Simulator",
+                  aggiungi: "Aggiungi ",
+                  i_tuoi_eroi: "I tuoi eroi",
+                  cerca_eroe: "Cerca eroe...",
+                  impostazioni_avanzate: "Impostazioni avanzate",
+                  deve_contenere_AoE: "Team deve contenere AoE",
+                  no_s1_debuffs: "No S1 Debuffs (Esclusi: Provoke, Sleep e Stun)",
+                  no_debuffs: "No Debuffs (Except: Provoke, Sleep e Stun)",
+                  classe: "Classe:",
+                  elemento: "Elemento:",
+                  possibili_combinazioni: "Possibili combinazioni:",
+                  risultati: "Risultati",
+                  impostazioni: "Impostazioni"
+                };
+              } else {
+                this.strings = {
+                  messaggio_di_benvenuto: "Welcome to Epic Seven Camp simulator",
+                  aggiungi: "Add hero ",
+                  i_tuoi_eroi: "Your heroes",
+                  cerca_eroe: "Search..",
+                  impostazioni_avanzate: "Advanced settings",
+                  deve_contenere_AoE: "Team must have AoE",
+                  no_s1_debuffs: "No S1 Debuffs (Except: Provoke, Sleep and Stun)",
+                  no_debuffs: "No Debuffs (Except: Provoke, Sleep and Stun)",
+                  classe: "Class:",
+                  elemento: "Element:",
+                  possibili_combinazioni: "Combinations:",
+                  risultati: "Results",
+                  impostazioni: "Settings"
+                };
+              };
+            }
+        },
     computed: {
-          calcolaRisultati: function () { // in computed per evitare di calcolare 2 volte il risultato se non si è cambiato niente
+        calcolaRisultati: function () { // in computed per evitare di calcolare 2 volte il risultato se non si è cambiato niente
            //resetta per un nuovo calcolo
            this.risultati = [];
            if (Object.keys(this.myHeroesList).length > 3) {
