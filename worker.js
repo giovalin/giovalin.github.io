@@ -3,6 +3,7 @@ importScripts('js-combinatorics@0.5.js');
 onmessage = function(e) {
          var HeroDB = e.HeroDB;
          var campList = e.campList;
+         console.log(e)
          const nuovoCampSimulatorTeam2 = function(inputTeam) {
               let pg1 = inputTeam[0];
               let pg2 = inputTeam[1];
