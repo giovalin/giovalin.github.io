@@ -3,14 +3,6 @@ importScripts('js-combinatorics@0.5.js');
 onmessage = function(e) {
          var HeroDB = e.HeroDB;
          var campList = e.campList;
-         this.locked = e.locked;
-         this.classe = e.classe;
-         this.elemento = e.elemento;
-         this.debuffs = e.debuffs;
-         this.buffs = e.buffs;
-         this.AoE = e.AoE;
-         this.noS1debuffs = e.noS1debuffs;
-         this.noDebuffs = e.noDebuffs;
          const nuovoCampSimulatorTeam2 = function(inputTeam) {
               let pg1 = inputTeam[0];
               let pg2 = inputTeam[1];
@@ -58,10 +50,10 @@ onmessage = function(e) {
                   soluzioni.team = [HeroDB[pg1].name,HeroDB[pg2].name,HeroDB[pg3].name,HeroDB[pg4].name];
               return soluzioni;
             };
-               this.risultati = [];
-               Combinatorics.bigCombination(campList,4-this.locked.length).forEach(teamComb => {
+               e.risultati = [];
+               Combinatorics.bigCombination(campList,4-e.locked.length).forEach(teamComb => {
                             if (teamComb.length>4) teamComb = []; // Se locked = 4 allora team deve riportare array vuota
-                            var team = [].concat(teamComb, this.locked);
+                            var team = [].concat(teamComb, e.locked);
                             let elementoFiltro = teamComb;
                             let elementoRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].attribute }).flat();
                             let buffsRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].buffs }).flat();
@@ -69,26 +61,26 @@ onmessage = function(e) {
                             let S1debuffsRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].skills[0].debuff }).flat();
                             let classeRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].role }).flat();
                             let AoE_inTeam = AoEHeroes.some(i => elementoFiltro.includes(i));
-                            if (this.locked.every(i => team.includes(i)) &&
-                                this.classe.every(i => classeRisultati.includes(i)) && 
-                                this.elemento.every(i => elementoRisultati.includes(i)) &&
-                                this.debuffs.every(i => debuffsRisultati.includes(i)) &&
-                                this.buffs.every(i => buffsRisultati.includes(i)) &&
-                                (this.AoE === false || (this.AoE === true && AoE_inTeam )) &&
-                                (this.noS1debuffs === false || (this.noS1debuffs === true &&  S1debuffsRisultati.filter(function (team) {return team != "20" && team != "25" && team != "21"}).length === 0)) &&
-                                (this.noDebuffs === false || (this.noDebuffs === true && debuffsRisultati.filter(function (team) {return team != "20" && team != "25" && team != "21"}).length === 0)  )
+                            if (e.locked.every(i => team.includes(i)) &&
+                                e.classe.every(i => classeRisultati.includes(i)) && 
+                                e.elemento.every(i => elementoRisultati.includes(i)) &&
+                                e.debuffs.every(i => debuffsRisultati.includes(i)) &&
+                                e.buffs.every(i => buffsRisultati.includes(i)) &&
+                                (e.AoE === false || (e.AoE === true && AoE_inTeam )) &&
+                                (e.noS1debuffs === false || (e.noS1debuffs === true &&  S1debuffsRisultati.filter(function (team) {return team != "20" && team != "25" && team != "21"}).length === 0)) &&
+                                (e.noDebuffs === false || (e.noDebuffs === true && debuffsRisultati.filter(function (team) {return team != "20" && team != "25" && team != "21"}).length === 0)  )
                             ){
-                                if (this.risultati.length < 200) {
-                                  this.risultati.push(app.nuovoCampSimulatorTeam2(team));
-                                  this.risultati.sort(function(a, b)  {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0 : 1));});
+                                if (e.risultati.length < 200) {
+                                  e.risultati.push(app.nuovoCampSimulatorTeam2(team));
+                                  e.risultati.sort(function(a, b)  {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0 : 1));});
                                 } else {
                                       let risultatoDiQuestoTeam = app.nuovoCampSimulatorTeam2(team)
-                                      this.risultati.sort(function(a, b) {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0 : 1));});	 
-                                      if  (risultatoDiQuestoTeam.morale > this.risultati[this.risultati.length-1].morale) this.risultati.unshift(risultatoDiQuestoTeam),this.risultati.splice(200);
+                                      e.risultati.sort(function(a, b) {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0 : 1));});	 
+                                      if  (risultatoDiQuestoTeam.morale > e.risultati[e.risultati.length-1].morale) e.risultati.unshift(risultatoDiQuestoTeam),e.risultati.splice(200);
                                 };
                              };
             });
-            this.risultati.sort(function (a,b) {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0: 1))}); // riordina l'ultimo elemento aggiunto
-            console.log(this.risultati)
-            postMessage(this.risultati);
+            e.risultati.sort(function (a,b) {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0: 1))}); // riordina l'ultimo elemento aggiunto
+            console.log(e.risultati)
+            postMessage(e.risultati);
 }
