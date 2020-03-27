@@ -1265,7 +1265,7 @@ span.heroImgList {
                         };
 
             this.numeroCombinazioniPossibili = Combinatorics.bigCombination(campList,4-this.locked.length).length;
-            camperino.postMessage(HeroDB, campList, this.classe, this.elemento, this.debuffs, this.buffs, this.AoE, noS1debuffs, noDebuffs);
+            camperino.postMessage({HeroDB: HeroDB, campList: campList, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs});
 
 
             this.isLoadingResults = false;

@@ -1,6 +1,15 @@
+const Combinatorics = importScripts('js-combinatorics@0.5');
 
-
-onmessage = function(HeroDB, campList, classe, elemento, debuffs, buffs, AoE, noS1debuffs, noDebuffs) {
+onmessage = function(e) {
+         var HeroDB = e.HeroDB;
+         var campList = e.campList;
+         var this.classe = e.classe;
+         var this.elemento = e.elemento;
+         var this.debuffs = e.debuffs;
+         var this.buffs = e.buffs;
+         var this.AoE = e.AoE;
+         var this.noS1debuffs = e.noS1debuffs;
+         var this.noDebuffs = e.noDebuffs;
          const nuovoCampSimulatorTeam2 = function(inputTeam) {
               let pg1 = inputTeam[0];
               let pg2 = inputTeam[1];
