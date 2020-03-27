@@ -521,6 +521,15 @@ span.heroImgList {
   <div id="app"><!-- vue.js -->
     <div id="welcome" style="display: '';">
         <h2>{{strings.messaggio_di_benvenuto}}<br><font color="red">Data by EpicSevenDB</font></h2>
+        <br><br>
+        What's new:<br>
+         <li>At boot a web worker will be generated and will handle team calculations, this will prevent your browser from displaying the message this page is not responding<br>
+        This tool can calculate all 34.389.810 possible combinations without crashing (it has low RAM usage) but it will require a long time;
+        </li> 
+        <br><br>
+        Todo:
+        <li>Add the possibility to save a specific result and check it any time</li>
+        <br><br><br><br>Contact me: u/UsernameSniped
     </div>
     <div id="add_window" style="display:none;">
       <h2><span style="position:relative;top:10px;vertical-align: middle">{{strings.aggiungi}} </span>
@@ -1261,7 +1270,7 @@ span.heroImgList {
                         };
 
             this.numeroCombinazioniPossibili = Combinatorics.bigCombination(campList,4-this.locked.length).length;
-            camperino.postMessage({HeroDB: HeroDB, campList: campList, locked: this.locked, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs, risultati: this.risultati});
+            camperino.postMessage({HeroDB: HeroDB, campList: campList, locked: this.locked, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs, risultati: []});
           };
       }
   }, // computed
