@@ -3,6 +3,7 @@ importScripts('js-combinatorics@0.5.js');
 onmessage = function(e) {
          var HeroDB = e.HeroDB;
          var campList = e.campList;
+         this.locked = e.locked;
          this.classe = e.classe;
          this.elemento = e.elemento;
          this.debuffs = e.debuffs;
