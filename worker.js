@@ -1,6 +1,7 @@
 importScripts('js-combinatorics@0.5.js');
 
 onmessage = function(e) {
+         var e = e.data;
          var HeroDB = e.HeroDB;
          var campList = e.campList;
          console.log(e)
