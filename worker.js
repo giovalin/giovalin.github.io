@@ -1,4 +1,4 @@
-const Combinatorics = importScripts('js-combinatorics@0.5');
+const Combinatorics = importScripts('https://cdn.jsdelivr.net/npm/js-combinatorics@0.5');
 
 onmessage = function(e) {
          var HeroDB = e.HeroDB;
