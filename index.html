@@ -880,7 +880,7 @@ span.heroImgList {
           <td>
             <div style="max-height:55px">
               <span>
-              Night mode:
+              Night mode
               </span>
               <i style="font-size:38px;float: right;padding:10px;position:relative;top:0px;right:60px;">
                 <label class="switch" style="position:absolute;">
@@ -1174,10 +1174,23 @@ span.heroImgList {
               $("#campSavingError").text(`Name is required!`);
             }; 
           },
+          eliminaRisultatoSalvato: function (campName) {
+            try {
+                delete this.savedCamps[campName];
+                $('#saveCamp').remove();
+                localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
+                this.displaySavedCamps = Object.keys(this.savedCamps); // aggionra la lista da visulizzare
+            } catch {
+              console.log("Error while removing camp")
+            };
+          },
           mostraRisultatoSalvato: function (campName) {
             $( "#settings_window" ).append(`
               <div id="savedCamp" class="modal" style="padding-top: 60px;display:block;">
                 <form class="modal-content animate" id="savedCamp">
+                  <div><!-- -->
+                    <i class="fa fa-trash" v-on:click="eliminaRisultatoSalvato(` + campName + `)"></i>
+                  </div>
                   <div class="imgcontainer">
                     <p>Morale: ` + this.savedCamps[campName].morale + `</p>
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[ this.savedCamps[campName].team[0] ].id + `_s.png" style="height:55px;width:55px;">
