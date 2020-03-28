@@ -1189,7 +1189,7 @@ span.heroImgList {
               <div id="savedCamp" class="modal" style="padding-top: 60px;display:block;">
                 <form class="modal-content animate" id="savedCamp">
                   <div><!-- -->
-                    <i class="fa fa-trash" v-on:click="eliminaRisultatoSalvato(` + campName + `)"></i>
+                    <span class="fa fa-trash close" v-on:click="eliminaRisultatoSalvato(` + campName + `)"></span>
                   </div>
                   <div class="imgcontainer">
                     <p>Morale: ` + this.savedCamps[campName].morale + `</p>
