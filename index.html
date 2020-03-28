@@ -871,7 +871,9 @@ span.heroImgList {
       <table class="displaylistTable" style="margin-left:auto;margin-right:auto;">
         <tr v-for="(item, key) in savedCamps">
           <td v-on:click="mostraRisultatoSalvato(key)">
+            <div>
             {{key}}
+            </div>
           </td>
         </tr>
       </table>
