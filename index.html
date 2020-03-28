@@ -868,6 +868,15 @@ span.heroImgList {
     </div>
     <div id="settings_window" style="display:none;">
       <h2>{{strings.impostazioni}}</h2><br>
+      <table>
+        <tr v-for="key in savedCamps">
+          <td onclick="mostraRisultatoSalvato(key)">
+            {{savedCamps[key]}}
+          </td>
+        </tr>
+      </table>
+
+
       <span style="position:relative;top:8px;">Night mode: </span>
                                 <label class="switch" style="position: relative">
                                   <input type="checkbox" id="darkModeCheck" name="darkModeCheck" onchange="toggleCheck()">
@@ -1143,13 +1152,34 @@ span.heroImgList {
                 this.savedCamps[campName] = this.risultati[n];
                 $('#saveCamp').remove();
                 localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
-                console.log(this.savedCamps)
               } else {
                 $("#campSavingError").text(`You are already using this name!`);
               };
             } else {
               $("#campSavingError").text(`Name is required!`);
             }; 
+          },
+          mostraRisultatoSalvato: function (campName) {
+            $( "#calculate_window" ).append(`
+              <div id="savedCamp" class="modal" style="padding-top: 60px;display:block;">
+                <form class="modal-content animate" id="savedCamp">
+                  <div class="imgcontainer">
+                    <p>Morale: ` + this.savedCamps[campName].morale + `</p>
+                    <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[ this.savedCamps[campName].team[0] ].id + `_s.png" style="height:55px;width:55px;">
+                    <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[ this.savedCamps[campName].team[1] ].id + `_s.png" style="height:55px;width:55px;">
+                    <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[ this.savedCamps[campName].team[2] ].id + `_s.png" style="height:55px;width:55px;">
+                    <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[ this.savedCamps[campName].team[3] ].id + `_s.png" style="height:55px;width:55px;">
+                    <p>` + 
+                      this.savedCamps[campName].migliorPG1 + `: <i>`+ this.savedCamps[campName].opzioneMigliore1 + `</i><br>` +
+                      this.savedCamps[campName].migliorPG2 + `: <i>`+ this.savedCamps[campName].opzioneMigliore2 +
+                    `</i></p>
+                  </div>
+                  <div class="container">
+                    <button type="button" onclick="$('#savedCamp').remove()" class="button_cancelbtn">Back</button>
+                  </div>
+                </form>
+              </div>
+            `);
           },
           setDisplayStyle: function(layout, sezione) {
                   var add_window = document.getElementById("pulsanti_display_add_window").getElementsByClassName("search_hero_filter");
