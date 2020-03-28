@@ -969,7 +969,7 @@ span.heroImgList {
       };  
     };
 
-
+  $(function() {
     //login
     $('#saveCamp').submit(function(event) {
       var $form = $(this);
@@ -979,7 +979,9 @@ span.heroImgList {
       event.preventDefault();
       event.stopImmediatePropagation();
     });
+  });
 
+  
   // google 
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
