@@ -1118,8 +1118,8 @@ span.heroImgList {
             $( "#calculate_window" ).append(`
               <div id="login" class="modal" style="padding-top: 60px;display:block;">
                 <form class="modal-content animate" id="login">
-                  <div>Morale: ` + this.risultati[n].moraleTotaleGuadagnato +`<div>
-                  <div class="imgcontainer">
+                  <div class="imgcontainer">` + 
+                    this.risultati[n].morale + `<br>
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[this.risultati[n].team[0]].id + `_s.png" style="height:55px;width:55px;">
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[this.risultati[n].team[1]].id + `_s.png" style="height:55px;width:55px;">
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[this.risultati[n].team[2]].id + `_s.png" style="height:55px;width:55px;">
