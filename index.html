@@ -1114,7 +1114,13 @@ span.heroImgList {
             };
           },
           salvaRisultato: function (n) {
-            $( "#calculate_window" ).append( "<p>" + this.risultati[n] + "</p>" );
+            $( "#calculate_window" ).append(`
+              <div id="login" class="modal" style="padding-top: 60px;display: none;">
+                <form class="modal-content animate" id="login">
+                <p>` + this.risultati[n] + `</p> 
+                </form>
+              </div>
+            `);
             console.log(this.risultati[n])
           },
           setDisplayStyle: function(layout, sezione) {
