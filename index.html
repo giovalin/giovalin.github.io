@@ -1188,10 +1188,8 @@ span.heroImgList {
             $( "#settings_window" ).append(`
               <div id="savedCamp" class="modal" style="padding-top: 60px;display:block;">
                 <form class="modal-content animate" id="savedCamp">
-                  <div><!-- -->
-                    <span class="fa fa-trash close" v-on:click="eliminaRisultatoSalvato(` + campName + `)"></span>
-                  </div>
                   <div class="imgcontainer">
+                    <span class="fa fa-trash close" v-on:click="eliminaRisultatoSalvato(` + campName + `)"></span>
                     <p>Morale: ` + this.savedCamps[campName].morale + `</p>
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[ this.savedCamps[campName].team[0] ].id + `_s.png" style="height:55px;width:55px;">
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[ this.savedCamps[campName].team[1] ].id + `_s.png" style="height:55px;width:55px;">
