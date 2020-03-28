@@ -970,7 +970,6 @@ span.heroImgList {
     };
 
   $(function() {
-    //login
     $('#saveCamp').submit(function(event) {
       var $form = $(this);
       var campName = $('#camp_name', $form).val();
@@ -1135,7 +1134,14 @@ span.heroImgList {
             `);
           },
           salvaRisultato: function (n) {
-            console.log("Utente sta salvando il risultato")
+            var $form = $("#saveCamp");
+            var campName = $('#camp_name', $form).val();
+            if (campName && campName != "") {
+              console.log("Camp saved as: " + campName + " - ", this.risultati[n])
+              $('#saveCamp').remove();
+            } else { 
+              console.log("This name is already in use")
+            }; 
           },
           setDisplayStyle: function(layout, sezione) {
                   var add_window = document.getElementById("pulsanti_display_add_window").getElementsByClassName("search_hero_filter");
