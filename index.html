@@ -1072,7 +1072,7 @@ span.heroImgList {
               noDebuffs:  false,
               risultati: [],
               savedCamps: JSON.parse(localStorage.getItem('savedCamps') ? localStorage.getItem('savedCamps') : "{}"),
-              displaySavedCamps: Object.keys(this.savedCamps),
+              displaySavedCamps: Object.keys(app.savedCamps),
 	            displayStyle: "grid",
 	            isLoadingResults: false,
               inizializzazione: false, //nascondi tutto durante il caricamento iniziale di vue
