@@ -869,19 +869,23 @@ span.heroImgList {
     <div id="settings_window" style="display:none;">
       <h2>{{strings.impostazioni}}</h2><br>
       <table class="displaylistTable" style="margin-left:auto;margin-right:auto;">
-        <tr v-for="(item, key) in savedCamps">
-          <td v-on:click="mostraRisultatoSalvato(key)" style="max-height:70px">
-            <div>
+        <tr v-for="(item, key) in savedCamps" style="max-height:50px">
+          <td v-on:click="mostraRisultatoSalvato(key)" style="max-height:50px">
+            <div style="max-height:50px">
               <span>{{key}}<span>
             </div>
           </td>
         </tr>
         <tr>
-          <span style="position:relative;top:8px;">Night mode: </span>
-          <label class="switch" style="position: relative">
-            <input type="checkbox" id="darkModeCheck" name="darkModeCheck" onchange="toggleCheck()">
-            <span class="slider round"></span>
-          </label>
+          <div>
+            <span>
+              <span style="position:relative;top:8px;">Night mode: </span>
+              <label class="switch" style="position: relative">
+                <input type="checkbox" id="darkModeCheck" name="darkModeCheck" onchange="toggleCheck()">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
         </tr>
       </table>
 
