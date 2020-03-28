@@ -1136,13 +1136,13 @@ span.heroImgList {
           },
           salvaRisultato: function (n) {
             var $form = $("#saveCamp");
-            var campName = $('#camp_name', $form).val();
+            var campName = $('#camp_name', $form).val().replace(/ +/g,"").trim();
             if (campName && campName != "") {
               if (campName == "ok") {
                 console.log("Camp saved as: " + campName + " - ", this.risultati[n]);
                 $('#saveCamp').remove();
               } else {
-                $("#campSavingError").text(`<font color="red">You are already using this name"</font>`);
+                $("#campSavingError").text(`You are already using this name`);
               }; 
             } else {
               $("#campSavingError").text(`Name is required`);
