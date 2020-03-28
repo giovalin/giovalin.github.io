@@ -1049,6 +1049,7 @@ span.heroImgList {
               noS1debuffs: false,
               noDebuffs:  false,
               risultati: [],
+              savedCamps: localStorage.getItem('savedCamps') ? localStorage.getItem('savedCamps') : {},
 	            displayStyle: "grid",
 	            isLoadingResults: false,
               inizializzazione: false, //nascondi tutto durante il caricamento iniziale di vue
@@ -1138,12 +1139,13 @@ span.heroImgList {
             var $form = $("#saveCamp");
             var campName = $('#camp_name', $form).val().replace(/ +/g,"").trim();
             if (campName && campName != "") {
-              if (campName == "ok") {
-                console.log("Camp saved as: " + campName + " - ", this.risultati[n]);
+              if (!savedCamps[campName]) {
+                this.savedCamps[campName] = this.risultati[n];
                 $('#saveCamp').remove();
+                console.log(this.savedCamps)
               } else {
                 $("#campSavingError").text(`You are already using this name`);
-              }; 
+              };
             } else {
               $("#campSavingError").text(`Name is required`);
             }; 
