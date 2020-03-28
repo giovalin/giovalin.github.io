@@ -1114,6 +1114,7 @@ span.heroImgList {
             };
           },
           salvaRisultato: function (n) {
+            $( "#calculate_window" ).append( "<p>" + this.risultati[n] + "</p>" );
             console.log(this.risultati[n])
           },
           setDisplayStyle: function(layout, sezione) {
