@@ -520,14 +520,6 @@ span.heroImgList {
 <body onload="app.impostaLingua(); app.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes')">
   <div id="app"><!-- vue.js -->
     <div id="welcome" style="display: '';">
-      <div id="login" class="modal" style="padding-top: 60px;">
-        <form class="modal-content animate" id="login">
-          <div class="container">
-            <label for="username"><b>Username</b></label>
-            <input type="text" placeholder="Nome utente" name="username" id="username" required="">
-          </div>
-        </form>
-      </div>
         <h2>{{strings.messaggio_di_benvenuto}}<br><font color="red">Data by EpicSevenDB</font></h2>
         <br><br>
         What's new:<br>
@@ -1123,7 +1115,7 @@ span.heroImgList {
           },
           salvaRisultato: function (n) {
             $( "#calculate_window" ).append(`
-              <div id="login" class="modal" style="padding-top: 60px;">
+              <div id="login" class="modal" style="padding-top: 60px;display:block;">
                 <form class="modal-content animate" id="login">
                   <div class="container">
                     <label for="username"><b>Username</b></label>
