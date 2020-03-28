@@ -869,9 +869,9 @@ span.heroImgList {
     <div id="settings_window" style="display:none;">
       <h2>{{strings.impostazioni}}</h2><br>
       <table class="displaylistTable" style="margin-left:auto;margin-right:auto;">
-        <tr v-for="(item, key) in savedCamps" style="max-height:50px">
-          <td v-on:click="mostraRisultatoSalvato(key)" style="max-height:50px">
-            <div style="max-height:50px">
+        <tr v-for="(item, key) in savedCamps" style="max-height:55px">
+          <td v-on:click="mostraRisultatoSalvato(key)" style="max-height:550px">
+            <div style="max-height:55px">
               <span>{{key}}<span>
             </div>
           </td>
@@ -879,7 +879,7 @@ span.heroImgList {
         <tr>
           <div>
             <span>
-              <span style="position:relative;top:8px;">Night mode: </span>
+            Night mode:
               <label class="switch" style="position: relative">
                 <input type="checkbox" id="darkModeCheck" name="darkModeCheck" onchange="toggleCheck()">
                 <span class="slider round"></span>
