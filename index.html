@@ -1116,8 +1116,8 @@ span.heroImgList {
           },
           mostraSalvaRisultato: function (n) {
             $( "#calculate_window" ).append(`
-              <div id="login" class="modal" style="padding-top: 60px;display:block;">
-                <form class="modal-content animate" id="login">
+              <div id="saveCamp" class="modal" style="padding-top: 60px;display:block;">
+                <form class="modal-content animate" id="saveCamp">
                   <div class="imgcontainer">
                     <p>Morale: ` + this.risultati[n].morale + `</p>
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[this.risultati[n].team[0]].id + `_s.png" style="height:55px;width:55px;">
@@ -1132,8 +1132,8 @@ span.heroImgList {
                   <div class="container">
                     <label for="camp_name"><b>Camp name</b></label>
                     <input type="text" placeholder="Your camp's name" name="camp_name" id="camp_name" required="">
-                    <button type="button" v-on:click="salvaRisultato(` + n + `)" class="button_login">Save</button>
-                    <button type="button" onclick="$('#login').remove()" class="button_cancelbtn">Cancel</button>
+                    <button type="button" v-on:click="salvaRisultato('` + n + `')" class="button_login">Save</button>
+                    <button type="button" onclick="$('#saveCamp').remove()" class="button_cancelbtn">Cancel</button>
                   </div>
                 </form>
               </div>
