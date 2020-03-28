@@ -1142,12 +1142,13 @@ span.heroImgList {
               if (!this.savedCamps[campName]) {
                 this.savedCamps[campName] = this.risultati[n];
                 $('#saveCamp').remove();
+                localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
                 console.log(this.savedCamps)
               } else {
-                $("#campSavingError").text(`You are already using this name`);
+                $("#campSavingError").text(`You are already using this name!`);
               };
             } else {
-              $("#campSavingError").text(`Name is required`);
+              $("#campSavingError").text(`Name is required!`);
             }; 
           },
           setDisplayStyle: function(layout, sezione) {
