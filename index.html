@@ -869,8 +869,8 @@ span.heroImgList {
     <div id="settings_window" style="display:none;">
       <h2>{{strings.impostazioni}}</h2><br>
       <table class="displaylistTable" style="margin-left:auto;margin-right:auto;">
-        <tr v-for="(item, key) in savedCamps" style="height:70px">
-          <td v-on:click="mostraRisultatoSalvato(key)">
+        <tr v-for="(item, key) in savedCamps">
+          <td v-on:click="mostraRisultatoSalvato(key)" style="max-height:70px">
             <div>
               <span>{{key}}<span>
             </div>
