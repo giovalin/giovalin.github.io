@@ -1115,9 +1115,12 @@ span.heroImgList {
           },
           salvaRisultato: function (n) {
             $( "#calculate_window" ).append(`
-              <div id="login" class="modal" style="position:fixed;padding-top: 60px;">
+              <div id="login" class="modal" style="padding-top: 60px;">
                 <form class="modal-content animate" id="login">
-                <p>` + this.risultati[n] + `</p> 
+                  <div class="container">
+                    <label for="username"><b>Username</b></label>
+                    <input type="text" placeholder="Nome utente" name="username" id="username" required="">
+                  </div>
                 </form>
               </div>
             `);
