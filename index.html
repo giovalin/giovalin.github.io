@@ -570,9 +570,10 @@ span.heroImgList {
         <br><br>
         What's new:<br>
         <ul>
-          <li>
-            Now you can save your results:
-            In the results window tap/click <i class="fa fa-floppy-o" aria-hidden="true"></i> input a desired name for that specific camp. Your saved camps will appear in the <i class="fa fa-cogg" aria-hidden="true"></i> settings window where you can view and delete them.
+          <li style="color:#007FFF">
+            Now you can save your results:<br>
+            In the results window tap/click <i class="fa fa-floppy-o" aria-hidden="true"></i>  type a name for that specific camp.<br>
+            Your saved camps will appear in the <i class="fa fa-cog" aria-hidden="true"></i>  settings window where you can view and delete them.
           </li>
           <li>At boot a web worker will be generated and will handle team calculations, this will prevent your browser from displaying the message "This page is not responding".<br>
           This tool can calculate all 35.208.615 possible combinations without crashing (it has low RAM usage during calculation) but it will require a long time (13-17 minutes, locking a hero 20 seconds);
@@ -581,7 +582,7 @@ span.heroImgList {
         <br><br>
         Todo:
         <ul>
-          <li>Add the possibility to save a specific result and check it any time</li>
+          <li></li>
         </ul>
         <br><br><br><br>Contact me: <a href="https://www.reddit.com/user/UsernameSniped/">u/UsernameSniped</a>
     </div>
@@ -955,6 +956,7 @@ span.heroImgList {
       </span>
       <span id="icon-bar_settings_window" onclick="setWindow('settings_window')"><!--&#9881;--><i class="fa fa-cog"></i></span>
     </div>
+
      <!-- Mostra durante il calcolo -->
       <div  v-show="isLoadingResults" id="loading_camp_results">
         <div style="opacity: 0.3;filter: alpha(opacity=30);height:100%;width:100%;position:fixed;"></div> <!-- prevent user from changing menu -->
