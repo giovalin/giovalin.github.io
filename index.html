@@ -1118,8 +1118,8 @@ span.heroImgList {
             $( "#calculate_window" ).append(`
               <div id="login" class="modal" style="padding-top: 60px;display:block;">
                 <form class="modal-content animate" id="login">
-                  <div class="imgcontainer">` + 
-                    this.risultati[n].morale + `<br>
+                  <div class="imgcontainer">
+                    Morale: ` + this.risultati[n].morale + `<br>
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[this.risultati[n].team[0]].id + `_s.png" style="height:55px;width:55px;">
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[this.risultati[n].team[1]].id + `_s.png" style="height:55px;width:55px;">
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[this.risultati[n].team[2]].id + `_s.png" style="height:55px;width:55px;">
@@ -1130,9 +1130,9 @@ span.heroImgList {
                     `</i></p>
                   </div>
                   <div class="container">
-                    <label for="username"><b>Username</b></label>
-                    <input type="text" placeholder="Nome utente" name="username" id="username" required="">
-                    <button type="submit" class="button_login">Save</button>
+                    <label for="camp_name"><b>Camp name</b></label>
+                    <input type="text" placeholder="Your camp's name" name="camp_name" id="camp_name" required="">
+                    <button type="button" onclick="$('#login').remove()" class="button_login">Save</button>
                     <button type="button" onclick="$('#login').remove()" class="button_cancelbtn">Cancel</button>
                   </div>
                 </form>
