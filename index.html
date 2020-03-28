@@ -869,7 +869,7 @@ span.heroImgList {
     <div id="settings_window" style="display:none;">
       <h2>{{strings.impostazioni}}</h2><br>
       <table>
-        <tr v-for="key in savedCamps">
+        <tr v-for="(item, key) in savedCamps">
           <td v-on:click="mostraRisultatoSalvato(key)">
             {{key}}
           </td>
