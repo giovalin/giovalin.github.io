@@ -516,6 +516,51 @@ span.heroImgList {
   color: white;
 }
 
+
+
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #0fad;
+  color: black;
+  text-align: center;
+  border-radius: 25px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein_snackbar 0.5s, fadeout_snackbar 0.5s 2.5s;
+  animation: fadein_snackbar 0.5s, fadeout_snackbar 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein_snackbar {
+  from {top: 0; opacity: 0;} 
+  to {top: 30px; opacity: 1;}
+}
+
+@keyframes fadein_snackbar {
+  from {top: 0; opacity: 0;}
+  to {top: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout_snackbar {
+  from {top: 30px; opacity: 1;} 
+  to {top: 0; opacity: 0;}
+}
+
+@keyframes fadeout_snackbar {
+  from {top: 30px; opacity: 1;}
+  to {top: 0; opacity: 0;}
+}
+
+
 </style>
 </head>
 <body onload="app.impostaLingua(); app.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes')">
@@ -929,6 +974,7 @@ span.heroImgList {
         </div>
       </div>
     </div>
+    <div id="snackbar"></div> <!-- messaggio avvisi -->
   </div><!-- div id = app -->
 
 
@@ -1171,6 +1217,11 @@ span.heroImgList {
                 $('#saveCamp').remove();
                 localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
                 this.displaySavedCamps = Object.keys(this.savedCamps); // aggionra la lista da visulizzare
+
+                $( "#snackbar" ).text(campName + `saved!`);
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
               } else {
                 $("#campSavingError").text(`You are already using this name!`);
               };
