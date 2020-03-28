@@ -1126,7 +1126,7 @@ span.heroImgList {
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[this.risultati[n].team[3]].id + `_s.png" style="height:55px;width:55px;">
                     <p>` + 
                       this.risultati[n].migliorPG1 + `: <i>`+ this.risultati[n].opzioneMigliore1 + `</i><br>` +
-                      this.risultati[n].migliorPG2 + `: <i>`+ this.risultati[n].opzioneMigliore1 +
+                      this.risultati[n].migliorPG2 + `: <i>`+ this.risultati[n].opzioneMigliore2 +
                     `</i></p>
                   </div>
                   <div class="container">
@@ -1138,9 +1138,13 @@ span.heroImgList {
                 </form>
               </div>
             `);
+            //rimuovi se click fuori dalla finesta
+            window.onclick = function(event) {
+              $('#login').remove();
+            };
           },
           salvaRisultato: function (n) {
-            console.log("Utente sta salvando il risultato", n)
+            console.log("Utente sta salvando il risultato")
           },
           setDisplayStyle: function(layout, sezione) {
                   var add_window = document.getElementById("pulsanti_display_add_window").getElementsByClassName("search_hero_filter");
