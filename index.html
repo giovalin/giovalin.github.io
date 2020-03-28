@@ -525,6 +525,10 @@ span.heroImgList {
         <br><br>
         What's new:<br>
         <ul>
+          <li>
+            Now you can save your results:
+            In the results window tap/click <i class="fa fa-floppy-o" aria-hidden="true"></i> input a desired name for that specific camp. Your saved camps will appear in the <i class="fa fa-cogg" aria-hidden="true"></i> settings window where you can view and delete them.
+          </li>
           <li>At boot a web worker will be generated and will handle team calculations, this will prevent your browser from displaying the message "This page is not responding".<br>
           This tool can calculate all 35.208.615 possible combinations without crashing (it has low RAM usage during calculation) but it will require a long time (13-17 minutes, locking a hero 20 seconds);
         </li>
@@ -1180,6 +1184,7 @@ span.heroImgList {
                 $('#saveCamp').remove();
                 localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
                 this.displaySavedCamps = Object.keys(this.savedCamps); // aggionra la lista da visulizzare
+                console.log("removing")
             } catch {
               console.log("Error while removing camp")
             };
