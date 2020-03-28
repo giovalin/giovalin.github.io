@@ -977,7 +977,9 @@ span.heroImgList {
       var $form = $(this);
       var campName = $('#camp_name', $form).val();
       console.log(campName)
+      console.log($form)
       event.preventDefault();
+      event.stopImmediatePropagation();
     });
   });
 
