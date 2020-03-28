@@ -1123,7 +1123,7 @@ span.heroImgList {
                       this.risultati[n].migliorPG2 + `: <i>`+ this.risultati[n].opzioneMigliore2 +
                     `</i></p>
                   </div>
-                  <div id="campSavingError" style="text-align:center;"></div>
+                  <div id="campSavingError" style="text-align:center;color:red;"></div>
                   <div class="container">
                     <label for="camp_name"><b>Camp name</b></label>
                     <input type="text" placeholder="Your camp's name" name="camp_name" id="camp_name" required="">
@@ -1138,14 +1138,14 @@ span.heroImgList {
             var $form = $("#saveCamp");
             var campName = $('#camp_name', $form).val();
             if (campName && campName != "") {
-              if (campName = "ok") {
+              if (campName == "ok") {
                 console.log("Camp saved as: " + campName + " - ", this.risultati[n]);
                 $('#saveCamp').remove();
               } else {
                 $("#campSavingError").text(`<font color="red">You are already using this name"</font>`);
               }; 
             } else {
-              $("#campSavingError").text(`<font color="red">Name is required"</font>`);
+              $("#campSavingError").text(`Name is required`);
             }; 
           },
           setDisplayStyle: function(layout, sezione) {
