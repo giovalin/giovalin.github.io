@@ -1119,7 +1119,7 @@ span.heroImgList {
               <div id="login" class="modal" style="padding-top: 60px;display:block;">
                 <form class="modal-content animate" id="login">
                   <div class="imgcontainer">
-                    Morale: ` + this.risultati[n].morale + `<br>
+                    <p>Morale: ` + this.risultati[n].morale + `</p>
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[this.risultati[n].team[0]].id + `_s.png" style="height:55px;width:55px;">
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[this.risultati[n].team[1]].id + `_s.png" style="height:55px;width:55px;">
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + HeroDB[this.risultati[n].team[2]].id + `_s.png" style="height:55px;width:55px;">
@@ -1132,13 +1132,15 @@ span.heroImgList {
                   <div class="container">
                     <label for="camp_name"><b>Camp name</b></label>
                     <input type="text" placeholder="Your camp's name" name="camp_name" id="camp_name" required="">
-                    <button type="button" onclick="$('#login').remove()" class="button_login">Save</button>
+                    <button type="button" v-on:click="salvaRisultato(` + n + `)" class="button_login">Save</button>
                     <button type="button" onclick="$('#login').remove()" class="button_cancelbtn">Cancel</button>
                   </div>
                 </form>
               </div>
             `);
-            console.log(this.risultati[n])
+          },
+          salvaRisultato: function (n) {
+            console.log("Utente sta salvando il risultato", n)
           },
           setDisplayStyle: function(layout, sezione) {
                   var add_window = document.getElementById("pulsanti_display_add_window").getElementsByClassName("search_hero_filter");
