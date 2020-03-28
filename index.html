@@ -970,22 +970,15 @@ span.heroImgList {
     };
 
 
-    function logout() {
-        $.ajax({
-          type: 'POST',
-          contentType: 'application/json',
-          url: "logout",
-          data: "",
-          success: function(html) {
-            window.location.href='/'
-          },
-          error: function(html) {
-            // in caso di errore
-          }
-        });
-        event.preventDefault();
-    };
-
+  //Handle form submit
+  $(function() {
+    //login
+    $('#saveCamp').submit(function(event) {
+      var $form = $(this);
+      var campName = $('#camp_name', $form).val();
+      console.log(campName)
+      event.preventDefault();
+  });
 
   // google 
   window.dataLayer = window.dataLayer || [];
