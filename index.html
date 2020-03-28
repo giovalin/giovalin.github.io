@@ -1139,7 +1139,7 @@ span.heroImgList {
             var $form = $("#saveCamp");
             var campName = $('#camp_name', $form).val().replace(/ +/g,"").trim();
             if (campName && campName != "") {
-              if (!savedCamps[campName]) {
+              if (!this.savedCamps[campName]) {
                 this.savedCamps[campName] = this.risultati[n];
                 $('#saveCamp').remove();
                 console.log(this.savedCamps)
