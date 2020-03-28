@@ -522,8 +522,8 @@ span.heroImgList {
   visibility: hidden;
   min-width: 250px;
   margin-left: -125px;
-  background-color: #0fad;
-  color: black;
+  background-color: #333;
+  color: #fff;
   text-align: center;
   border-radius: 25px;
   padding: 16px;
@@ -1218,7 +1218,7 @@ span.heroImgList {
                 localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
                 this.displaySavedCamps = Object.keys(this.savedCamps); // aggionra la lista da visulizzare
 
-                $( "#snackbar" ).text(campName + `saved!`);
+                $( "#snackbar" ).text(campName + ` saved successfully!`);
                 var x = document.getElementById("snackbar");
                 x.className = "show";
                 setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
@@ -1235,6 +1235,10 @@ span.heroImgList {
                 $('#savedCamp').remove();
                 localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
                 this.displaySavedCamps = Object.keys(this.savedCamps); // aggionra la lista da visulizzare
+                $( "#snackbar" ).text(campName + ` deleted!`);
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
             } catch {
               console.log("Error while removing camp")
             };
