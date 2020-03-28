@@ -870,8 +870,8 @@ span.heroImgList {
       <h2>{{strings.impostazioni}}</h2><br>
       <table>
         <tr v-for="key in savedCamps">
-          <td onclick="mostraRisultatoSalvato(key)">
-            {{savedCamps[key]}}
+          <td v-on:click="mostraRisultatoSalvato(key)">
+            {{key}}
           </td>
         </tr>
       </table>
