@@ -908,10 +908,11 @@ span.heroImgList {
     </div>
     <br><br>
     <div id="advanced_cartesian" class="box_advanced_settings" style="height:auto;width:100%;display:inline-block;padding-bottom: 25px;padding-top: 5px;">
-      <div v-for="(key,index) in cartesian_lock" style="display:inline-block;margin:20px;">
+      <center>Multi-lock (Cartesian Product)<i style="color:red">(Beta)</i></center>
+      <div v-for="(key,index) in cartesian_lock" style="display:inline-block;margin:20px;width:300px">
         Slot {{index+1}}
         <button type="button" v-on:click="showAddCartesian_lock(index)" class="button_login">Add to this slot</button>
-        <div style="height:300px;max-height:300px;width:300px;max-width:300px;background-color:var(--bg-color);display:block;color:black;overflow:scroll;overflow-x: hidden;padding-left:10px;padding-top:10px;padding-right:10px;-ms-overflow-style:none;">
+        <div style="height:300px;max-height:300px;width:90%;max-width:300px;background-color:var(--bg-color);display:block;color:var(--font-color);overflow:scroll;overflow-x: hidden;padding-left:10px;padding-top:10px;padding-right:10px;-ms-overflow-style:none;">
           <span v-for="(key,i) in cartesian_lock[index]" style="display:inline-block;position:relative;width:100%">{{key}}<span class="removecartesian" style="position:relative;float:right;font-size:16px;" v-on:click="removeCartesian_lock(index, i)">X</span></span>
         </div>
       </div>
