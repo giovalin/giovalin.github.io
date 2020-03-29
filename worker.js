@@ -5,9 +5,18 @@ var AoEHeroes = ["Kawerik","Cerise","Specter Tenebria","Tempest Surin","Pavel","
 
 ///replace this. -> e.
 onmessage = function(e) {
+         let isCartesian = false;
          var e = e.data;
          var HeroDB = e.HeroDB;
-         var campList = e.campList;
+         var campList = Object.keys(e.myHeroesList);
+         if (this.locked.length > 0 ) {
+           for (var i = 0; i< e.locked.length; i++){
+               campList.splice( campList.indexOf(e.locked[i]),1);
+             };
+         };
+         if (e.cartesianLock.flat().length>0) isCartesian = true;
+         console.log("Is cartesian product? " + isCartesian)
+
          const nuovoCampSimulatorTeam2 = function(inputTeam) {
               let pg1 = inputTeam[0];
               let pg2 = inputTeam[1];
