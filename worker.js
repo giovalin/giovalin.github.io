@@ -8,12 +8,7 @@ onmessage = function(e) {
          let isCartesian = false;
          var e = e.data;
          var HeroDB = e.HeroDB;
-         var campList = Object.keys(e.myHeroesList);
-         if (e.locked.length > 0 ) {
-           for (var i = 0; i< e.locked.length; i++){
-               campList.splice( campList.indexOf(e.locked[i]),1);
-             };
-         };
+         var campList = e.campList;
          if (e.cartesianLock.flat().length>0) isCartesian = true;
          console.log("Is cartesian product? " + isCartesian)
 
