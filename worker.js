@@ -105,7 +105,7 @@ onmessage = function(e) {
                         }
                         return results;
                       }
-                      e.cartesianLock.forEach ((index) => {
+                      e.cartesianLock.forEach ((item,index) => {
                           if (e.cartesianLock[index].length==0) {e.cartesianLock.splice(index,1)}
                       });
 
