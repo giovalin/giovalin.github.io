@@ -105,12 +105,42 @@ onmessage = function(e) {
                         }
                         return results;
                       }
-                      e.cartesianLock.forEach ((item,index) => {
-                          if (e.cartesianLock[index].length==0) {e.cartesianLock.splice(index,1)}
-                      });
-
-                      console.log(printCombos(e.cartesianLock))
-                    //Combinatorics.cartesianProduct(e.cartesianLock).forEach(teamComb => { console.log (teamComb) });
+                      for (var i=0; i < e.cartesianLock.length; i++){
+                          if (!e.cartesianLock[i].length) {e.cartesianLock.splice(i, 1);i--}
+                      };
+                      console.log(e.cartesianLock);
+                      c = printCombos(e.cartesianLock);
+                      c.forEach( (cartesianLocked) => {
+                            Combinatorics.bigCombination(campList,4-e.locked.length-cartesianLocked.length).forEach(teamComb => {
+                                if (teamComb.length>4) teamComb = []; // Se locked = 4 allora team deve riportare array vuota
+                                var team = [].concat(teamComb, e.locked, cartesianLocked);
+                                let elementoFiltro = teamComb;
+                                let elementoRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].attribute }).flat();
+                                let buffsRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].buffs }).flat();
+                                let debuffsRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].debuffs }).flat();
+                                let S1debuffsRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].skills[0].debuff }).flat();
+                                let classeRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].role }).flat();
+                                let AoE_inTeam = AoEHeroes.some(i => elementoFiltro.includes(i));
+                                if (e.locked.every(i => team.includes(i)) &&
+                                    e.classe.every(i => classeRisultati.includes(i)) && 
+                                    e.elemento.every(i => elementoRisultati.includes(i)) &&
+                                    e.debuffs.every(i => debuffsRisultati.includes(i)) &&
+                                    e.buffs.every(i => buffsRisultati.includes(i)) &&
+                                    (e.AoE === false || (e.AoE === true && AoE_inTeam )) &&
+                                    (e.noS1debuffs === false || (e.noS1debuffs === true &&  S1debuffsRisultati.filter(function (team) {return team != "20" && team != "25" && team != "21"}).length === 0)) &&
+                                    (e.noDebuffs === false || (e.noDebuffs === true && debuffsRisultati.filter(function (team) {return team != "20" && team != "25" && team != "21"}).length === 0)  )
+                                ){
+                                    if (e.risultati.length < 200) {
+                                    e.risultati.push(nuovoCampSimulatorTeam2(team));
+                                    e.risultati.sort(function(a, b)  {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0 : 1));});
+                                    } else {
+                                        let risultatoDiQuestoTeam = nuovoCampSimulatorTeam2(team)
+                                        e.risultati.sort(function(a, b) {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0 : 1));});	 
+                                        if  (risultatoDiQuestoTeam.morale > e.risultati[e.risultati.length-1].morale) e.risultati.unshift(risultatoDiQuestoTeam),e.risultati.splice(200);
+                                    };
+                                };
+                            });
+                       });
                 };
 
             e.risultati.sort(function (a,b) {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0: 1))}); // riordina l'ultimo elemento aggiunto
