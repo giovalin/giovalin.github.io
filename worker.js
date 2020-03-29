@@ -92,7 +92,7 @@ onmessage = function(e) {
                                 };
                     });
                 } else if (isCartesian == true) {
-                    Combinatorics.cartesianProduct(e.cartesianLock[0], e.cartesianLock[1], e.cartesianLock[2], e.cartesianLock[3]).forEach(teamComb => { console.log (teamComb)});
+                    Combinatorics.cartesianProduct(e.cartesianLock).forEach(teamComb => { console.log (teamComb)});
 
                 };
 
