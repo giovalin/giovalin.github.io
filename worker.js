@@ -9,7 +9,7 @@ onmessage = function(e) {
          var e = e.data;
          var HeroDB = e.HeroDB;
          var campList = Object.keys(e.myHeroesList);
-         if (this.locked.length > 0 ) {
+         if (e.locked.length > 0 ) {
            for (var i = 0; i< e.locked.length; i++){
                campList.splice( campList.indexOf(e.locked[i]),1);
              };
