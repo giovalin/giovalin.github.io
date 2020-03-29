@@ -105,9 +105,9 @@ onmessage = function(e) {
                         }
                         return results;
                       }
-                      for (var i=0; i<4; i++) {
-                          if (e.cartesianLock[i].length==0) {e.cartesianLock.splice(i,1); i--}
-                      };
+                      e.cartesianLock.forEach ((index) => {
+                          if (e.cartesianLock[index].length==0) {e.cartesianLock.splice(index,1)}
+                      });
 
                       console.log(printCombos(e.cartesianLock))
                     //Combinatorics.cartesianProduct(e.cartesianLock).forEach(teamComb => { console.log (teamComb) });
