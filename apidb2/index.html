@@ -2221,7 +2221,7 @@ function askNotificationPermission() {
 		  if (!["straze","rande","raqueas","mega-phantasma","giga-phantasma","tera-phantasma"].includes(item.name.toLowerCase()))
 		  this.HeroDB[item.name] = item;
 		});
-	}
+	});
         //Get characters names translated
         var getDb = new XMLHttpRequest();
         getDb.open( "GET", "https://api.epicsevendb.com/hero?lang=" + this.lingua, false ); // false for synchronous request
