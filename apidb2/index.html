@@ -2216,11 +2216,12 @@ function askNotificationPermission() {
       },
       inizializzaione: function() {
         //Get characters names translated
-	      
-        JSON.parse(getDbEng.responseText).results.forEach(item => {
-          if (!["straze","rande","raqueas","mega-phantasma","giga-phantasma","tera-phantasma"].includes(item.name.toLowerCase()))
-          this.HeroDB[item.name] = item;
-        });
+	$.getJSON("heroDatabase.json", function(json) {
+		json.forEach(item => {
+		  if (!["straze","rande","raqueas","mega-phantasma","giga-phantasma","tera-phantasma"].includes(item.name.toLowerCase()))
+		  this.HeroDB[item.name] = item;
+		});
+	}
         //Get characters names translated
         var getDb = new XMLHttpRequest();
         getDb.open( "GET", "https://api.epicsevendb.com/hero?lang=" + this.lingua, false ); // false for synchronous request
