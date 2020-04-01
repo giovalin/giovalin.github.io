@@ -2216,9 +2216,7 @@ function askNotificationPermission() {
       },
       inizializzaione: function() {
         //Get characters names translated
-        var getDbEng = new XMLHttpRequest();
-        getDbEng.open( "GET", "https://api.epicsevendb.com/hero", false ); // false for synchronous request
-        getDbEng.send( null );
+	      
         JSON.parse(getDbEng.responseText).results.forEach(item => {
           if (!["straze","rande","raqueas","mega-phantasma","giga-phantasma","tera-phantasma"].includes(item.name.toLowerCase()))
           this.HeroDB[item.name] = item;
