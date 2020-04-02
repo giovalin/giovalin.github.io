@@ -2155,7 +2155,6 @@ function askNotificationPermission() {
 	     success: (json) => {
 		     app.HeroDB = json;
 		     this.sortedHeroDB = Object.keys(this.HeroDB).sort(function (a,b) {return ((a < b) ? -1 : ((a == b) ? 0: 1))});
-		     this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
 	     },
 	     error:function(){
 		 alert("Error loading database, please refresh this page");
@@ -2173,6 +2172,7 @@ function askNotificationPermission() {
 			  this.translatedName[item._id] = item.name;
 			});
 		        this.inizializzazione = false;
+                        this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
 	     },
 	     error:function(){
 		 alert("Error");
