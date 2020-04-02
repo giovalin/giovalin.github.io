@@ -2148,13 +2148,16 @@ function askNotificationPermission() {
           };
       },
       boot: function () {
-        var getDbEng = new XMLHttpRequest();
-        getDbEng.open( "GET", "https://ceciliabot.github.io/HeroDatabase.json", false ); // false for synchronous request
-        getDbEng.send( null );
-        this.HeroDB = JSON.parse(getDbEng.response);
-	$.getJSON("https://ceciliabot.github.io/HeroDatabase.json", function(data){
-	      console.log(data);
-	}
+	$.ajax({
+	     url:"https://ceciliabot.github.io/HeroDatabase.json",
+	     dataType: 'json',
+	     success:function(json){
+		     this.HeroDB = json
+	     },
+	     error:function(){
+		 alert("Error");
+	     }      
+	});
         this.sortedHeroDB = Object.keys(this.HeroDB).sort(function (a,b) {return ((a < b) ? -1 : ((a == b) ? 0: 1))});
         this.impostaLingua();
         this.inizializzaione();
