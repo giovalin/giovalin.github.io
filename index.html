@@ -2154,7 +2154,7 @@ function askNotificationPermission() {
         this.HeroDB = JSON.parse(getDbEng.response);
 	$.ajax({
 	     url:"https://ceciliabot.github.io/HeroDatabase.json",
-	     dataType: 'jsonp', // cross origin
+	     dataType: 'json',
 	     success:function(json){
 		 console.log(json)
 		 alert("Success");
