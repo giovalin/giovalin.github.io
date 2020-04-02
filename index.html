@@ -2152,16 +2152,16 @@ function askNotificationPermission() {
 	     url:"https://ceciliabot.github.io/HeroDatabase.json",
 	     dataType: 'json',
 	     success: (json) => {
-		     this.HeroDB = json
+		     app.HeroDB = json;
+		     this.sortedHeroDB = Object.keys(this.HeroDB).sort(function (a,b) {return ((a < b) ? -1 : ((a == b) ? 0: 1))});
+		     this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
 	     },
 	     error:function(){
 		 alert("Error");
 	     }      
 	});
-        this.sortedHeroDB = Object.keys(this.HeroDB).sort(function (a,b) {return ((a < b) ? -1 : ((a == b) ? 0: 1))});
         this.impostaLingua();
         this.inizializzaione();
-        this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes')
         this.inizializzazione = false;
       },
       inizializzaione: function () {
