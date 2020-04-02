@@ -2167,11 +2167,11 @@ function askNotificationPermission() {
 	$.ajax({
 	     url:"https://api.epicsevendb.com/hero?lang=" + this.lingua,
 	     dataType: 'json',
-	     success: async (json) => {
+	     success: (json) => {
 		     	json.results.forEach(item => {
 			  this.translatedName[item._id] = item.name;
 			});
-		        await this.inizializzazione = false;
+		        this.inizializzazione = false;
                         this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
 	     },
 	     error:function(){
