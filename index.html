@@ -580,7 +580,6 @@ span.heroImgList {
 </head>
 <body onload="app.boot()">
   <div id="app"><!-- vue.js -->
-   <div v-if="!inizializzazione">
     <div id="welcome" style="display: '';">
         <h2>{{strings.messaggio_di_benvenuto}}<br><font color="red">{{strings.data_by}}</font></h2>
         <br><br>
@@ -1025,7 +1024,7 @@ span.heroImgList {
       </span>
       <span id="icon-bar_settings_window" onclick="setWindow('settings_window')"><!--&#9881;--><i class="fa fa-cog"></i></span>
     </div>
-   </div> <!-- v-if !inizializzazione -->
+
      <!-- Mostra durante il calcolo -->
       <div  v-show="isLoadingResults" id="loading_camp_results">
         <div style="opacity: 0.3;filter: alpha(opacity=30);height:100%;width:100%;position:fixed;"></div> <!-- prevent user from changing menu -->
@@ -1784,9 +1783,9 @@ function askNotificationPermission() {
                 this.debuffList["stic_blaze"].name = "Burn";
                 this.debuffList["stic_vampire"].name = "Vampire";
                 this.debuffList["stic_bomb"].name = "Bomb";
-                //document.getElementById("checkbox_warrior_label").style.bottom = "-20px";
-                //document.getElementById("checkbox_ranger_label").style.bottom = "-20px";
-                //document.getElementById("checkbox_soul-weaver_label").style.bottom = "-35px";
+                document.getElementById("checkbox_warrior_label").style.bottom = "-20px";
+                document.getElementById("checkbox_ranger_label").style.bottom = "-20px";
+                document.getElementById("checkbox_soul-weaver_label").style.bottom = "-35px";
               } else if (this.lingua == "jp") {
                 this.buffList["stic_debuf_impossible"].name = "弱体効果免疫";
                 this.buffList["stic_att_up"].name = "攻撃力UP";
@@ -1834,9 +1833,9 @@ function askNotificationPermission() {
                 this.strings["earth"] = "木属性";
                 this.strings["light"] = "光属性";
                 this.strings["dark"] = "闇属性";
-                //document.getElementById("checkbox_warrior_label").style.bottom = "-45px";
-                //document.getElementById("checkbox_ranger_label").style.bottom = "-45px";
-                //document.getElementById("checkbox_soul-weaver_label").style.bottom = "-45px";
+                document.getElementById("checkbox_warrior_label").style.bottom = "-45px";
+                document.getElementById("checkbox_ranger_label").style.bottom = "-45px";
+                document.getElementById("checkbox_soul-weaver_label").style.bottom = "-45px";
               } else if (this.lingua == "kr") {
                 this.buffList["stic_debuf_impossible"].name = "면역";
                 this.buffList["stic_att_up"].name = "공격력 증가";
@@ -1884,9 +1883,9 @@ function askNotificationPermission() {
                 this.strings["earth"] = "자연속성";
                 this.strings["light"] = "광속성";
                 this.strings["dark"] = "암속성";
-                //document.getElementById("checkbox_warrior_label").style.bottom = "-20px";
-                //document.getElementById("checkbox_ranger_label").style.bottom = "-20px";
-                //document.getElementById("checkbox_soul-weaver_label").style.bottom = "-20px";
+                document.getElementById("checkbox_warrior_label").style.bottom = "-20px";
+                document.getElementById("checkbox_ranger_label").style.bottom = "-20px";
+                document.getElementById("checkbox_soul-weaver_label").style.bottom = "-20px";
               } else if (lingua == "zht") {
                 this.buffList["stic_debuf_impossible"].name = "免疫";
                 this.buffList["stic_att_up"].name = "攻擊力增加";
@@ -1922,9 +1921,9 @@ function askNotificationPermission() {
                 this.debuffList["stic_blaze"].name = "燒傷";
                 this.debuffList["stic_vampire"].name = "吸血之手";
                 this.debuffList["stic_bomb"].name = "炸彈";
-                //document.getElementById("checkbox_warrior_label").style.bottom = "-20px";
-                //document.getElementById("checkbox_ranger_label").style.bottom = "-20px";
-                //document.getElementById("checkbox_soul-weaver_label").style.bottom = "-20px";
+                document.getElementById("checkbox_warrior_label").style.bottom = "-20px";
+                document.getElementById("checkbox_ranger_label").style.bottom = "-20px";
+                document.getElementById("checkbox_soul-weaver_label").style.bottom = "-20px";
               };
             },
       translateTopics: function (n) {
@@ -2149,36 +2148,24 @@ function askNotificationPermission() {
           };
       },
       boot: function () {
-	$.ajax({
-	     url:"https://ceciliabot.github.io/HeroDatabase.json",
-	     dataType: 'json',
-	     success: (json) => {
-		     app.HeroDB = json;
-		     this.sortedHeroDB = Object.keys(this.HeroDB).sort(function (a,b) {return ((a < b) ? -1 : ((a == b) ? 0: 1))});
-		     this.displayList = this.sortedHeroDB;
-	     },
-	     error:function(){
-		 alert("Error loading database, please refresh this page");
-	     }      
-	});
+        var getDbEng = new XMLHttpRequest();
+        getDbEng.open( "GET", "https://ceciliabot.github.io/HeroDatabase.json", false ); // false for synchronous request
+        getDbEng.send( null );
+        this.HeroDB = JSON.parse(getDbEng.response);
+        this.sortedHeroDB = Object.keys(this.HeroDB).sort(function (a,b) {return ((a < b) ? -1 : ((a == b) ? 0: 1))});
         this.impostaLingua();
         this.inizializzaione();
+        this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes')
+        this.inizializzazione = false;
       },
       inizializzaione: function () {
-	$.ajax({
-	     url:"https://api.epicsevendb.com/hero?lang=" + this.lingua,
-	     dataType: 'json',
-	     success: (json) => {
-		     	json.results.forEach(item => {
-			  this.translatedName[item._id] = item.name;
-			});
-		        this.inizializzazione = false;
-                        //this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
-	     },
-	     error:function(){
-		 alert("Error");
-	     }      
-	});
+        //Get characters names translated
+        var getDb = new XMLHttpRequest();
+        getDb.open( "GET", "https://api.epicsevendb.com/hero?lang=" + this.lingua, false ); // false for synchronous request
+        getDb.send( null );
+        JSON.parse(getDb.response).results.forEach(item => {
+          this.translatedName[item._id] = item.name
+        });
       }
     },
     computed: {
@@ -2211,9 +2198,6 @@ function askNotificationPermission() {
   watcher: {
     HeroDB: {
       deep: true
-    },
-  created: function () {
-	  this.boot();
     }
   }
 });
