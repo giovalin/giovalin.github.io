@@ -2157,21 +2157,26 @@ function askNotificationPermission() {
 		     this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
 	     },
 	     error:function(){
-		 alert("Error");
+		 alert("Error loading database, please refresh this page");
 	     }      
 	});
         this.impostaLingua();
         this.inizializzaione();
-        this.inizializzazione = false;
       },
       inizializzaione: function () {
-        //Get characters names translated
-        var getDb = new XMLHttpRequest();
-        getDb.open( "GET", "https://api.epicsevendb.com/hero?lang=" + this.lingua, false ); // false for synchronous request
-        getDb.send( null );
-        JSON.parse(getDb.response).results.forEach(item => {
-          this.translatedName[item._id] = item.name
-        });
+	$.ajax({
+	     url:"https://ceciliabot.github.io/HeroDatabase.json",
+	     dataType: 'json',
+	     success: (json) => {
+		     	json.results.forEach(item => {
+			  this.translatedName[item._id] = item.name;
+			});
+		        this.inizializzazione = false;
+	     },
+	     error:function(){
+		 alert("Error");
+	     }      
+	});
       }
     },
     computed: {
