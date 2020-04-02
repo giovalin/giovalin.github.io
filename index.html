@@ -2152,6 +2152,17 @@ function askNotificationPermission() {
         getDbEng.open( "GET", "https://ceciliabot.github.io/HeroDatabase.json", false ); // false for synchronous request
         getDbEng.send( null );
         this.HeroDB = JSON.parse(getDbEng.response);
+	$.ajax({
+	     url:"https://ceciliabot.github.io/HeroDatabase.json",
+	     dataType: 'jsonp', // cross origin
+	     success:function(json){
+		 console.log(json)
+		 alert("Success");
+	     },
+	     error:function(){
+		 alert("Error");
+	     }      
+	});
         this.sortedHeroDB = Object.keys(this.HeroDB).sort(function (a,b) {return ((a < b) ? -1 : ((a == b) ? 0: 1))});
         this.impostaLingua();
         this.inizializzaione();
