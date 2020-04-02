@@ -2155,6 +2155,7 @@ function askNotificationPermission() {
 	     success: (json) => {
 		     app.HeroDB = json;
 		     this.sortedHeroDB = Object.keys(this.HeroDB).sort(function (a,b) {return ((a < b) ? -1 : ((a == b) ? 0: 1))});
+		     this.displayList = this.sortedHeroDB;
 	     },
 	     error:function(){
 		 alert("Error loading database, please refresh this page");
