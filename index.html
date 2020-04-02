@@ -578,7 +578,7 @@ span.heroImgList {
 
 </style>
 </head>
-<body>
+<body v-on:load="boot()">
   <div id="app"><!-- vue.js -->
    <div v-if="!inizializzazione">
     <div id="welcome" style="display: '';">
