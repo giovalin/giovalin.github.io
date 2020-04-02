@@ -578,7 +578,7 @@ span.heroImgList {
 
 </style>
 </head>
-<body onload="app.boot()">
+<body>
   <div id="app"><!-- vue.js -->
    <div v-if="!inizializzazione">
     <div id="welcome" style="display: '';">
@@ -2210,6 +2210,9 @@ function askNotificationPermission() {
   watcher: {
     HeroDB: {
       deep: true
+    },
+  created: funtion () {
+	  this.boot();
     }
   }
 });
