@@ -2168,6 +2168,7 @@ function askNotificationPermission() {
 	     url:"https://ceciliabot.github.io/HeroDatabase.json",
 	     dataType: 'json',
 	     success: (json) => {
+		     console.log(json)
 		     	json.results.forEach(item => {
 			  this.translatedName[item._id] = item.name;
 			});
