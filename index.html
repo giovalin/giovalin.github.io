@@ -2151,7 +2151,7 @@ function askNotificationPermission() {
 	$.ajax({
 	     url:"https://ceciliabot.github.io/HeroDatabase.json",
 	     dataType: 'json',
-	     success:function(json){
+	     success: (json) => {
 		     this.HeroDB = json
 	     },
 	     error:function(){
