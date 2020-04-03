@@ -122,7 +122,7 @@ onmessage = function(e) {
                     if ((e.cartesianLock.length + e.locked.length) < 4 && campList.length == 0) { // can't calculate not enough heroes to fill remaining slots
                         code = 400; // error
                         e.risultati = ["not_enough_heroes"];
-                    } else if ((e.cartesianLock.length + e.locked.length) > 4) { // Too many locked heroes
+                    } else if ((e.cartesianLock.length + e.locked.length + e.classe.length) > 4 || (e.cartesianLock.length + e.locked.length + e.elemento.length) > 4) { // Too many locked heroes
                         code = 400; // error
                         e.risultati = ["team_size_exceeded"];
                     } else { // can calculate 
@@ -132,9 +132,9 @@ onmessage = function(e) {
                                 Combinatorics.bigCombination(campList,4-e.locked.length-cartesianLocked.length).forEach(teamComb => {
                                     var teamComb = teamComb;
                                     if (e.cartesianLock.length + e.locked.length>3) teamComb = []; // Se locked = 4 allora team deve riportare array vuota
-                                    teamComb = teamComb.concat(cartesianLocked);
-                                    var team = [].concat(teamComb, e.locked);
-                                    let elementoFiltro = teamComb;
+                                    //teamComb = teamComb.concat(cartesianLocked);
+                                    var team = [].concat(teamComb, cartesianLocked, e.locked);
+                                    let elementoFiltro = teamComb; // applica filtro solo ai eroi non lockati
                                     let elementoRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].attribute }).flat();
                                     let buffsRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].buffs }).flat();
                                     let debuffsRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].debuffs }).flat();

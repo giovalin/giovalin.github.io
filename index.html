@@ -2727,7 +2727,7 @@ function askNotificationPermission() {
       $( "#snackbar" ).text(app.strings["results_error"] + `: ` + app.strings[e.data.risultati[0]] );
       var x = document.getElementById("snackbar");
       x.className = "show";
-      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 4000); // show for 4 seconds
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000); // show for 3 seconds
     };
   }  
 
