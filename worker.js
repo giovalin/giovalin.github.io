@@ -69,7 +69,7 @@ onmessage = function(e) {
                         e.risultati = ["team_size_exceeded"];
                     } else { // can calculate
                         Combinatorics.bigCombination(campList,4-e.locked.length).forEach(teamComb => {
-                                    if (teamComb.length>4) teamComb = []; // Se locked = 4 allora team deve riportare array vuota
+                                    if (teamComb.length>4 || e.locked.length == 4) teamComb = []; // Se locked = 4 allora team deve riportare array vuota
                                     var team = [].concat(teamComb, e.locked);
                                     let elementoFiltro = teamComb;
                                     let elementoRisultati = elementoFiltro.map(function (hero, i) { return HeroDB[hero].attribute }).flat();
