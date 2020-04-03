@@ -2677,8 +2677,13 @@ function askNotificationPermission() {
                   campList.splice( campList.indexOf(this.locked[i]),1);
                 };
             };
-            this.numeroCombinazioniPossibili = Combinatorics.bigCombination(campList,4-this.locked.length).length;
-            camperino.postMessage({HeroDB: this.HeroDB, myHeroesList: this.myHeroesList, campList: campList, locked: this.locked, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs, cartesianLock: this.cartesian_lock, risultati: []});
+            try {
+              this.numeroCombinazioniPossibili = Combinatorics.bigCombination(campList,4-this.locked.length).length;
+              camperino.postMessage({HeroDB: this.HeroDB, myHeroesList: this.myHeroesList, campList: campList, locked: this.locked, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs, cartesianLock: this.cartesian_lock, risultati: []});
+            } catch (err) {
+              this.isLoadingResults = false; // remove angelica loading
+              console.log(err);
+            };
           };
       }
   }, // computed
