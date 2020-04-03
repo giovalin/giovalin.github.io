@@ -1436,7 +1436,7 @@ function askNotificationPermission() {
           },
           eliminaRisultatoSalvato: function (campName) {
             try {
-		campName = campName.replace(/&#3#4#;/g,'"').replace(/&#3#9#;/g,"'").replace(/&#9#6#;/g,"`");
+		var campName = campName.replace(/&#3#4#;/g,'"').replace(/&#3#9#;/g,"'").replace(/&#9#6#;/g,"`");
                 delete this.savedCamps[campName];
                 $('#savedCamp').remove();
                 localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
