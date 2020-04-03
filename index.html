@@ -1416,7 +1416,7 @@ function askNotificationPermission() {
           salvaRisultato: function (n) {
             var $form = $("#saveCamp");
             var campName = $('#camp_name', $form).val().replace(/  +/g,"").trim();
-            if (campName && campName != "") {
+            if (campName && campName != "" && campName.indexOf("@#") == -1) {
               if (!this.savedCamps[campName]) {
                 this.savedCamps[campName] = this.risultati[n];
                 $('#saveCamp').remove();
@@ -1430,6 +1430,8 @@ function askNotificationPermission() {
               } else {
                 $("#campSavingError").text(this.strings.error_name_in_use);
               };
+	    } else if (campName.indexOf("@#") != -1) {
+                $("#campSavingError").text("The character combo @# can't be used");
             } else {
               $("#campSavingError").text(this.strings.error_no_name_provided);
             }; 
