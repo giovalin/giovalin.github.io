@@ -2712,7 +2712,7 @@ function askNotificationPermission() {
     };
     if (e.data.code == 200 ) app.risultati = e.data.risultati
     else if (e.data.code == 400 ) {
-      $( "#snackbar" ).text(`Error: ` + e.data.risultati);
+      $( "#snackbar" ).text(`Error: ` + e.data.risultati[0]);
       var x = document.getElementById("snackbar");
       x.className = "show";
       setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);

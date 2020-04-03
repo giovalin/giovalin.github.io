@@ -115,9 +115,9 @@ onmessage = function(e) {
                         if (tmp.includes(campList[i]) ) {campList.splice(i, 1);i--}
                     };
                     if ((e.cartesianLock.length + e.locked.length) < 4 && campList.length == 0) { // can't calculate not enough heroes to fill remaining slots
-                        e.risultati = "not_enough_heroes";
+                        e.risultati = ["not_enough_heroes"];
                     } else if ((e.cartesianLock.length + e.locked.length) > 4) { // Too many locked heroes
-                        e.risultati = "team_size_exceeded";
+                        e.risultati = ["team_size_exceeded"];
                     } else { // can calculate 
                         if ( (e.cartesianLock.length + e.locked.length) > 3 ) campList = ["Ras"]; // placeholder Ras if all heroes are used in multilock or lock-> avoid RangeError
                         c = printCombos(e.cartesianLock);
