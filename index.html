@@ -2711,17 +2711,6 @@ function askNotificationPermission() {
     }
   },
   mounted () {
-    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
-
-    if (currentTheme) {
-        document.documentElement.setAttribute('data-theme', currentTheme);
-
-        if (currentTheme === 'dark') {
-            var checkBoxes = $("input[name=darkModeCheck]");
-            checkBoxes.attr('checked', true);
-        }
-    }
-	  toggleCheck()
 	  this.boot();
   }
 });
