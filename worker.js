@@ -63,7 +63,7 @@ onmessage = function(e) {
                e.risultati = [];
 
                if (isCartesian == false) {
-                    if (campList.length < 1 && e.locked.length > 3 ) campList = ["Ras"]; // fix RangeError if 4 heroes are in team and they are all locked 
+                    if (campList.length < 1 && e.locked.length > 3 ) campList.push("Ras"); // fix RangeError if 4 heroes are in team and they are all locked 
                     if ( (e.locked.length + e.classe.length) > 4 || (e.locked.length + e.elemento.length) > 4 ) { // team size error
                         code = 400; // error
                         e.risultati = ["team_size_exceeded"];
