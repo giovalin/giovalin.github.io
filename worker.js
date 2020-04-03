@@ -93,19 +93,19 @@ onmessage = function(e) {
                                 };
                     });
                 } else if (isCartesian == true) {
-                    function printCombos(array) {
-                        var results = [[]];for (var i = 0; i < array.length; i++) {
-                          var currentSubArray = array[i];
-                          var temp = [];
-                          for (var j = 0; j < results.length; j++) {
-                            for (var k = 0; k < currentSubArray.length; k++) {
-                              temp.push(results[j].concat(currentSubArray[k]));
+                        function printCombos(array) {
+                            var results = [[]];for (var i = 0; i < array.length; i++) {
+                            var currentSubArray = array[i];
+                            var temp = [];
+                            for (var j = 0; j < results.length; j++) {
+                                for (var k = 0; k < currentSubArray.length; k++) {
+                                temp.push(results[j].concat(currentSubArray[k]));
+                                }
                             }
-                          }
-                          results = temp;
+                            results = temp;
+                            }
+                            return results;
                         }
-                        return results;
-                      }
                         for (var i=0; i < e.cartesianLock.length; i++){
                             if (!e.cartesianLock[i].length) {e.cartesianLock.splice(i, 1);i--}
                         };
@@ -114,7 +114,6 @@ onmessage = function(e) {
                             if (tmp.includes(campList[i]) ) {campList.splice(i, 1);i--}
                         };
                         if ( (e.cartesianLock.length + e.locked.length) < 5 ) {
-                            if (campList.length < 1 ) campList = ["1"]; // evita errore RangeError
                             c = printCombos(e.cartesianLock);
                             c.forEach( (cartesianLocked) => {
                                     Combinatorics.bigCombination(campList,4-e.locked.length-cartesianLocked.length).forEach(teamComb => {
