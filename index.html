@@ -1436,7 +1436,7 @@ function askNotificationPermission() {
           },
           eliminaRisultatoSalvato: function (campName) {
             try {
-                delete this.savedCamps[campName.replace(/&#34;/g,'"').replace(/&#39;/g,"'").replace(/&#96;/g,"`")];
+                delete this.savedCamps[campName.replace(/&#34#;/g,'"').replace(/&#39#;/g,"'").replace(/&#96#;/g,"`")];
                 $('#savedCamp').remove();
                 localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
                 this.displaySavedCamps = Object.keys(this.savedCamps); // aggionra la lista da visulizzare
@@ -1453,7 +1453,7 @@ function askNotificationPermission() {
               <div id="savedCamp" class="modal" style="padding-top: 60px;display:block;">
                 <form class="modal-content animate" id="savedCamp" style="background-color: var(--search-primary-color);color: var(--font-color);max-width:760px">
                   <div class="imgcontainer">
-                    <span onclick="app.eliminaRisultatoSalvato('` + campName.replace(/"/g,"&#34;").replace(/'/g,"&#39;").replace(/`/g,"&#96;") + `')"><i class="fa fa-trash close" style="color: var(--font-color);"></i></span>
+                    <span onclick="app.eliminaRisultatoSalvato('` + campName.replace(/"/g,"&#34#;").replace(/'/g,"&#39#;").replace(/`/g,"&#96#;") + `')"><i class="fa fa-trash close" style="color: var(--font-color);"></i></span>
                     <p>` + this.strings.morale + `: ` + this.savedCamps[campName].morale + `</p>
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + this.HeroDB[ this.savedCamps[campName].team[0] ].id + `_s.png" style="height:55px;width:55px;">
                     <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + this.HeroDB[ this.savedCamps[campName].team[1] ].id + `_s.png" style="height:55px;width:55px;">
