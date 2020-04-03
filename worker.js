@@ -113,7 +113,7 @@ onmessage = function(e) {
                             var tmp = e.cartesianLock.flat();
                             if (tmp.includes(campList[i]) ) {campList.splice(i, 1);i--}
                         };
-                        if ( (e.cartesianLock.length + e.locked.length) < 5 ) {
+//                        if ( (e.cartesianLock.length + e.locked.length) < 5 ) {
                             if ((e.cartesianLock.length + e.locked.length) < 4 && campList.length == 0) { // can't calculate not enough heroes to fill remaining slots
                                 console.log("Not enough heroes")
                             } else if ((e.cartesianLock.length + e.locked.length) > 4) { // Too many locked heroes
@@ -155,7 +155,7 @@ onmessage = function(e) {
                                         });
                                 });
                             };
-                        };
+//                        };
                 };
 
             e.risultati.sort(function (a,b) {return ((a.morale > b.morale) ? -1 : ((a.morale == b.morale) ? 0: 1))}); // riordina l'ultimo elemento aggiunto
