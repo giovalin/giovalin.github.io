@@ -62,6 +62,7 @@ onmessage = function(e) {
                e.risultati = [];
 
                if (isCartesian == false) {
+                    if (campList.length == 0 && e.locked.length == 4 ) campList = e.locked; // fix RangeError if 4 heroes are in team and they are all locked 
                     Combinatorics.bigCombination(campList,4-e.locked.length).forEach(teamComb => {
                                 if (teamComb.length>4) teamComb = []; // Se locked = 4 allora team deve riportare array vuota
                                 var team = [].concat(teamComb, e.locked);
