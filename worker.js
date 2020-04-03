@@ -114,12 +114,12 @@ onmessage = function(e) {
                             if (tmp.includes(campList[i]) ) {campList.splice(i, 1);i--}
                         };
                         if ( (e.cartesianLock.length + e.locked.length) < 5 ) {
-                            if ( (e.cartesianLock.length + e.locked.length) > 3 ) campList = ["Ras"]; // placeholder Ras if all heroes are used in multilock or lock-> avoid RangeError
                             if ((e.cartesianLock.length + e.locked.length) < 4 && campList.length == 0) { // can't calculate not enough heroes to fill remaining slots
                                 console.log("Not enough heroes")
-                            } else if ((e.cartesianLock.length + e.locked.length) > 4) {
+                            } else if ((e.cartesianLock.length + e.locked.length) > 4) { // Too many locked heroes
                                 console.log("Team size exceeded")
                             } else { // can calculate 
+                                if ( (e.cartesianLock.length + e.locked.length) > 3 ) campList = ["Ras"]; // placeholder Ras if all heroes are used in multilock or lock-> avoid RangeError
                                 c = printCombos(e.cartesianLock);
                                 c.forEach( (cartesianLocked) => {
                                         Combinatorics.bigCombination(campList,4-e.locked.length-cartesianLocked.length).forEach(teamComb => {
