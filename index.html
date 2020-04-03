@@ -1436,7 +1436,7 @@ function askNotificationPermission() {
           },
           eliminaRisultatoSalvato: function (campName) {
             try {
-                delete this.savedCamps[campName];
+                delete this.savedCamps[`"`+campName+`"`];
                 $('#savedCamp').remove();
                 localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
                 this.displaySavedCamps = Object.keys(this.savedCamps); // aggionra la lista da visulizzare
