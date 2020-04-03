@@ -913,7 +913,7 @@ span.heroImgList {
     <br><br>
     <div id="advanced_buff" class="box_advanced_settings" style="height:auto;width:100%;display:inline-block;padding-bottom: 25px;padding-top: 5px;">
       <center>{{strings.buff}}:</center>
-      <span v-for="(value,key) in buffList" style="display:inline-block;position:relative;top:0px;text-align:center;height:200px;padding-bottom:10px;">
+      <span v-for="(value,key) in buffList" style="display:inline-block;position:relative;top:0px;text-align:center;height:200px;width:100px;padding-bottom:10px;">
         <input type="checkbox" v-bind:id="'checkbox_'+ key" name="buff" v-bind:value="value.id" style="position:relative;top:0px;display:none" onclick="app.aggiornaImposatazioniAvanzate()">
         <label v-bind:for="'checkbox_'+ key" class="label" style="position:relative;top:0px;"> <img v-bind:src="'https://assets.epicsevendb.com/buff/' + key + '.png'" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">{{value.name}}</p></label>
       </span>
