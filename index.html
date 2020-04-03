@@ -2682,7 +2682,6 @@ function askNotificationPermission() {
               camperino.postMessage({HeroDB: this.HeroDB, myHeroesList: this.myHeroesList, campList: campList, locked: this.locked, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs, cartesianLock: this.cartesian_lock, risultati: []});
             } catch (err) {
               this.isLoadingResults = false; // remove angelica loading
-              console.log(err);
               $( "#snackbar" ).text(`Error: ` + err);
               var x = document.getElementById("snackbar");
               x.className = "show";
@@ -2711,7 +2710,13 @@ function askNotificationPermission() {
         var notification = new Notification(app.strings.notification_title, { body: app.strings.notification_ready, icon: "https://cdn.glitch.com/5c21c869-ea9a-48ba-b019-90cd493f45cd%2Fcamp-fire-icon%20small.png?v=1585067234171" }); // manda notifica di completamento
       };
     };
-    app.risultati = e.data;
+    if (e.data.code == 200 ) app.risultati = e.data.risultati
+    else if (e.data.code == 400 ) {
+      $( "#snackbar" ).text(`Error: ` + e.data.risultati);
+      var x = document.getElementById("snackbar");
+      x.className = "show";
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    };
   }  
 
   </script>
