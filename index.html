@@ -283,9 +283,9 @@ span.heroImgList {
 } 
 
 .box_advanced_settings {
-	background: var(--search-primary-color);
+  background: var(--search-primary-color);
   color: var(--font-color);
-	border-radius: 15px;
+  border-radius: 15px;
 }
 
   
@@ -2711,6 +2711,16 @@ function askNotificationPermission() {
     }
   },
   mounted () {
+    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+    if (currentTheme) {
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        if (currentTheme === 'dark') {
+            var checkBoxes = $("input[name=darkModeCheck]");
+            checkBoxes.attr('checked', true);
+        }
+    }
 	  this.boot();
   }
 });
