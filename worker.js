@@ -117,6 +117,8 @@ onmessage = function(e) {
                             if ( (e.cartesianLock.length + e.locked.length) > 3 ) campList = ["Ras"]; // placeholder Ras if all heroes are used in multilock or lock-> avoid RangeError
                             if ((e.cartesianLock.length + e.locked.length) < 4 && campList.length == 0) { // can't calculate not enough heroes to fill remaining slots
                                 console.log("Not enough heroes")
+                            } else if ((e.cartesianLock.length + e.locked.length) > 4) {
+                                console.log("Team size exceeded")
                             } else { // can calculate 
                                 c = printCombos(e.cartesianLock);
                                 c.forEach( (cartesianLocked) => {
