@@ -2683,6 +2683,10 @@ function askNotificationPermission() {
             } catch (err) {
               this.isLoadingResults = false; // remove angelica loading
               console.log(err);
+              $( "#snackbar" ).text(`Error: ` + err);
+              var x = document.getElementById("snackbar");
+              x.className = "show";
+              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
             };
           };
       }
