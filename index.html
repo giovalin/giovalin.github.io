@@ -1147,6 +1147,18 @@ span.heroImgList {
           </td>
         </tr>
         <tr>
+          <td>
+            <div style="max-height:55px">
+              <span>
+                Backend
+              </span>
+              <span id="backendswitchposition" style="font-size:20px;float: right;padding:10px;position:relative;top:0px;right:60px;">
+                <!--backend switch-->
+              </span>
+            </div>
+          </td>
+        </tr>
+        <tr>
           <td v-on:click="modalGenerateURL()">
             <div style="max-height:55px">
               <span>
@@ -1366,8 +1378,8 @@ function askNotificationPermission() {
       return {
         x: posx,
         y: posy
-      }
-    }
+      };
+    };
 
 if (document.addEventListener) {
   var tastoDestro = 0;
@@ -1430,25 +1442,56 @@ if (document.addEventListener) {
     window.event.returnValue = false;
   });
 };
+function mandaNotificaCompletamento(){
+  if (riceviNotifiche == true) {
+    if (document.visibilityState != 'visible') {
+      var notification = new Notification(app.strings.notification_title, { body: app.strings.notification_ready, icon: "https://cdn.glitch.com/5c21c869-ea9a-48ba-b019-90cd493f45cd%2Fcamp-fire-icon%20small.png?v=1585067234171" }); // manda notifica di completamento
+    };
+  };
+};
 
-  function backendCalculation(camp) {
-    //var xhttp = new XMLHttpRequest();
-    //xhttp.open("POST", "https://ceciliabotgithub.glitch.me/backend_calculation", true);
-    //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    //xhttp.send(JSON.stringify(data));
+function snackbarMessage(text) {
+  $( "#snackbar" ).text(text);
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+};
+
+function canUseBackend() {
+  try {
+    $.ajax({
+          url: "https://ceciliabotgithub.glitch.me/",
+          type: 'GET',
+          contentType: 'application/json',
+          success: function (response) {
+            app.backend = true;
+            $( "#backendswitchposition" ).append(`
+                  <label class="switch" style="position:absolute;">
+                    <input type="checkbox" id="backend_calculation_toggle" name="backend_calculation_toggle">
+                    <i class="slider round"></i>
+                  </label>
+            `);
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            //app.backend = false;
+            $( "#backendswitchposition" ).append(`Not supported`);
+          }
+    });
+  } catch (err) {
+    //app.backend = false;
+    $( "#backendswitchposition" ).append(`Not supported`);
+  };
+};
+
+function backendCalculation(camp) {
     $.ajax({
         url: "https://ceciliabotgithub.glitch.me/backend_calculation",
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify( camp ),
         success: function (response) {
-          console.log(response)
           app.isLoadingResults = false; // disattiva angelica
-          if (riceviNotifiche == true) {
-            if (document.visibilityState != 'visible') {
-              var notification = new Notification(app.strings.notification_title, { body: app.strings.notification_ready, icon: "https://cdn.glitch.com/5c21c869-ea9a-48ba-b019-90cd493f45cd%2Fcamp-fire-icon%20small.png?v=1585067234171" }); // manda notifica di completamento
-            };
-          };
+          mandaNotificaCompletamento();
           app.risultati = response;
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -1457,7 +1500,6 @@ if (document.addEventListener) {
         }
     });
   };
-
 
   function generateUrl(roster) {
     var baseURL = window.location.origin;
@@ -1547,6 +1589,7 @@ if (document.addEventListener) {
 	            isLoadingResults: false,
               inizializzazione: true, //nascondi tutto durante il caricamento iniziale di vue
               numeroCombinazioniPossibili: "/",
+              backend: false, // Can use backend?
               lingua: "en", // Just a placeholder during boot, language is set at line 1701 and 1705
               translatedName:{}
             };
@@ -1735,10 +1778,7 @@ if (document.addEventListener) {
                 localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
                 this.displaySavedCamps = Object.keys(this.savedCamps); // aggionra la lista da visulizzare
 
-                $( "#snackbar" ).text(campName + ` ` + this.strings.saved_message);
-                var x = document.getElementById("snackbar");
-                x.className = "show";
-                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                snackbarMessage(campName + ` ` + this.strings.saved_message)
               } else {
                 $("#campSavingError").text(this.strings.error_name_in_use);
               };
@@ -1757,10 +1797,7 @@ if (document.addEventListener) {
                 $('body').removeClass('modal-open');
                 localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
                 this.displaySavedCamps = Object.keys(this.savedCamps); // aggionra la lista da visulizzare
-                $( "#snackbar" ).text(campName + ` ` + this.strings.deleted_message);
-                var x = document.getElementById("snackbar");
-                x.className = "show";
-                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                snackbarMessage(campName + ` ` + this.strings.deleted_message);
             } catch (err) {
               console.log("Error while removing camp")
             };
@@ -3264,6 +3301,7 @@ if (document.addEventListener) {
         };
       },
       boot: function () {
+        canUseBackend();
         var urlParams = new URLSearchParams(window.location.search);
         var getDbEng = new XMLHttpRequest();
         getDbEng.open( "GET", "./HeroDatabase.json", false ); // false for synchronous request
@@ -3278,7 +3316,7 @@ if (document.addEventListener) {
         }; 
         this.impostaLingua();
         this.inizializzaione();
-        this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes')
+        this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
         this.inizializzazione = false;
       },
       inizializzaione: function () {
@@ -3316,8 +3354,8 @@ if (document.addEventListener) {
                 };
             };
             try {
-              var backend=true;
-              if (backend===true) {
+              if (this.backend===true && document.getElementById("backend_calculation_toggle").checked === true ) {
+                snackbarMessage("using backend");
                 backendCalculation({campList: Object.keys(this.myHeroesList), locked: this.locked, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs, cartesianLock: this.cartesian_lock, preferenzeRisultati: this.customizedResuts, risultati: []});
               } else {
                 this.numeroCombinazioniPossibili = Combinatorics.bigCombination(campList,4-this.locked.length).length;
@@ -3325,10 +3363,7 @@ if (document.addEventListener) {
               }
             } catch (err) {
               this.isLoadingResults = false; // remove angelica loading
-              $( "#snackbar" ).text(`Error: ` + err);
-              var x = document.getElementById("snackbar");
-              x.className = "show";
-              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+              snackbarMessage(`Error: ` + err);
             };
           };
       }
@@ -3355,10 +3390,7 @@ if (document.addEventListener) {
     };
     if (e.data.code == 200 ) app.risultati = e.data.risultati
     else if (e.data.code == 400 ) {
-      $( "#snackbar" ).text(app.strings["results_error"] + `: ` + app.strings[e.data.risultati[0]] );
-      var x = document.getElementById("snackbar");
-      x.className = "show";
-      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000); // show for 3 seconds
+      snackbarMessage(app.strings["results_error"] + `: ` + app.strings[e.data.risultati[0]]);
     };
   }  
 
