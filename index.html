@@ -1991,7 +1991,7 @@ function backendCalculation(camp) {
                 $('body').removeClass('modal-open');
                 localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
                 this.displaySavedCamps = Object.keys(this.savedCamps); // aggionra la lista da visulizzare
-                sendTeamUsageStatistics({function: "add", data: [this.risultati[n]}]); // send team comp to server for stats
+                sendTeamUsageStatistics({function: "add", data: [this.risultati[n]]}); // send team comp to server for stats
                 snackbarMessage(campName + ` ` + this.strings.saved_message)
               } else {
                 $("#campSavingError").text(this.strings.error_name_in_use);
@@ -2006,7 +2006,7 @@ function backendCalculation(camp) {
           eliminaRisultatoSalvato: function (campName) {
             try {
                 campName = campName.replace(/@_#3#9#;/g,"'").replace(/@_#3#4#;/g,'"').replace(/@_#9#6#;/g,'`'); // avoid errors during deletion
-                sendTeamUsageStatistics({function: "remove", data: [this.savedCamps[campName]}]); // send team comp to server for stats
+                sendTeamUsageStatistics({function: "remove", data: [this.savedCamps[campName]]}); // send team comp to server for stats
                 delete this.savedCamps[campName];
                 $('#savedCamp').remove();
                 $('body').removeClass('modal-open');
