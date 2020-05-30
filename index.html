@@ -700,6 +700,12 @@ span.heroImgList {
   border-color: rgb(221, 51, 8);
 }
 
+.histogram_bar {
+  border-radius: 25px;
+  height: 40px;
+  border-color: rgb(14, 175, 227);
+}
+
 </style>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script defer src="https://www.googletagmanager.com/gtag/js?id=UA-161715700-1"></script>
@@ -3537,7 +3543,7 @@ function backendCalculation(camp) {
                   `<td><img src="https://assets.epicsevendb.com/_source/face/` + self.HeroDB[response.data[i].team[1]].id + `_s.png" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + self.HeroDB[response.data[i].team[1]].id + `_s.png';" style="height:55px;width:55px;"></td>` +
                   `<td><img src="https://assets.epicsevendb.com/_source/face/` + self.HeroDB[response.data[i].team[2]].id + `_s.png" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + self.HeroDB[response.data[i].team[2]].id + `_s.png';" style="height:55px;width:55px;"></td>` +
                   `<td><img src="https://assets.epicsevendb.com/_source/face/` + self.HeroDB[response.data[i].team[3]].id + `_s.png" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + self.HeroDB[response.data[i].team[3]].id + `_s.png';" style="height:55px;width:55px;"></td>` +
-                  "<td style='width:50vw'> <div style='height: 50px; width:" + response.data[i].usi/response.totale*100 + "%; background-color: lightblue;'></div></td><td style='text-align: center;'><p>" +  Math.round(( (response.data[i].usi/response.totale*100)+ Number.EPSILON) * 100) / 100 + "%</p>" + "<p>" + response.data[i].usi + " times</p></td></tr>";
+                  "<td style='width:50vw'> <div class='histogram_bar' style='width:" + response.data[i].usi/response.totale*100 + "%;'></div></td><td style='text-align: center;'><p>" +  Math.round(( (response.data[i].usi/response.totale*100)+ Number.EPSILON) * 100) / 100 + "%</p>" + "<p>" + response.data[i].usi + " times</p></td></tr>";
               };
               $( "#saved_teams_stats").append(`<table>` + toPrint + `</table><br><br><br><br>`);
             },
