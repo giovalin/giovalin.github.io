@@ -117,7 +117,7 @@ span.psw {
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 3; /* toolbar's z-index = 3 */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -1833,7 +1833,7 @@ function backendCalculation(camp) {
           },
           menuLingua: function () {
             $( "#settings_window" ).append(`
-              <div id="menu_lingua" style="z-index: 3;">
+              <div id="menu_lingua">
                 <div class="modal" style="padding-top: 60px;display:block;">
                   <form class="modal-content animate" id="menu_lingua" style="background-color: var(--search-primary-color);color: var(--font-color);max-width:1080px">
                     <div class="imgcontainer">
