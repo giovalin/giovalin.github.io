@@ -6,4 +6,6 @@ To keep a smooth experience for the user HeroDatabase.json is automatically upda
 HeroDatabase.json is loaded during website startup with a get request: "https://ceciliabot.github.io/HeroDatabase.json"
 
 # Todo:
-1. Show to the user camp values for each hero
+1. Remove teams that include both SC characters and their non SC version;
+2. Better calculation speed for huge teams;
+3. Collect info of saved teams and display them as "Most popular teams";
