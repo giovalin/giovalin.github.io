@@ -1203,19 +1203,19 @@ span.heroImgList {
         <div class="extra_icon box_advanced_settings" onclick="setWindow('my_teams_window')">
           <span>
             <i class="fa fa-floppy-o" aria-hidden="true" style="font-size:90px;"></i><br><br>
-            My teams
+            {{strings.my_teams}}
           </span>
         </div>
         <div class="extra_icon box_advanced_settings" onclick="setWindow('raid_map')">
           <span>
             <i class="fa fa-map" aria-hidden="true" style="font-size:90px;"></i><br><br>
-            Hell raid best route
+            {{strings.extras_map}}
           </span>
         </div>
         <div class="extra_icon box_advanced_settings" onclick="setWindow('saved_teams_stats');app.getSavedTeamsStats;">
           <span>
             <i class="fa fa-bar-chart" aria-hidden="true" style="font-size:90px;"></i><br><br>
-            Most saved teams
+            {{strings.most_saved_teams}}
           </span>
         </div>
       </div>
@@ -1265,18 +1265,6 @@ span.heroImgList {
                   <i class="slider round"></i>
                 </label>
               </i>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div style="max-height:55px">
-              <span>
-                Backend
-              </span>
-              <span id="backendswitchposition" style="font-size:20px;float: right;padding:10px;position:relative;top:0px;right:60px;">
-                <!--backend switch-->
-              </span>
             </div>
           </td>
         </tr>
@@ -1658,32 +1646,6 @@ function snackbarMessage(text) {
   setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 };
 
-function canUseBackend() {
-  try {
-    $.ajax({
-          url: "https://ceciliabotgithub.glitch.me/",
-          type: 'GET',
-          contentType: 'application/json',
-          success: function (response) {
-            app.backend = true;
-            $( "#backendswitchposition" ).append(`
-                  <label class="switch" style="position:absolute;">
-                    <input type="checkbox" id="backend_calculation_toggle" name="backend_calculation_toggle">
-                    <i class="slider round"></i>
-                  </label>
-            `);
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-            //app.backend = false;
-            $( "#backendswitchposition" ).append(`Not supported`);
-          }
-    });
-  } catch (err) {
-    //app.backend = false;
-    $( "#backendswitchposition" ).append(`Not supported`);
-  };
-};
-
 function backendCalculation(camp) {
     $.ajax({
         url: "https://ceciliabotgithub.glitch.me/backend_calculation",
@@ -1803,7 +1765,6 @@ function backendCalculation(camp) {
 	            isLoadingResults: false,
               inizializzazione: true, //nascondi tutto durante il caricamento iniziale di vue
               numeroCombinazioniPossibili: "/",
-              backend: false, // Can use backend?
               lingua: "en", // Just a placeholder during boot, language is set at line 1701 and 1705
               translatedName:{}
             };
@@ -2434,13 +2395,16 @@ function backendCalculation(camp) {
                   deleted_message: "eliminato!",
 
                   impostazioni: "Impostazioni",
+                  my_teams: "Le mie squadre",
+                  most_saved_teams: "Squadre più popolari",
+                  extras_map: "Miglior percorso",
                   tema_notturno: "Tema notturno",
                   notifiche: "Notifiche",
                   debug_camping_values: "Debug: Mostra i valori delle opzioni",
                   genera_url: "Genera URL",
                   url_usage_help: "Copia e incolla questo URL nel browser o dispositivo desiderato per generare una copia dei tuoi eroi attuali.",
                   copia: "Copia",
-                  language: "Lingua"                  
+                  language: "Lingua"
                 };
               } else if (this.lingua == "zht") {
                 this.strings = {
@@ -2506,6 +2470,10 @@ function backendCalculation(camp) {
                   deleted_message: "删除成功!",
 
                   impostazioni: "设置",
+                  my_teams: "My teams",
+                  most_saved_teams: "Most common teams",
+                  extras_map: "Best hell raid route",
+                  
                   tema_notturno: "夜间模式",
                   notifiche: "启用通知",
                   debug_camping_values: "调试: 显示所有对话心情值",
@@ -2567,6 +2535,10 @@ function backendCalculation(camp) {
                   deleted_message: "Supprimée!",
 
                   impostazioni: "Paramètres",
+                  my_teams: "My teams",
+                  most_saved_teams: "Most common teams",
+                  extras_map: "Best hell raid route",
+
                   tema_notturno: "Mode nuit",
                   notifiche: "Notification",
                   debug_camping_values: "Debug: Afficher tous les valeurs de conversation",
@@ -2640,6 +2612,10 @@ function backendCalculation(camp) {
                   deleted_message: "deleted!",
 
                   impostazioni: "Settings",
+                  my_teams: "My teams",
+                  most_saved_teams: "Most common teams",
+                  extras_map: "Best hell raid route",
+
                   tema_notturno: "Night theme",
                   notifiche: "Enable notifications",
                   debug_camping_values: "Debug: Display camping values",
@@ -3517,7 +3493,6 @@ function backendCalculation(camp) {
         };
       },
       boot: function () {
-        canUseBackend();
         var urlParams = new URLSearchParams(window.location.search);
         var getDbEng = new XMLHttpRequest();
         getDbEng.open( "GET", "./HeroDatabase.json", false ); // false for synchronous request
@@ -3594,7 +3569,8 @@ function backendCalculation(camp) {
                 };
             };
             try {
-              if (this.backend===true && document.getElementById("backend_calculation_toggle").checked === true ) {
+              var backendDev = true;
+              if (backendDev && document.getElementById("showValues_toggle").checked === true ) {
                 snackbarMessage("using backend");
                 backendCalculation({campList: Object.keys(this.myHeroesList), locked: this.locked, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs, cartesianLock: this.cartesian_lock, preferenzeRisultati: this.customizedResuts, risultati: []});
               } else {
