@@ -1958,7 +1958,7 @@ function backendCalculation(camp) {
                     <form id="save_camp_details">
                       <label for="camp_name"><b>` + this.strings.camp_name_field + `</b></label>
                       <input type="text" placeholder="` + this.strings.camp_name_placeholder + `" name="camp_name" id="camp_name" required="">
-                      <div>
+                      <div style="text-align: center;">
                         <input type="checkbox" id="checkbox_normal" name="raid_difficulty">
                         <label for="checkbox_normal">Normal</label>
                         <input type="checkbox" id="checkbox_hell" name="raid_difficulty">
@@ -1991,12 +1991,30 @@ function backendCalculation(camp) {
             var campName = $('#camp_name', $form).val().replace(/  +/g,"").trim();
             if (campName && campName != "" && campName.indexOf("@_#") == -1) {
               if (!this.savedCamps[campName]) {
-                this.savedCamps[campName] = this.risultati[n];
+                var normal = false;
+                var hell = false;
+                var queen = false;
+                var karkanis = false;
+                var juleeve = false;
+                var vera = false;
+                var arakahan = false;
+                var modale = document.getElementById("saveCamp");
+                if (modale.getElementById("checkbox_normal").checked ) normal = true;
+                if (modale.getElementById("checkbox_hell").checked ) hell = true;
+                if (modale.getElementById("checkbox_queen").checked ) queen = true;
+                if (modale.getElementById("checkbox_karkanis").checked ) karkanis = true;
+                if (modale.getElementById("checkbox_juleeve").checked ) juleeve = true;
+                if (modale.getElementById("checkbox_vera").checked ) vera = true;
+                if (modale.getElementById("checkbox_arakahan").checked ) arakahan = true;
+                var save = this.risultati.slice(n,n)
+                
+                this.savedCamps[campName] = save;
+                var sendData = {morale: this.risultati[n].morale, team: this.risultati[n].team,  normal: normal, hell: hell, queen: queen, karkanis: karkanis, juleeve: juleeve, vera: vera, arakahan: arakahan};
                 $('#saveCamp').remove();
                 $('body').removeClass('modal-open');
                 localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
                 this.displaySavedCamps = Object.keys(this.savedCamps); // aggionra la lista da visulizzare
-                sendTeamUsageStatistics({function: "add", data: [this.risultati[n]]}); // send team comp to server for stats
+                sendTeamUsageStatistics({function: "add", data: [sendData]}); // send team comp to server for stats
                 snackbarMessage(campName + ` ` + this.strings.saved_message)
               } else {
                 $("#campSavingError").text(this.strings.error_name_in_use);
