@@ -3547,7 +3547,7 @@ function backendCalculation(camp) {
             success: function (response) {
               var toPrint = "";
               for (var i = 0; i < response.data.length; i++) {
-                toPrint += "<tr>" +  
+                toPrint += "<tr style='padding-top: 10px; padding: bottom:10px'>" +  
                   `<td><img src="https://assets.epicsevendb.com/_source/face/` + self.HeroDB[response.data[i].team[0]].id + `_s.png" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + self.HeroDB[response.data[i].team[0]].id + `_s.png';" style="height:55px;width:55px;"></td>` +
                   `<td><img src="https://assets.epicsevendb.com/_source/face/` + self.HeroDB[response.data[i].team[1]].id + `_s.png" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + self.HeroDB[response.data[i].team[1]].id + `_s.png';" style="height:55px;width:55px;"></td>` +
                   `<td><img src="https://assets.epicsevendb.com/_source/face/` + self.HeroDB[response.data[i].team[2]].id + `_s.png" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + self.HeroDB[response.data[i].team[2]].id + `_s.png';" style="height:55px;width:55px;"></td>` +
