@@ -2005,17 +2005,18 @@ function backendCalculation(camp) {
                 var vera = false;
                 var arakahan = false;
                 //var modale = document.getElementById("saveCamp");
-                //if (document.getElementById("checkbox_normal").checked === true ) normal = true;
-                //if (document.getElementById("checkbox_hell").checked === true ) hell = true;
-                //if (document.getElementById("checkbox_queen").checked === true) queen = true;
-                //if (document.getElementById("checkbox_karkanis").checked === true ) karkanis = true;
-                //if (document.getElementById("checkbox_juleeve").checked === true ) juleeve = true;
-                //if (document.getElementById("checkbox_vera").checked === true ) vera = true;
-                //if (document.getElementById("checkbox_arakahan").checked === true ) arakahan = true;
+                if (document.getElementById("checkbox_normal").checked === true ) normal = true;
+                if (document.getElementById("checkbox_hell").checked === true ) hell = true;
+                if (document.getElementById("checkbox_queen").checked === true) queen = true;
+                if (document.getElementById("checkbox_karkanis").checked === true ) karkanis = true;
+                if (document.getElementById("checkbox_juleeve").checked === true ) juleeve = true;
+                if (document.getElementById("checkbox_vera").checked === true ) vera = true;
+                if (document.getElementById("checkbox_arakahan").checked === true ) arakahan = true;
                 //var save = this.risultati.slice(n,n)
                 
                 this.savedCamps[campName] = this.risultati[n];
                 var sendData = {morale: this.risultati[n].morale, team: this.risultati[n].team,  normal: normal, hell: hell, queen: queen, karkanis: karkanis, juleeve: juleeve, vera: vera, arakahan: arakahan};
+                console.log(sendData);
                 $('#saveCamp').remove();
                 $('body').removeClass('modal-open');
                 localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
