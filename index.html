@@ -1958,10 +1958,18 @@ function backendCalculation(camp) {
                     <form id="save_camp_details">
                       <label for="camp_name"><b>` + this.strings.camp_name_field + `</b></label>
                       <input type="text" placeholder="` + this.strings.camp_name_placeholder + `" name="camp_name" id="camp_name" required="">
-
-                      <input type="checkbox" id="'checkbox_queen" name="raid_boss" style="position:relative;top:0px;display:none">
-                      <label for="'checkbox_queen" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FQueen-Azumashik-284x300.png?v=1590932065337" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">Queen</p></label>
-
+                      <div style="text-align: center;">
+                        <input type="checkbox" id="'checkbox_queen" name="raid_boss" style="position:relative;top:0px;display:none">
+                        <label for="'checkbox_queen" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FQueen-Azumashik-284x300.png?v=1590932065337" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">Queen</p></label>
+                        <input type="checkbox" id="'checkbox_karkanis" name="raid_boss" style="position:relative;top:0px;display:none">
+                        <label for="'checkbox_karkanis" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FKarkanis-284x300.png?v=1590932065109" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">Karkanis</p></label>
+                        <input type="checkbox" id="'checkbox_juleeve" name="raid_boss" style="position:relative;top:0px;display:none">
+                        <label for="'checkbox_juleeve" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FJuleeve-284x300.png?v=1590932065054" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">Juleeve</p></label>
+                        <input type="checkbox" id="'checkbox_vera" name="raid_boss" style="position:relative;top:0px;display:none">
+                        <label for="'checkbox_vera" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FSecretary-Vera-284x300.png?v=1590932064989" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">Vera</p></label>
+                        <input type="checkbox" id="'checkbox_arakahan" name="raid_boss" style="position:relative;top:0px;display:none">
+                        <label for="'checkbox_arakahan" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FSecretary-Vera-284x300.png?v=1590932064989" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">Arakahan</p></label>
+                      </div>
                       <button type=submit onclick="return app.salvaRisultato(` + n + `)" class="button_login">` + this.strings.save + `</button>
                       <button type=button onclick="$('#saveCamp').remove(); $('body').removeClass('modal-open')" class="button_cancelbtn">` + this.strings.canc_btn + `</button>
                     </form>
