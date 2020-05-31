@@ -1337,7 +1337,7 @@ span.heroImgList {
     <div id="saved_teams_stats" class="center" style="display: none;">
       <h2>{{strings.most_saved_teams}}
         <div style="float: right;">
-          <button id="refreshStats" class="search_hero_filter" style="width: 70px" onclick="app.getSavedTeamsStats;">
+          <button id="refreshStats" class="search_hero_filter" style="width: 70px" v-on:click="this.getSavedTeamsStats;">
             Refresh stats
           </button>
         </div>
@@ -2095,11 +2095,11 @@ function backendCalculation(camp) {
             `);
             $("body").addClass("modal-open");
           },
-          getSavedTeamsStats: function() { 
+          getSavedTeamsStats: function() {
+            self = this;
             var refreshButton = document.getElementById("refreshStats");
             refreshButton.style.display = "none";
             if (document.getElementById("stats_table")) $("#stats_table").remove();
-            self = this;
             $.ajax({
               url: "https://ceciliabotgithub.glitch.me/team_statistics",
               type: 'GET',
