@@ -3473,6 +3473,21 @@ function backendCalculation(camp) {
             return n;
           };
       },
+      sendAllTeams: function() {
+        var uploaded = localStorage.getItem('UploadedTeams') ? localStorage.getItem('Heroes') : 'false';
+        if (!uploaded) {
+          var campObj = JSON.parse(localStorage.getItem('savedCamps') ? localStorage.getItem('savedCamps') : "{}");
+          var camp = Object.values(campObj);
+          if (camp.length > 0 ) {
+            var data = [];
+            for (var i = 0; i < camp.length; i++) {
+              data.push(camp[i]);
+            };
+            sendTeamUsageStatistics({function: "add", data: data}); // send teams created before team stats were a thing
+          };
+          localStorage.setItem("UploadedTeams","true"); // se to true so this function is performed only once
+        };
+      },
       getUserHeroesBoot: function () { // read user's local storage team
         var tmp = localStorage.getItem('Heroes') ? localStorage.getItem('Heroes') : '{}';
         tmp = JSON.parse(tmp);
@@ -3522,7 +3537,8 @@ function backendCalculation(camp) {
         } else {// get roster from url
           this.getUserHeroesURL(urlParams.get("camproster"));
           window.history.pushState("", "", window.location.pathname); // remove ?camproster= from the URL to avoid accidental refreshes replacing your current team
-        }; 
+        };
+        this.sendAllTeams();
         this.impostaLingua();
         this.inizializzaione();
         this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
