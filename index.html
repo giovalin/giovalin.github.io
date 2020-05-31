@@ -1241,7 +1241,6 @@ span.heroImgList {
             <i class="fa fa-bar-chart" aria-hidden="true" style="font-size:90px;"></i><br><br>
             {{strings.most_saved_teams}}
           </span>
-          <span id="refreshStats" style="display: none; background-color: palegreen;" onclick="app.getSavedTeamsStats;">Refresh stats</span>
         </div>
       </div>
     </div>
@@ -1337,6 +1336,7 @@ span.heroImgList {
     </div>
     <div id="saved_teams_stats" class="center" style="display: none;">
       <h2>{{strings.most_saved_teams}}</h2>
+      <span id="refreshStats" style="display: none; background-color: palegreen;" onclick="app.getSavedTeamsStats;">Refresh stats</span>
     </div>
 
 
@@ -2089,6 +2089,40 @@ function backendCalculation(camp) {
               </div>
             `);
             $("body").addClass("modal-open");
+          },
+          getSavedTeamsStats: function() { 
+            var refreshButton = document.getElementById("refreshStats");
+            refreshButton.style.display = "none";
+            if (document.getElementById("stats_table") != null) $("#stats_table").remove();
+            self = this;
+            $.ajax({
+              url: "https://ceciliabotgithub.glitch.me/team_statistics",
+              type: 'GET',
+              contentType: 'application/json',
+              success: function (response) {
+                var toPrint = "";
+                if (response.data.length>0) {
+                  for (var i = 0; i < response.data.length; i++) {
+                    toPrint += "<tr>" +  
+                      `<td style='padding-top: 15px; padding-bottom:10px'><img src="https://assets.epicsevendb.com/_source/face/` + self.HeroDB[response.data[i].team[0]].id + `_s.png" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + self.HeroDB[response.data[i].team[0]].id + `_s.png';" style="height:55px;width:55px;"></td>` +
+                      `<td style='padding-top: 15px; padding-bottom:10px'><img src="https://assets.epicsevendb.com/_source/face/` + self.HeroDB[response.data[i].team[1]].id + `_s.png" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + self.HeroDB[response.data[i].team[1]].id + `_s.png';" style="height:55px;width:55px;"></td>` +
+                      `<td style='padding-top: 15px; padding-bottom:10px'><img src="https://assets.epicsevendb.com/_source/face/` + self.HeroDB[response.data[i].team[2]].id + `_s.png" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + self.HeroDB[response.data[i].team[2]].id + `_s.png';" style="height:55px;width:55px;"></td>` +
+                      `<td style='padding-top: 15px; padding-bottom:10px'><img src="https://assets.epicsevendb.com/_source/face/` + self.HeroDB[response.data[i].team[3]].id + `_s.png" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + self.HeroDB[response.data[i].team[3]].id + `_s.png';" style="height:55px;width:55px;"></td>` +
+                      "<td style='width:50vw; padding-top: 15px; padding-bottom:10px'> <div class='histogram_bar' style='width:" + response.data[i].usi/response.totale*100 + "%;'><span>" + Math.round(( (response.data[i].usi/response.totale*100)+ Number.EPSILON) * 100) / 100 + " %</span></div></td>" +
+                      "<td style='text-align: center; padding-top: 15px; padding-bottom:10px'>" + response.data[i].usi + " times</td></tr>";
+                  };
+                } else {
+                  toPrint = "<td>No data</td>"
+                };
+                refreshButton.style.display = "";
+                $( "#saved_teams_stats").append(`<table id="stats_table">` + toPrint + `</table><br><br><br><br>`);
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                refreshButton.style.display = "";
+                $( "#saved_teams_stats").append(`<table id="stats_table"><td style="text-align: center;">Error while retirving data.<br> Please retry.</td></table><br><br><br><br>`);
+                snackbarMessage(`failed to retrive data`);
+              }
+            });
           },
           helpWindow: function (sezione, argomento) {
             var titolo, contenuto;
@@ -3603,38 +3637,7 @@ function backendCalculation(camp) {
     },
     computed: {
         computedGetSavedTeamsStats: function () {
-          var refreshButton = document.getElementById("refreshStats");
-          refreshButton.style.display = "none";
-          if (document.getElementById("stats_table") != null) $("#stats_table").remove();
-          self = this;
-          $.ajax({
-            url: "https://ceciliabotgithub.glitch.me/team_statistics",
-            type: 'GET',
-            contentType: 'application/json',
-            success: function (response) {
-              var toPrint = "";
-              if (response.data.length>0) {
-                for (var i = 0; i < response.data.length; i++) {
-                  toPrint += "<tr>" +  
-                    `<td style='padding-top: 15px; padding-bottom:10px'><img src="https://assets.epicsevendb.com/_source/face/` + self.HeroDB[response.data[i].team[0]].id + `_s.png" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + self.HeroDB[response.data[i].team[0]].id + `_s.png';" style="height:55px;width:55px;"></td>` +
-                    `<td style='padding-top: 15px; padding-bottom:10px'><img src="https://assets.epicsevendb.com/_source/face/` + self.HeroDB[response.data[i].team[1]].id + `_s.png" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + self.HeroDB[response.data[i].team[1]].id + `_s.png';" style="height:55px;width:55px;"></td>` +
-                    `<td style='padding-top: 15px; padding-bottom:10px'><img src="https://assets.epicsevendb.com/_source/face/` + self.HeroDB[response.data[i].team[2]].id + `_s.png" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + self.HeroDB[response.data[i].team[2]].id + `_s.png';" style="height:55px;width:55px;"></td>` +
-                    `<td style='padding-top: 15px; padding-bottom:10px'><img src="https://assets.epicsevendb.com/_source/face/` + self.HeroDB[response.data[i].team[3]].id + `_s.png" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F` + self.HeroDB[response.data[i].team[3]].id + `_s.png';" style="height:55px;width:55px;"></td>` +
-                    "<td style='width:50vw; padding-top: 15px; padding-bottom:10px'> <div class='histogram_bar' style='width:" + response.data[i].usi/response.totale*100 + "%;'><span>" + Math.round(( (response.data[i].usi/response.totale*100)+ Number.EPSILON) * 100) / 100 + " %</span></div></td>" +
-                    "<td style='text-align: center; padding-top: 15px; padding-bottom:10px'>" + response.data[i].usi + " times</td></tr>";
-                };
-              } else {
-                toPrint = "<td>No data</td>"
-              };
-              refreshButton.style.display = "";
-              $( "#saved_teams_stats").append(`<table id="stats_table">` + toPrint + `</table><br><br><br><br>`);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-              refreshButton.style.display = "";
-              $( "#saved_teams_stats").append(`<table id="stats_table"><td style="text-align: center;">Error while retirving data.<br> Please retry.</td></table><br><br><br><br>`);
-              snackbarMessage(`failed to retrive data`);
-            }
-          });
+          this.getSavedTeamsStats();
         },
         calcolaRisultati: function () { // in computed per evitare di calcolare 2 volte il risultato se non si è cambiato niente
             //resetta per un nuovo calcolo
