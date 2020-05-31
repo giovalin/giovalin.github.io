@@ -3474,11 +3474,12 @@ function backendCalculation(camp) {
           };
       },
       sendAllTeams: function() {
-        var uploaded = localStorage.getItem('UploadedTeams') ? localStorage.getItem('Heroes') : 'false';
+        var uploaded = localStorage.getItem('UploadedTeams') ? localStorage.getItem('Heroes') : false;
         if (!uploaded) {
           var campObj = JSON.parse(localStorage.getItem('savedCamps') ? localStorage.getItem('savedCamps') : "{}");
           var camp = Object.values(campObj);
           if (camp.length > 0 ) {
+            console.log("sending old camping teams data");
             var data = [];
             for (var i = 0; i < camp.length; i++) {
               data.push(camp[i]);
