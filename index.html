@@ -2004,14 +2004,14 @@ function backendCalculation(camp) {
                 var juleeve = false;
                 var vera = false;
                 var arakahan = false;
-                var modale = document.getElementById("saveCamp");
-                if (document.getElementById("checkbox_normal").checked === true ) normal = true;
-                if (document.getElementById("checkbox_hell").checked === true ) hell = true;
-                if (document.getElementById("checkbox_queen").checked === true) queen = true;
-                if (document.getElementById("checkbox_karkanis").checked === true ) karkanis = true;
-                if (document.getElementById("checkbox_juleeve").checked === true ) juleeve = true;
-                if (document.getElementById("checkbox_vera").checked === true ) vera = true;
-                if (document.getElementById("checkbox_arakahan").checked === true ) arakahan = true;
+                //var modale = document.getElementById("saveCamp");
+                //if (document.getElementById("checkbox_normal").checked === true ) normal = true;
+                //if (document.getElementById("checkbox_hell").checked === true ) hell = true;
+                //if (document.getElementById("checkbox_queen").checked === true) queen = true;
+                //if (document.getElementById("checkbox_karkanis").checked === true ) karkanis = true;
+                //if (document.getElementById("checkbox_juleeve").checked === true ) juleeve = true;
+                //if (document.getElementById("checkbox_vera").checked === true ) vera = true;
+                //if (document.getElementById("checkbox_arakahan").checked === true ) arakahan = true;
                 //var save = this.risultati.slice(n,n)
                 
                 this.savedCamps[campName] = this.risultati[n];
@@ -2096,7 +2096,6 @@ function backendCalculation(camp) {
             $("body").addClass("modal-open");
           },
           getSavedTeamsStats: function() { 
-            console.log("refreshing")
             var refreshButton = document.getElementById("refreshStats");
             refreshButton.style.display = "none";
             if (document.getElementById("stats_table")) $("#stats_table").remove();
