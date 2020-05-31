@@ -2004,6 +2004,7 @@ function backendCalculation(camp) {
                 var juleeve = false;
                 var vera = false;
                 var arakahan = false;
+                try {
                 //var modale = document.getElementById("saveCamp");
                 if (document.getElementById("checkbox_normal").checked === true ) normal = true;
                 if (document.getElementById("checkbox_hell").checked === true ) hell = true;
@@ -2013,10 +2014,13 @@ function backendCalculation(camp) {
                 if (document.getElementById("checkbox_vera").checked === true ) vera = true;
                 if (document.getElementById("checkbox_arakahan").checked === true ) arakahan = true;
                 //var save = this.risultati.slice(n,n)
-                
+                } catch (err) {
+                  console.log(err)
+                }; 
                 this.savedCamps[campName] = this.risultati[n];
                 var sendData = {morale: this.risultati[n].morale, team: this.risultati[n].team,  normal: normal, hell: hell, queen: queen, karkanis: karkanis, juleeve: juleeve, vera: vera, arakahan: arakahan};
                 console.log(sendData);
+
                 $('#saveCamp').remove();
                 $('body').removeClass('modal-open');
                 localStorage.setItem('savedCamps', JSON.stringify(this.savedCamps) );
