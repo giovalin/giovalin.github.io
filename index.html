@@ -929,7 +929,7 @@ span.heroImgList {
        <template v-if="displayStyle === 'grid'"> <!-- grid -->
         <table id="lista_hero_disponibili">
           <tr>
-            <td>
+            <td style="text-align: center;">
               <span v-for="key in displayList" class="heroImgList">
                 <!--<div class="fa fa-check-circle top-left" v-bind:style="'font-size:38px;color:green;display:' + isInTeam(thisHeroData(key).name)"></div>-->
                 <img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + thisHeroData(key).id + '_s.png'" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + app.thisHeroData(this.alt).id + '_s.png';" style="width:70px" v-on:click="addHero(thisHeroData(key)._id)" v-bind:alt="thisHeroData(key)._id" v-bind:titolo="thisHeroData(key).name"/>
@@ -1055,7 +1055,7 @@ span.heroImgList {
        <template v-if="displayStyle === 'grid'">  <!-- grid -->
         <table id="myHeroes">
           <tr>
-            <td>
+            <td style="text-align: center;">
               <span v-for="key in displayMyHeroes" class="heroImgList">
                 <img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + heroId(key) + '_s.png'" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + app.thisHeroData(this.alt).id + '_s.png';" style="width:70px" v-on:click="app.lockHero(thisHeroData(key)._id)" v-bind:alt="key" v-bind:titolo="key"/><span v-on:click="app.removeHero(thisHeroData(key)._id)" class="removeHero" v-bind:title="'Remove ' + thisHeroData(key).name">×</span>
 		            <div class="top-right" v-bind:style="'display:' + isLocked(thisHeroData(key)._id)"  v-on:click="app.lockHero(thisHeroData(key)._id)">&#128274;</div>
@@ -1691,7 +1691,7 @@ function backendCalculation(camp) {
 
   function sendTeamUsageStatistics(data) {
     $.ajax({
-        url: "https://ceciliabotgithub.glitch.me/team_statistics/",
+        url: "https://ceciliabotgithub.glitch.me/team_statistics",
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify( data ),
