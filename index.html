@@ -1335,8 +1335,13 @@ span.heroImgList {
       <br><br><br><br>
     </div>
     <div id="saved_teams_stats" class="center" style="display: none;">
-      <h2>{{strings.most_saved_teams}}</h2>
-      <button id="refreshStats" class="search_hero_filter" onclick="app.getSavedTeamsStats;">Refresh stats</button>
+      <h2>{{strings.most_saved_teams}}
+        <div style="float: right;">
+          <button id="refreshStats" class="search_hero_filter" onclick="app.getSavedTeamsStats;">
+            Refresh stats
+          </button>
+        </div>
+      </h2>
     </div>
 
 
