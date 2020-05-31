@@ -1998,17 +1998,10 @@ function backendCalculation(camp) {
                 var juleeve = false;
                 var vera = false;
                 var arakahan = false;
-                var modale = document.getElementById("saveCamp");
-                if (modale.getElementById("checkbox_normal").checked ) normal = true;
-                if (modale.getElementById("checkbox_hell").checked ) hell = true;
-                if (modale.getElementById("checkbox_queen").checked ) queen = true;
-                if (modale.getElementById("checkbox_karkanis").checked ) karkanis = true;
-                if (modale.getElementById("checkbox_juleeve").checked ) juleeve = true;
-                if (modale.getElementById("checkbox_vera").checked ) vera = true;
-                if (modale.getElementById("checkbox_arakahan").checked ) arakahan = true;
-                var save = this.risultati.slice(n,n)
+
+                //var save = this.risultati.slice(n,n)
                 
-                this.savedCamps[campName] = save;
+                this.savedCamps[campName] = this.risultati[n];
                 var sendData = {morale: this.risultati[n].morale, team: this.risultati[n].team,  normal: normal, hell: hell, queen: queen, karkanis: karkanis, juleeve: juleeve, vera: vera, arakahan: arakahan};
                 $('#saveCamp').remove();
                 $('body').removeClass('modal-open');
