@@ -3482,6 +3482,7 @@ function backendCalculation(camp) {
             console.log("sending old camping teams data");
             var data = [];
             for (var i = 0; i < camp.length; i++) {
+	      console.log(camp[i]);
               data.push(camp[i]);
             };
             sendTeamUsageStatistics({function: "add", data: data}); // send teams created before team stats were a thing
