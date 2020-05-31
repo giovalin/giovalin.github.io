@@ -2098,7 +2098,7 @@ function backendCalculation(camp) {
           getSavedTeamsStats: function() { 
             var refreshButton = document.getElementById("refreshStats");
             refreshButton.style.display = "none";
-            if (document.getElementById("stats_table") != null) $("#stats_table").remove();
+            if (document.getElementById("stats_table")) $("#stats_table").remove();
             self = this;
             $.ajax({
               url: "https://ceciliabotgithub.glitch.me/team_statistics",
