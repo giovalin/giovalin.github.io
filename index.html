@@ -1966,21 +1966,21 @@ function backendCalculation(camp) {
                       <input type="text" placeholder="` + this.strings.camp_name_placeholder + `" name="camp_name" id="camp_name" required="">
                       <div style="text-align: center;">
                         <input type="checkbox" id="checkbox_normal" name="raid_difficulty">
-                        <label for="checkbox_normal">Normal</label>
+                        <label for="checkbox_normal">`+ this.strings.normal + `</label>
                         <input type="checkbox" id="checkbox_hell" name="raid_difficulty">
-                        <label for="checkbox_hell">Hell</label>
+                        <label for="checkbox_hell">` + this.strings.hell +`</label>
                       </div>
                       <div style="text-align: center;">
                         <input type="checkbox" id="checkbox_queen" name="raid_boss" style="position:relative;top:0px;display:none">
-                        <label for="checkbox_queen" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FQueen-Azumashik-284x300.png?v=1590932065337" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">Queen</p></label>
+                        <label for="checkbox_queen" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FQueen-Azumashik-284x300.png?v=1590932065337" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">` + this.strings.queen + `</p></label>
                         <input type="checkbox" id="checkbox_karkanis" name="raid_boss" style="position:relative;top:0px;display:none">
-                        <label for="checkbox_karkanis" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FKarkanis-284x300.png?v=1590932065109" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">Karkanis</p></label>
+                        <label for="checkbox_karkanis" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FKarkanis-284x300.png?v=1590932065109" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">` + this.strings.karkanis + `</p></label>
                         <input type="checkbox" id="checkbox_juleeve" name="raid_boss" style="position:relative;top:0px;display:none">
-                        <label for="checkbox_juleeve" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FJuleeve-284x300.png?v=1590932065054" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">Juleeve</p></label>
+                        <label for="checkbox_juleeve" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FJuleeve-284x300.png?v=1590932065054" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">` + this.strings.juleeve + `</p></label>
                         <input type="checkbox" id="checkbox_vera" name="raid_boss" style="position:relative;top:0px;display:none">
-                        <label for="checkbox_vera" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FSecretary-Vera-284x300.png?v=1590932064989" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">Vera</p></label>
+                        <label for="checkbox_vera" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FSecretary-Vera-284x300.png?v=1590932064989" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">` + this.strings.vera + `</p></label>
                         <input type="checkbox" id="checkbox_arakahan" name="raid_boss" style="position:relative;top:0px;display:none">
-                        <label for="checkbox_arakahan" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FDevourer-Arakahan-284x300.png?v=1590932064956" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">Arakahan</p></label>
+                        <label for="checkbox_arakahan" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FDevourer-Arakahan-284x300.png?v=1590932064956" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">` + this.strings.arakahan + `</p></label>
                       </div>
                       <button type=submit onclick="return app.salvaRisultato(` + n + `)" class="button_login">` + this.strings.save + `</button>
                       <button type=button onclick="$('#saveCamp').remove(); $('body').removeClass('modal-open')" class="button_cancelbtn">` + this.strings.canc_btn + `</button>
@@ -2505,6 +2505,13 @@ function backendCalculation(camp) {
                   ///Result saving window:
                   camp_name_field: "Nome camp",
                   camp_name_placeholder: "Inserisci il nome del tuo camp",
+                  normal: "Normale",
+                  hell: "Hell",
+                  queen: "Queen",
+                  arakahan: "Arakahan",
+                  karkanis: "Karkanis",
+                  vera: "Vera",
+                  juleeve: "Juleeve",
                   save: "Salva",
                   canc_btn: "Annulla",
                   back_btn: "Indietro",
@@ -2584,6 +2591,13 @@ function backendCalculation(camp) {
                   ///Result saving window:
                   camp_name_field: "队伍名称",
                   camp_name_placeholder: "你的队伍名称",
+                  normal: "Normal",
+                  hell: "Hell",
+                  queen: "Queen",
+                  arakahan: "Arakahan",
+                  karkanis: "Karkanis",
+                  vera: "Vera",
+                  juleeve: "Juleeve",
                   save: "保存",
                   canc_btn: "取消",
                   back_btn: "返回",
@@ -2653,6 +2667,13 @@ function backendCalculation(camp) {
                   ///Result saving window:
                   camp_name_field: "Nom",
                   camp_name_placeholder: "Nom de votre equipe",
+                  normal: "Normal",
+                  hell: "Hell",
+                  queen: "Queen",
+                  arakahan: "Arakahan",
+                  karkanis: "Karkanis",
+                  vera: "Vera",
+                  juleeve: "Juleeve",
                   save: "Sauvgarde",
                   canc_btn: "Annuler",
                   back_btn: "Retour",
@@ -2734,6 +2755,13 @@ function backendCalculation(camp) {
                   ///Result saving window:
                   camp_name_field: "Camp name",
                   camp_name_placeholder: "Your camp's name",
+                  normal: "Normal",
+                  hell: "Hell",
+                  queen: "Queen",
+                  arakahan: "Arakahan",
+                  karkanis: "Karkanis",
+                  vera: "Vera",
+                  juleeve: "Juleeve",
                   save: "Save",
                   canc_btn: "Cancel",
                   back_btn: "Back",
@@ -3696,7 +3724,7 @@ function backendCalculation(camp) {
                 };
             };
             try {
-              var backendDev = true;
+              var backendDev = false;
               if (backendDev && document.getElementById("showValues_toggle").checked === true ) {
                 snackbarMessage("using backend");
                 backendCalculation({campList: Object.keys(this.myHeroesList), locked: this.locked, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs, cartesianLock: this.cartesian_lock, preferenzeRisultati: this.customizedResuts, risultati: []});
