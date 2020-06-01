@@ -1338,7 +1338,7 @@ span.heroImgList {
       <h2>{{strings.most_saved_teams}}
         <div style="float: right;">
           <button id="refreshStats" class="search_hero_filter" style="width: 70px" v-on:click="getSavedTeamsStats();">
-            Refresh stats
+            <i class="fa fa-refresh" aria-hidden="true"></i>{{strings.refresh_team_stats}}
           </button>
         </div>
       </h2>
@@ -2523,6 +2523,7 @@ function backendCalculation(camp) {
                   impostazioni: "Impostazioni",
                   my_teams: "Le mie squadre",
                   most_saved_teams: "Squadre più popolari",
+                  refresh_team_stats: "Aggiorna",
                   extras_map: "Miglior percorso",
                   tema_notturno: "Tema notturno",
                   notifiche: "Notifiche",
@@ -2609,6 +2610,7 @@ function backendCalculation(camp) {
                   impostazioni: "设置",
                   my_teams: "My teams",
                   most_saved_teams: "Most common teams",
+                  refresh_team_stats: "Refresh",
                   extras_map: "Best hell raid route",
 
                   tema_notturno: "夜间模式",
@@ -2685,6 +2687,7 @@ function backendCalculation(camp) {
                   impostazioni: "Paramètres",
                   my_teams: "My teams",
                   most_saved_teams: "Most common teams",
+                  refresh_team_stats: "Refresh",
                   extras_map: "Best hell raid route",
 
                   tema_notturno: "Mode nuit",
@@ -2773,6 +2776,7 @@ function backendCalculation(camp) {
                   impostazioni: "Settings",
                   my_teams: "My teams",
                   most_saved_teams: "Most common teams",
+                  refresh_team_stats: "Refresh",
                   extras_map: "Best hell raid route",
 
                   tema_notturno: "Night theme",
