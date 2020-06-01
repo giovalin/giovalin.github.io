@@ -734,19 +734,19 @@ span.heroImgList {
         <div id="contenuto_welcome" class="welcome">
           <div class="welcome_menu">
             <span class="active_welcome" name="welcome_element" onmouseover="welcome_toggle('welcome',this)">
-              Welcome
+              {{strings.welcome}}
             </span>
             <span name="welcome_element" onmouseover="welcome_toggle('whats_new',this)">
-              What's new
+              {{strings.whats_new}}
             </span>
             <!--<span name="welcome_element" onmouseover="welcome_toggle('instructions',this)">
               Instructions
             </span>-->
             <span name="welcome_element" onmouseover="welcome_toggle('cool_websites',this)">
-              Cool Websites
+              {{strings.websites}}
             </span>
             <span name="welcome_element" onmouseover="welcome_toggle('credits',this)">
-              Credits
+              {{strings.credits}}
             </span>
           </div>
           <div id="welcome_content">
@@ -2448,6 +2448,10 @@ function backendCalculation(camp) {
 
               if (this.lingua == "it") {
                 this.strings = {
+                  welcome: "Benvenuto",
+                  whats_new: "Novità",
+                  websites: "Pagine",
+                  credits: "Credits",
                   messaggio_di_benvenuto: "Benvenuto su Epic Seven Camp simulator",
                   data_by: "Data by EpicSevenDB",
                   all: "All",
@@ -2523,6 +2527,10 @@ function backendCalculation(camp) {
                 };
               } else if (this.lingua == "zht") {
                 this.strings = {
+                  welcome: "Welcome",
+                  whats_new: "What's new",
+                  websites: "Websites",
+                  credits: "Credits",
                   messaggio_di_benvenuto: "欢迎使用第七史诗露营模拟器",
                   data_by: "数据来源 EpicSevenDB",
                   all: "全部",
@@ -2599,6 +2607,10 @@ function backendCalculation(camp) {
                 };
               }else if (this.lingua == "fr") {
                 this.strings = {
+                  welcome: "Welcome",
+                  whats_new: "What's new",
+                  websites: "Websites",
+                  credits: "Credits",
                   messaggio_di_benvenuto: "Bienvenue à E7 Camp Simulateur",
                   data_by: "Source EpicSevenDB",
                   all: "Tous",
@@ -2665,6 +2677,10 @@ function backendCalculation(camp) {
               } else {
                 //this.lingua = "en";
                 this.strings = {
+                  welcome: "Welcome",
+                  whats_new: "What's new",
+                  websites: "Websites",
+                  credits: "Credits",
                   messaggio_di_benvenuto: "Welcome to Epic Seven Camp simulator",
                   data_by: "Data by EpicSevenDB",
                   all: "All",
