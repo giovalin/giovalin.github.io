@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-<meta name="viewport" content="initial-scale=0.6, user-scalable=no">
-<title>E7 Camp Simulator</title>
-  <meta name="keywords" content="epic seven camping, epic 7 camping simulator, e7 camp simulator, epic 7 morale calculator, e7 raid, epic seven raid" />
-  <meta name="description" content="E7 Morale Calculator. Add your roster to find the best team combination with high morale!" />
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta name="viewport" content="initial-scale=0.6, user-scalable=no">
+    <title>E7 Camp Simulator</title>
+    <meta name="keywords" content="epic seven camping, epic 7 camping simulator, e7 camp simulator, epic 7 morale calculator, e7 raid, epic seven raid" />
+    <meta name="description" content="E7 Morale Calculator. Add your roster to find the best team combination with high morale!" />
   
-<!--Favicon-->
-<link rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="./favicons/favicon-16x16.png">
-<link rel="manifest" href="./favicons/site.webmanifest">
-<link rel="mask-icon" href="./favicons/safari-pinned-tab.svg" color="#5bbad5">
-<link rel="shortcut icon" href="./favicons/favicon.ico">
-<meta name="msapplication-TileColor" content="#da532c">
-<meta name="msapplication-config" content="./favicons/browserconfig.xml">
-<meta name="theme-color" content="#ffffff">
-
-<script src="./jquery.min.js"></script>
-<script src="./js-combinatorics@0.5.js" async></script>
-<!--<script src="vue.js"></script>-->
-<script src="./vue@2.6.11.js"></script>
-<link rel="stylesheet" href="./font-awesome.min.css" async>
-<style>
+    <!--Favicon-->
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicons/favicon-16x16.png">
+    <link rel="manifest" href="./favicons/site.webmanifest">
+    <link rel="mask-icon" href="./favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="./favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="./favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-combinatorics@0.5.5/combinatorics.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" async>
+    
+    <style>
 :root {
-    --primary-color: #302AE6;
-    --secondary-color: #536390;
     --font-color: #424242;
     --bg-color: #fff;
     --search-primary-color:#f1f1f1;
@@ -36,8 +36,6 @@
 
   /* variabili del tema*/
 [data-theme="dark"] {
-    --primary-color: #9A97F3;
-    --secondary-color: #818cab;
     --font-color: #A1AEBD;
     --bg-color: #252B35;
     --search-primary-color:#1e2126;
@@ -65,6 +63,12 @@ input[type=text], input[type=password] {
   /*border: 1px solid #ccc;*/
   box-sizing: border-box;
 }
+
+/* Disable outline on click (focus-visible is not supported by chrome)
+*:focus:not(.focus-visible) {
+  outline: none;
+}
+*/
 
 /* Set a style for all buttons */
 .button_login {
@@ -143,7 +147,7 @@ body.modal-open {
   position: absolute;
   right: 25px;
   top: 0;
-  color: #000;
+  /*color: #000;*/
   font-size: 35px;
   font-weight: bold;
 }
@@ -295,11 +299,11 @@ span.heroImgList {
 .search_hero_filter.active { /* tasto premuto*/
   background-color: var(--search-border-color);
   color: white;
-} 
-
+  outline: none;
+}
 .box_advanced_settings {
 	background: var(--search-primary-color);
-  	color: var(--font-color);
+  color: var(--font-color);
 	border-radius: 15px;
 }
 
@@ -348,7 +352,29 @@ span.heroImgList {
   font-size: 36px;
 }
 
-.icon-bar span:hover {
+.icon-bar span:hover:not(.active-icon-bar) {
+  background-color: #000;
+}
+
+.vertical-icon-bar {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  height: 100vh;
+  width: 90px; 
+  background-color: #555;
+}
+
+.vertical-icon-bar span { 
+  display: block; 
+  text-align: center; 
+  padding: 16px; 
+  transition: all 0.3s ease; 
+  color: white; 
+  font-size: 36px;
+}
+
+.vertical-icon-bar span:hover:not(.active-icon-bar) {
   background-color: #000;
 }
 
@@ -459,7 +485,13 @@ span.heroImgList {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+@keyframes fadeIn { 
+  from { opacity: 0; } 
+}
 
+.animate-flicker {
+    animation: fadeIn 1s infinite alternate;
+}
  
 
 .dropdown {
@@ -634,17 +666,20 @@ span.heroImgList {
 #snackbar {
   visibility: hidden;
   min-width: 250px;
-  margin-left: -125px;
+  max-width: 70%;
   background-color: #333;
   color: #fff;
   text-align: center;
   border-radius: 25px;
   padding: 16px;
   position: fixed;
-  z-index: 1;
+  z-index: 10; /* always on top. Loading screen z-index = 10 */
   left: 50%;
   top: 30px;
   font-size: 17px;
+  transform: translate(-50%);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 #snackbar.show {
@@ -710,10 +745,13 @@ span.heroImgList {
   top: 12px;
   font-size: 20px;
   /*padding:5px;*/
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 2px;
+  padding-right: 2px;
   padding-top: 5px;
   width: 100%;
+  margin-right: 3px;
+  margin-left: 3px;
+
 }
 
 
@@ -766,18 +804,19 @@ span.heroImgList {
 </head>
 <body class="noScrollBar">
   <div id="app" style="margin-bottom: 67px"><!-- vue.js -->
+    <!--WELCOME WINDOW START-->
     <div id="welcome" style="display: '';">
         <div id="contenuto_welcome" class="welcome">
-          <div class="welcome_menu">
+          <div class="welcome_menu" style="position: sticky; top: 0; background: var(--bg-color);">
             <span class="active_welcome" name="welcome_element" onmouseover="welcome_toggle('welcome',this)">
               {{strings.welcome}}
             </span>
             <span name="welcome_element" onmouseover="welcome_toggle('whats_new',this)">
               {{strings.whats_new}}
             </span>
-            <!--<span name="welcome_element" onmouseover="welcome_toggle('instructions',this)">
-              Instructions
-            </span>-->
+            <span name="welcome_element" onmouseover="welcome_toggle('instructions',this)">
+              {{strings.instructions}}
+            </span>
             <span name="welcome_element" onmouseover="welcome_toggle('cool_websites',this)">
               {{strings.websites}}
             </span>
@@ -792,100 +831,117 @@ span.heroImgList {
                 </h2>
                 <div style="color: orangered; text-align: center;">
                   寻找翻译者...
+                </div>
+                <div v-if='!Object.keys(myHeroesList).length' onmouseover="" style="cursor: pointer; color: orangered; text-align: center; margin-top: 30vh; font-size: 30px;" onclick="welcome_toggle('instructions',{})">
+                  第一次使用?<br> 点击查看简明使用教程.
+                </div>
+                <!-- Copyright stuff if needed
+                <div style="width: 100%; position: absolute; bottom: 10%; text-align: center;">
+                  All game content and assets are trademarks and copyrights of SUPERCREATIVE Corp and/or Smilegate Megaport.<br>
+                  This site is fan made, not affiliated with SUPERCREATIVE Corp and/or Smilegate Megaport. 
+                </div>
+                -->
               </div>
-              <!-- Copyright stuff if needed
-              <div style="width: 100%; position: absolute; bottom: 10%; text-align: center;">
-                All game content and assets are trademarks and copyrights of SUPERCREATIVE Corp and/or Smilegate Megaport.<br>
-                This site is fan made, not affiliated with SUPERCREATIVE Corp and/or Smilegate Megaport. 
+              <div id="whats_new_content" style="display: none;">
+                <ul>
+                  <li style="color:#007FFF">
+                    <b>21/06/2020</b> 垂直工具栏.<br>
+                    宽屏设备上自动使用垂直工具栏. 可以在设置里切换回经典水平工具栏.
+                  </li>
+                  <li style="color:rgb(0, 148, 32)">
+                    <b>20/06/2020</b>: 计算结果中去掉了重复英雄 (转职英雄和转职前同时出现) & 其它小功能更新!<br>
+                    去掉了包含重复英雄的队伍 例如萝里娜和指挥官萝里娜. 如果你同时锁定了一个英雄的转职版本和普通版本将会报错.<br>
+                    如果计算耗时太长，你现在可以中止计算.<br>
+                    现在你可以"多重锁定"功能可以快速选择英雄.
+                  </li>
+                  <li style="color:rgb(0, 148, 32)">
+                    15/06/2020: 优化算法，提高了计算心情的速度!<br>
+                    高速计算不支持高级设置, 如果启用了高级设置，将使用原有算法计算".<br>
+                    新选项 "{{strings.add_displayed_heroes}}" 和 "{{strings.remove_displayed_heroes}}" 用于批量添加和删除英雄.
+                  </li>
+                  <li style="color:rgb(255, 60, 0)">
+                    添加常用队伍统计!<br>
+                    在下方工具栏点击齿轮图标 -> "{{strings.most_saved_teams}}".
+                  </li>
+                  <li style="color:rgb(0, 255, 136)">
+                    现在你可以选择结果的显示数量.<br>
+                    使用方法: 选择 "高级设置" => 点击右上角齿轮图标 => 选中 "{{strings.numero_massimo_risultati}}" 或/与 "{{strings.morale_minimo_risultati}}" 然后输入相应的数量.<br>
+                    请不要把 "{{strings.numero_massimo_risultati}}" 设置的很高 或者把"{{strings.morale_minimo_risultati}}" 设置得很低，你的浏览器很可能因为计算大量的结果而花费很长的加载时间.
+                    默认显示心情最高的 200 个结果.
+                  </li>
+                  <li style="color:#007FFF">
+                    新功能: "生成URL链接"<br>
+                    在设置里选择生成URL链接将会生成一个保存了你英雄列表的链接.<br>
+                    你可以在任何设备上使用这个链接.<br>
+                    如果你用生成的链接打开将会覆盖当前设备已经保存的英雄列表.<br>
+                    该功能仅用于跨设备/浏览器快速同步个人英雄列表，你的英雄列表依旧是自动保存的.
+                  </li>
+                  <li style="color:#007FFF">
+                    设置里加入调试选项.<br>
+                    打开可以右键(手机长按)查看对话列表.
+                  </li>
+                  <li>
+                    默认语言将根据你浏览器的语言自动选择.<br>
+                    你可以在设置里切换语言.
+                  </li>
+                  <li style="color:rgb(0, 255, 136)">
+                    现在你可以选择德语，葡萄牙语，法语和西班牙语了.<br>
+                    只有法语是菜单和数据完全翻译. 再次感谢 <a href="https://www.reddit.com/user/TriATK/">TriATK</a> 提供的法文翻译.<br>
+                    德语，葡萄牙语，和西班牙语仅有数据翻译 (英雄名称, 对话, buffs 和 debuff) 如果你想提供翻译请联系我.<br>
+                  </li>
+                  <li style="color:rgb(0, 255, 136)">
+                    添加简体中文，日文，韩文:<br>
+                    日韩的菜单未翻译 游戏数据已翻译, 简中有完整的菜单和数据翻译.<br>
+                    感谢 <a href="https://www.reddit.com/user/TriATK/">TriATK</a> 提供的中文翻译.<br>
+                  </li>
+                  <li>
+                    添加通知功能:<br>
+                    启用通知将会在计算完毕时发送通知.<br>
+                    本功能适用于电脑端将网页放到后台时提示计算结果，并不会发送其它类型的通知!
+                  </li>
+                  <li style="color:rgb(0, 255, 136)">
+                    添加锁定多人功能(Beta):<br>
+                    添加你的英雄到4个栏位中 (每个栏位对应结果页上的相同位置), 如果你重复添加相同的英雄，最终结果里只会出现一次!
+                  </li>
+                  <li style="color:#007FFF">
+                    现在你可以保存计算的结果:<br>
+                    在结果页面点击 <i class="fa fa-save" aria-hidden="true"></i>  , 然后输入你自己定义的队伍名称并点击 "保存".<br>
+                    你保存的队伍将显示在 <i class="fa fa-cog" aria-hidden="true"></i>  的设置窗口 你可以修改并删除他们.
+                  </li>
+                  <li>
+                    启动的时候会生成一个web worker用于处理计算结果, 这会保证你的浏览器不会出现 "页面失去响应".<br>
+                    这个工具可以计算全部 35.208.615 种可能的排列组合并且不会崩溃 (运行中会保持低RAM占用率) 但是会花费更长的时间 (13-17 分钟, 锁定一个英雄后约 20 秒);
+                  </li>
+                </ul>
               </div>
-              -->
-            </div>
-            <div id="whats_new_content" style="display: none; max-height: 90%; overflow-y: auto;">
-              <ul>
-                <li style="color:rgb(0, 148, 32)">
-                  <b>20/06/2020</b>: 计算结果中去掉了重复英雄 (转职英雄和转职前同时出现) & 其它小功能更新!<br>
-                  去掉了包含重复英雄的队伍 例如萝里娜和指挥官萝里娜. 如果你同时锁定了一个英雄的转职版本和普通版本将会报错.<br>
-                  如果计算耗时太长，你现在可以中止计算.<br>
-                  现在你可以"多重锁定"功能可以快速选择英雄.
-                </li>
-                <li style="color:rgb(0, 148, 32)">
-                  15/06/2020: 优化算法，提高了计算心情的速度!<br>
-                  高速计算不支持高级设置, 如果启用了高级设置，将使用原有算法计算".<br>
-                  新选项 "{{strings.add_displayed_heroes}}" 和 "{{strings.remove_displayed_heroes}}" 用于批量添加和删除英雄.
-                </li>
-                <li style="color:rgb(255, 60, 0)">
-                  添加常用队伍统计!<br>
-                  在下方工具栏点击齿轮图标 -> "{{strings.most_saved_teams}}".
-                </li>
-                <li style="color:rgb(0, 255, 136)">
-              现在你可以选择结果的显示数量.<br>
-              使用方法: 选择 "高级设置" => 点击右上角齿轮图标 => 选中 "{{strings.numero_massimo_risultati}}" 或/与 "{{strings.morale_minimo_risultati}}" 然后输入相应的数量.<br>
-              请不要把 "{{strings.numero_massimo_risultati}}" 设置的很高 或者把"{{strings.morale_minimo_risultati}}" 设置得很低，你的浏览器很可能因为计算大量的结果而花费很长的加载时间.
-              默认显示心情最高的 200 个结果.
-            </li>
-            <li style="color:#007FFF">
-              新功能: "生成URL链接"<br>
-              在设置里选择生成URL链接将会生成一个保存了你英雄列表的链接.<br>
-              你可以在任何设备上使用这个链接.<br>
-              如果你用生成的链接打开将会覆盖当前设备已经保存的英雄列表.<br>
-              该功能仅用于跨设备/浏览器快速同步个人英雄列表，你的英雄列表依旧是自动保存的.
-            </li>
-            <li style="color:#007FFF">
-              设置里加入调试选项.<br>
-              打开可以右键(手机长按)查看对话列表.
-            </li>
-            <li>
-              默认语言将根据你浏览器的语言自动选择.<br>
-              你可以在设置里切换语言.
-            </li>
-            <li style="color:rgb(0, 255, 136)">
-              现在你可以选择德语，葡萄牙语，法语和西班牙语了.<br>
-            只有法语是菜单和数据完全翻译. 再次感谢 <a href="https://www.reddit.com/user/TriATK/">TriATK</a> 提供的法文翻译.<br>
-            德语，葡萄牙语，和西班牙语仅有数据翻译 (英雄名称, 对话, buffs 和 debuff) 如果你想提供翻译请联系我.<br>
-            </li>
-            <li style="color:rgb(0, 255, 136)">
-              添加简体中文，日文，韩文:<br>
-            日韩的菜单未翻译 游戏数据已翻译, 简中有完整的菜单和数据翻译.<br>
-            感谢 <a href="https://www.reddit.com/user/TriATK/">TriATK</a> 提供的中文翻译.<br>
-            </li>
-            <li>
-              添加通知功能:<br>
-            启用通知将会在计算完毕时发送通知.<br>
-            本功能适用于电脑端将网页放到后台时提示计算结果，并不会发送其它类型的通知!
-            </li>
-            <li style="color:rgb(0, 255, 136)">
-              添加锁定多人功能(Beta):<br>
-            添加你的英雄到4个栏位中 (每个栏位对应结果页上的相同位置), 如果你重复添加相同的英雄，最终结果里只会出现一次!
-            </li>
-            <li style="color:#007FFF">
-              现在你可以保存计算的结果:<br>
-            在结果页面点击 <i class="fa fa-floppy-o" aria-hidden="true"></i>  , 然后输入你自己定义的队伍名称并点击 "保存".<br>
-            你保存的队伍将显示在 <i class="fa fa-cog" aria-hidden="true"></i>  的设置窗口 你可以修改并删除他们.
-            </li>
-            <li>启动的时候会生成一个web worker用于处理计算结果, 这会保证你的浏览器不会出现 "页面失去响应".<br>
-         这个工具可以计算全部 35.208.615 种可能的排列组合并且不会崩溃 (运行中会保持低RAM占用率) 但是会花费更长的时间 (13-17 分钟, 锁定一个英雄后约 20 秒);
-          </li>
-              </ul>
-            </div>
-            <div id="instructions_content" style="display: none">
-            </div>
-            <div id="cool_websites_content" style="display: none; text-align: center; margin-top: 10%;">
-              不容错过的实用网站:
-              <p><a href="https://epicsevendb.com/cn">EpicSevenDB</a> by RaphaelDDL</p>
-              <p><a href="https://e7herder.com/">E7herder</a> 有非常酷的角色模型动画查看器</p>
-              <p><a href="https://maphe.github.io/e7-damage-calc/zh/index.html">Epic 7 伤害计算器</a> by Maphe</p>
-              <p><a href="https://www.e7leaks.com/">Epic 7 Leaks</a> by Maphe</p>
-              <p><a href="https://meowyih.github.io/epic7-gear/index.html?lang=cn">装备评分计算器</a> by meowyih</p>
-              <p><a href="http://www.epicseventools.com/Home/LabMoraleOptimizer">E7 Tools</a> by Budandan</p>
-              <p><a href="https://gamepress.gg/epicseven/">GamePress.gg</a></p>
-            </div>
-            <div id="credits_content" style="display: none;">
-              <div style="position: absolute; bottom: 10%; text-align: center; right: 0; left: 0;">
-                <br>英文地狱迷宫地图: <a href="https://www.reddit.com/user/C0NNECT1NG/">u/C0NNECT1NG</a> (<a href="https://www.reddit.com/r/EpicSeven/comments/flg4b1/complete_hell_raid_map/">Reddit post</a>)
-                <br>普通迷宫地图&中文迷宫地图: TriATK
-                <br>中文/法文翻译: TriATK
-                <br>联系原作者(英语或意大利语): <a href="https://www.reddit.com/user/UsernameSniped/">u/UsernameSniped</a>
-                <br>Discord: gio#0898
+              <div id="instructions_content" style="display: none; text-align: center; margin-top: 10%;">
+                简明教程:
+                <div style="padding-top: 30px;">
+                  <i class="fa fa-plus" aria-hidden="true"></i>: 添加英雄到你的英雄列表.<br><br>
+                  <i class="fa fa-pencil-alt" aria-hidden="true"></i>: 查看你的英雄列表. 点击英雄头像锁定，锁定后必定出现在计算结果中. 点击 <font color="red">x</font> 移除英雄.<br><br>
+                  <i class="fa fa-book" aria-hidden="true"></i> (可选): 高级设置. (启用高级设置会稍微降低运算速度)<br><br>
+                  <i class="fas fa-fire" aria-hidden="true"></i>点击篝火图标进行计算. (你的英雄列表至少要包含4个英雄)<br><br>
+                  <i class="fa fa-question-circle" aria-hidden="true"></i>: 这是帮助图标. 点击可以查看每项功能的具体说明.<br><br>
+                  <i class="fa fa-cog"></i>: 网站功能设定.<br>
+                </div>
+              </div>
+              <div id="cool_websites_content" style="display: none; text-align: center; margin-top: 10%;">
+                不容错过的实用网站:
+                <p><a href="https://epicsevendb.com/cn">EpicSevenDB</a> by RaphaelDDL</p>
+                <p><a href="https://e7herder.com/">E7herder</a> 有非常酷的角色模型动画查看器</p>
+                <p><a href="https://maphe.github.io/e7-damage-calc/zh/index.html">Epic 7 伤害计算器</a> by Maphe</p>
+                <p><a href="https://www.e7leaks.com/">Epic 7 Leaks</a> by Maphe</p>
+                <p><a href="https://meowyih.github.io/epic7-gear/index.html?lang=cn">装备评分计算器</a> by meowyih</p>
+                <p><a href="http://www.epicseventools.com/Home/LabMoraleOptimizer">E7 Tools</a> by Budandan</p>
+                <p><a href="https://gamepress.gg/epicseven/">GamePress.gg</a></p>
+              </div>
+              <div id="credits_content" style="display: none;">
+                <div style="position: absolute; bottom: 10%; text-align: center; right: 0; left: 0;">
+                  <br>英文地狱迷宫地图: <a href="https://www.reddit.com/user/C0NNECT1NG/">u/C0NNECT1NG</a> (<a href="https://www.reddit.com/r/EpicSeven/comments/flg4b1/complete_hell_raid_map/">Reddit post</a>)
+                  <br>普通迷宫地图&中文迷宫地图: TriATK
+                  <br>中文/法文翻译: TriATK
+                  <br>联系原作者(英语或意大利语): <a href="https://www.reddit.com/user/UsernameSniped/">u/UsernameSniped</a>
+                  <br>Discord: gio#0898
                 </div>
               </div>
             </template>
@@ -895,109 +951,9 @@ span.heroImgList {
                 </h2>
                 <div style="color: orangered; text-align: center;">
                   尋找翻譯者...
-              </div>
-              <!-- Copyright stuff if needed
-              <div style="width: 100%; position: absolute; bottom: 10%; text-align: center;">
-                All game content and assets are trademarks and copyrights of SUPERCREATIVE Corp and/or Smilegate Megaport.<br>
-                This site is fan made, not affiliated with SUPERCREATIVE Corp and/or Smilegate Megaport. 
-              </div>
-              -->
-            </div>
-            <div id="whats_new_content" style="display: none; max-height: 90%; overflow-y: auto;">
-              <ul>
-                <li style="color:rgb(0, 148, 32)">
-                  <b>20/06/2020</b>: 計算結果中去掉了重復英雄 (轉職英雄和轉職前同時出現) & 其它小功能更新!<br>
-                  去掉了包含重復英雄的隊伍 例如蘿裏娜和指揮官蘿裏娜. 如果你同時鎖定了一個英雄的轉職版本和普通版本將會報錯.<br>
-                  如果計算耗時太長，你現在可以中止計算.<br>
-                  現在你可以"多重鎖定"功能可以快速選擇英雄.
-                </li>
-                <li style="color:rgb(0, 148, 32)">
-                  15/06/2020: 優化算法，提高了計算心情的速度!<br>
-                  高速計算不支持高級設置, 如果啟用了高級設置，將使用原有算法計算".<br>
-                  新選項 "{{strings.add_displayed_heroes}}" 和 "{{strings.remove_displayed_heroes}}" 用於批量添加和刪除英雄.                 
-                </li>
-                <li style="color:rgb(255, 60, 0)">
-                  添加常用隊伍統計!<br>
-                  在下方工具欄點擊齒輪圖標 -> "{{strings.most_saved_teams}}".
-                </li>
-                <li style="color:rgb(0, 255, 136)">
-              現在你可以選擇結果的顯示數量.<br>
-              使用方法: 選擇 "高級設定" => 點擊右上角齒輪圖標 => 選中 "{{strings.numero_massimo_risultati}}" 或/與 "{{strings.morale_minimo_risultati}}" 然後輸入相應的數量.<br>
-              請不要把 "{{strings.numero_massimo_risultati}}" 設定的很高 或者把"{{strings.morale_minimo_risultati}}" 設定得很低，你的瀏覽器很可能因為計算大量的結果而花費很長的加載時間.
-              默認顯示心情最高的 200 個結果.
-            </li>
-            <li style="color:#007FFF">
-              新功能: "生成URL鏈接"<br>
-              在設定裏選擇生成URL鏈接將會生成一個保存了你英雄列表的鏈接.<br>
-              你可以在任何設備上使用這個鏈接.<br>
-              如果你用生成的鏈接打開將會覆蓋當前設備已經保存的英雄列表.<br>
-              該功能僅用於跨設備/瀏覽器快速同步個人英雄列表，你的英雄列表依舊是自動保存的.
-            </li>
-            <li style="color:#007FFF">
-              設定裏加入調試選項.<br>
-              打開可以右鍵(手機長按)查看對話列表.
-            </li>
-            <li>
-              默認語言將根據你瀏覽器的語言自動選擇.<br>
-              你可以在設定裏切換語言.
-            </li>
-            <li style="color:rgb(0, 255, 136)">
-              現在你可以選擇德語，葡萄牙語，法語和西班牙語了.<br>
-            只有法語是菜單和數據完全翻譯. 再次感謝 <a href="https://www.reddit.com/user/TriATK/">TriATK</a> 提供的法文翻譯.<br>
-            德語，葡萄牙語，和西班牙語僅有數據翻譯 (英雄名稱, 對話, buffs 和 debuff) 如果你想提供翻譯請聯系我.<br>
-            </li>
-            <li style="color:rgb(0, 255, 136)">
-              添加簡體中文，日文，韓文:<br>
-            日韓的菜單未翻譯 遊戲數據已翻譯, 簡中有完整的菜單和數據翻譯.<br>
-            感謝 <a href="https://www.reddit.com/user/TriATK/">TriATK</a> 提供的中文翻譯.<br>
-            </li>
-            <li>
-              添加通知功能:<br>
-            啟用通知將會在計算完畢時發送通知.<br>
-            本功能適用於電腦端將網頁放到後臺時提示計算結果，並不會發送其它類型的通知!
-            </li>
-            <li style="color:rgb(0, 255, 136)">
-              添加鎖定多人功能(Beta):<br>
-            添加你的英雄到4個欄位中 (每個欄位對應結果頁上的相同位置), 如果你重復添加相同的英雄，最終結果裏只會出現一次!
-            </li>
-            <li style="color:#007FFF">
-              現在你可以保存計算的結果:<br>
-            在結果頁面點擊 <i class="fa fa-floppy-o" aria-hidden="true"></i>  , 然後輸入你自己定義的隊伍名稱並點擊 "保存".<br>
-            你保存的隊伍將顯示在 <i class="fa fa-cog" aria-hidden="true"></i>  的設定窗口 你可以修改並刪除他們.
-            </li>
-            <li>啟動的時候會生成一個web worker用於處理計算結果, 這會保證你的瀏覽器不會出現 "頁面失去響應".<br>
-         這個工具可以計算全部 35.208.615 種可能的排列組合並且不會崩潰 (運行中會保持低RAM占用率) 但是會花費更長的時間 (13-17 分鐘, 鎖定一個英雄後約 20 秒);
-          </li>
-              </ul>
-            </div>
-            <div id="instructions_content" style="display: none">
-            </div>
-            <div id="cool_websites_content" style="display: none; text-align: center; margin-top: 10%;">
-              不容錯過的實用網站:
-              <p><a href="https://epicsevendb.com/tw">EpicSevenDB</a> by RaphaelDDL</p>
-              <p><a href="https://e7herder.com/">E7herder</a> 有非常酷的角色模型動畫查看器</p>
-              <p><a href="https://maphe.github.io/e7-damage-calc/zhTW/index.html">Epic 7 傷害計算器</a> by Maphe</p>
-              <p><a href="https://www.e7leaks.com/">Epic 7 Leaks</a> by Maphe</p>
-              <p><a href="https://meowyih.github.io/epic7-gear/index.html?lang=tw">裝備評分計算器</a> by meowyih</p>
-              <p><a href="http://www.epicseventools.com/Home/LabMoraleOptimizer">E7 Tools</a> by Budandan</p>
-              <p><a href="https://gamepress.gg/epicseven/">GamePress.gg</a></p>
-            </div>
-            <div id="credits_content" style="display: none;">
-              <div style="position: absolute; bottom: 10%; text-align: center; right: 0; left: 0;">
-                <br>英文地獄迷宮地圖: <a href="https://www.reddit.com/user/C0NNECT1NG/">u/C0NNECT1NG</a> (<a href="https://www.reddit.com/r/EpicSeven/comments/flg4b1/complete_hell_raid_map/">Reddit post</a>)
-                <br>普通迷宮地圖&中文迷宮地圖: TriATK
-                <br>中文/法文翻譯: TriATK
-                <br>聯系原作者(英語或意大利語): <a href="https://www.reddit.com/user/UsernameSniped/">u/UsernameSniped</a>
-                <br>Discord: gio#0898
                 </div>
-              </div>
-            </template>
-            <template v-else> <!-- Welcome windows ENG content goes here -->
-              <div id="welcome_message" style="height: 100%">
-                <h2 style="text-align: center;">{{strings.messaggio_di_benvenuto}}<br><a href="https://epicsevendb.com/" style="text-decoration: none;color:red"><u>{{strings.data_by}}</u></a>
-                </h2>
-                <div style="color: orangered; text-align: center;">
-                  Looking for translators...
+                <div v-if='!Object.keys(myHeroesList).length' onmouseover="" style="cursor: pointer; color: orangered; text-align: center; margin-top: 30vh; font-size: 30px;" onclick="welcome_toggle('instructions',{})">
+                  第一次使用?<br> 點擊查看簡明使用教程.
                 </div>
                 <!-- Copyright stuff if needed
                 <div style="width: 100%; position: absolute; bottom: 10%; text-align: center;">
@@ -1006,8 +962,132 @@ span.heroImgList {
                 </div>
                 -->
               </div>
-              <div id="whats_new_content" style="display: none; max-height: 90%; overflow-y: auto;">
+              <div id="whats_new_content" style="display: none;">
                 <ul>
+                  <li style="color:#007FFF">
+                    <b>21/06/2020</b> 垂直工具欄.<br>
+                    寬熒幕設備上自動使用垂直工具欄. 可以在設定裏切換回經典水平工具欄.
+                  </li>
+                  <li style="color:rgb(0, 148, 32)">
+                    <b>20/06/2020</b>: 計算結果中去掉了重復英雄 (轉職英雄和轉職前同時出現) & 其它小功能更新!<br>
+                    去掉了包含重復英雄的隊伍 例如蘿裏娜和指揮官蘿裏娜. 如果你同時鎖定了一個英雄的轉職版本和普通版本將會報錯.<br>
+                    如果計算耗時太長，你現在可以中止計算.<br>
+                    現在你可以"多重鎖定"功能可以快速選擇英雄.
+                  </li>
+                  <li style="color:rgb(0, 148, 32)">
+                    15/06/2020: 優化算法，提高了計算心情的速度!<br>
+                    高速計算不支持高級設置, 如果啟用了高級設置，將使用原有算法計算".<br>
+                    新選項 "{{strings.add_displayed_heroes}}" 和 "{{strings.remove_displayed_heroes}}" 用於批量添加和刪除英雄.                 
+                  </li>
+                  <li style="color:rgb(255, 60, 0)">
+                    添加常用隊伍統計!<br>
+                    在下方工具欄點擊齒輪圖標 -> "{{strings.most_saved_teams}}".
+                  </li>
+                  <li style="color:rgb(0, 255, 136)">
+                    現在你可以選擇結果的顯示數量.<br>
+                    使用方法: 選擇 "高級設定" => 點擊右上角齒輪圖標 => 選中 "{{strings.numero_massimo_risultati}}" 或/與 "{{strings.morale_minimo_risultati}}" 然後輸入相應的數量.<br>
+                    請不要把 "{{strings.numero_massimo_risultati}}" 設定的很高 或者把"{{strings.morale_minimo_risultati}}" 設定得很低，你的瀏覽器很可能因為計算大量的結果而花費很長的加載時間.
+                    默認顯示心情最高的 200 個結果.
+                  </li>
+                  <li style="color:#007FFF">
+                    新功能: "生成URL鏈接"<br>
+                    在設定裏選擇生成URL鏈接將會生成一個保存了你英雄列表的鏈接.<br>
+                    你可以在任何設備上使用這個鏈接.<br>
+                    如果你用生成的鏈接打開將會覆蓋當前設備已經保存的英雄列表.<br>
+                    該功能僅用於跨設備/瀏覽器快速同步個人英雄列表，你的英雄列表依舊是自動保存的.
+                  </li>
+                  <li style="color:#007FFF">
+                    設定裏加入調試選項.<br>
+                    打開可以右鍵(手機長按)查看對話列表.
+                  </li>
+                  <li>
+                    默認語言將根據你瀏覽器的語言自動選擇.<br>
+                    你可以在設定裏切換語言.
+                  </li>
+                  <li style="color:rgb(0, 255, 136)">
+                    現在你可以選擇德語，葡萄牙語，法語和西班牙語了.<br>
+                    只有法語是菜單和數據完全翻譯. 再次感謝 <a href="https://www.reddit.com/user/TriATK/">TriATK</a> 提供的法文翻譯.<br>
+                    德語，葡萄牙語，和西班牙語僅有數據翻譯 (英雄名稱, 對話, buffs 和 debuff) 如果你想提供翻譯請聯系我.<br>
+                  </li>
+                  <li style="color:rgb(0, 255, 136)">
+                    添加簡體中文，日文，韓文:<br>
+                    日韓的菜單未翻譯 遊戲數據已翻譯, 簡中有完整的菜單和數據翻譯.<br>
+                    感謝 <a href="https://www.reddit.com/user/TriATK/">TriATK</a> 提供的中文翻譯.<br>
+                  </li>
+                  <li>
+                    添加通知功能:<br>
+                    啟用通知將會在計算完畢時發送通知.<br>
+                    本功能適用於電腦端將網頁放到後臺時提示計算結果，並不會發送其它類型的通知!
+                  </li>
+                  <li style="color:rgb(0, 255, 136)">
+                    添加鎖定多人功能(Beta):<br>
+                    添加你的英雄到4個欄位中 (每個欄位對應結果頁上的相同位置), 如果你重復添加相同的英雄，最終結果裏只會出現一次!
+                  </li>
+                  <li style="color:#007FFF">
+                    現在你可以保存計算的結果:<br>
+                    在結果頁面點擊 <i class="fa fa-save" aria-hidden="true"></i>  , 然後輸入你自己定義的隊伍名稱並點擊 "保存".<br>
+                    你保存的隊伍將顯示在 <i class="fa fa-cog" aria-hidden="true"></i>  的設定窗口 你可以修改並刪除他們.
+                  </li>
+                  <li>
+                    啟動的時候會生成一個web worker用於處理計算結果, 這會保證你的瀏覽器不會出現 "頁面失去響應".<br>
+                    這個工具可以計算全部 35.208.615 種可能的排列組合並且不會崩潰 (運行中會保持低RAM占用率) 但是會花費更長的時間 (13-17 分鐘, 鎖定一個英雄後約 20 秒);
+                  </li>
+                </ul>
+              </div>
+              <div id="instructions_content" style="display: none; text-align: center; margin-top: 10%;">
+                簡明教程:
+                <div style="padding-top: 30px;">
+                  <i class="fa fa-plus" aria-hidden="true"></i>: 添加英雄到你的英雄列表.<br><br>
+                  <i class="fa fa-pencil-alt" aria-hidden="true"></i>: 查看你的英雄列表. 點擊英雄頭像鎖定，鎖定後必定出現在計算結果中. 點擊 <font color="red">x</font> 移除英雄.<br><br>
+                  <i class="fa fa-book" aria-hidden="true"></i> (可選): 高級設定. (啟用高級設定會稍微降低運算速度)<br><br>
+                  <i class="fas fa-fire" aria-hidden="true"></i>點擊篝火圖標進行計算. (你的英雄列表至少要包含4個英雄)<br><br>
+                  <i class="fa fa-question-circle" aria-hidden="true"></i>: 這是幫助圖標. 點擊可以查看每項功能的具體說明.<br><br>
+                  <i class="fa fa-cog"></i>: 網站功能設定.<br>
+                </div>
+              </div>
+              <div id="cool_websites_content" style="display: none; text-align: center; margin-top: 10%;">
+                不容錯過的實用網站:
+                <p><a href="https://epicsevendb.com/tw">EpicSevenDB</a> by RaphaelDDL</p>
+                <p><a href="https://e7herder.com/">E7herder</a> 有非常酷的角色模型動畫查看器</p>
+                <p><a href="https://maphe.github.io/e7-damage-calc/zhTW/index.html">Epic 7 傷害計算器</a> by Maphe</p>
+                <p><a href="https://www.e7leaks.com/">Epic 7 Leaks</a> by Maphe</p>
+                <p><a href="https://meowyih.github.io/epic7-gear/index.html?lang=tw">裝備評分計算器</a> by meowyih</p>
+                <p><a href="http://www.epicseventools.com/Home/LabMoraleOptimizer">E7 Tools</a> by Budandan</p>
+                <p><a href="https://gamepress.gg/epicseven/">GamePress.gg</a></p>
+              </div>
+              <div id="credits_content" style="display: none;">
+                <div style="position: absolute; bottom: 10%; text-align: center; right: 0; left: 0;">
+                  <br>英文地獄迷宮地圖: <a href="https://www.reddit.com/user/C0NNECT1NG/">u/C0NNECT1NG</a> (<a href="https://www.reddit.com/r/EpicSeven/comments/flg4b1/complete_hell_raid_map/">Reddit post</a>)
+                  <br>普通迷宮地圖&中文迷宮地圖: TriATK
+                  <br>中文/法文翻譯: TriATK
+                  <br>聯系原作者(英語或意大利語): <a href="https://www.reddit.com/user/UsernameSniped/">u/UsernameSniped</a>
+                  <br>Discord: gio#0898
+                </div>
+              </div>
+            </template>
+            <template v-else> <!-- Welcome windows ENG content goes here -->
+              <div id="welcome_message" style="height: 100%">
+                <h2 style="text-align: center;">{{strings.messaggio_di_benvenuto}}<br><a href="https://epicsevendb.com/" style="text-decoration: none;color:red"><u>{{strings.data_by}}</u></a>
+                </h2>
+                <div style="color: orangered; text-align: center;">
+                  
+                </div>
+                <div v-if='!Object.keys(myHeroesList).length' onmouseover="" style="cursor: pointer; color: orangered; text-align: center; margin-top: 30vh; font-size: 30px;" onclick="welcome_toggle('instructions',{})">
+                  First time here?<br> Click here for a quick guide.
+                </div>
+                <!-- Copyright stuff if needed
+                <div style="width: 100%; position: absolute; bottom: 10%; text-align: center;">
+                  All game content and assets are trademarks and copyrights of SUPERCREATIVE Corp and/or Smilegate Megaport.<br>
+                  This site is fan made, not affiliated with SUPERCREATIVE Corp and/or Smilegate Megaport. 
+                </div>
+                -->
+              </div>
+              <div id="whats_new_content" style="display: none;">
+                <ul>
+                  <li style="color:#007FFF">
+                    <b>21/06/2020</b> Vertical toolbar.<br>
+                    Vertical toolbar is automatically enabled on wide devices. Can be enabled and disabled on all devices from the settings menu.
+                  </li>
                   <li style="color:rgb(0, 148, 32)">
                     <b>20/06/2020</b>: Removed teams with duplicate heroes (SC Hero + Normal hero) & other minor functions!<br>
                     Removed teams that contain the same hero twice like Lorina and Commander Lorina. If you lock SC character and he's normal version you will get an error.<br>
@@ -1069,16 +1149,25 @@ span.heroImgList {
                   </li>
                   <li style="color:#007FFF">
                     Now you can save your results:<br>
-                    In the results window tap/click <i class="fa fa-floppy-o" aria-hidden="true"></i>  , in the modal window type a name for that specific camp and click "Save".<br>
+                    In the results window tap/click <i class="fa fa-save" aria-hidden="true"></i>  , in the modal window type a name for that specific camp and click "Save".<br>
                     Your saved camps will appear in the <i class="fa fa-cog" aria-hidden="true"></i>  settings window where you can view and delete them.
                   </li>
                   <li>
                     At boot a web worker will be generated and will handle team calculations, this will prevent your browser from displaying the message "This page is not responding".<br>
                     This tool can calculate all 35.208.615 possible combinations without crashing (it has low RAM usage during calculation) but it will require a long time (13-17 minutes, locking a hero 20 seconds);
-                </li>
+                  </li>
                 </ul>
               </div>
-              <div id="instructions_content" style="display: none">
+              <div id="instructions_content" style="display: none; text-align: center; margin-top: 10%;">
+                Quick guide:
+                <div style="padding-top: 30px;">
+                  <i class="fa fa-plus" aria-hidden="true"></i>: Add heroes to your roster.<br><br>
+                  <i class="fa fa-pencil-alt" aria-hidden="true"></i>: Check your roster. Lock a hero by clicking on the portrait or remove it by clicking the <font color="red">x</font> symbol near the portrait.<br><br>
+                  <i class="fa fa-book" aria-hidden="true"></i> (optional): Set custom rules to find the best team for your needs. (Enabling advanced settings is slower for large rosters)<br><br>
+                  <i class="fas fa-fire" aria-hidden="true"></i>Click the campfire icon to find all possible combinations for your roster. (You need at least 4 heroes in your roster)<br><br>
+                  <i class="fa fa-question-circle" aria-hidden="true"></i>: You can find this icon near the title of each page. On click it will display some instructions for that page.<br><br>
+                  <i class="fa fa-cog"></i>: Change settings for the website.<br>
+                </div>
               </div>
               <div id="cool_websites_content" style="display: none; text-align: center; margin-top: 10%;">
                 Cool websites you should check out:
@@ -1102,8 +1191,10 @@ span.heroImgList {
             </template>
           </div>
         </div>
-    </div>
+      </div>
+      <!--WELCOME WINDOW END-->
 
+    <!--ADD HEROES WINDOW-->
     <div id="add_window" style="display:none;">
       <h2><span style="position:relative;top:10px;vertical-align: middle">{{strings.aggiungi}} <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px" v-on:click="helpWindow('add_window', 'add_heroes_help')"></i></span>
         <div style="display: inline-block;">
@@ -1198,7 +1289,7 @@ span.heroImgList {
             <td style="text-align: center;">
               <span v-for="key in displayList" class="heroImgList">
                 <!--<div class="fa fa-check-circle top-left" v-bind:style="'font-size:38px;color:green;display:' + isInTeam(thisHeroData(key).name)"></div>-->
-                <img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + thisHeroData(key).id + '_s.png'" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + app.thisHeroData(this.alt).id + '_s.png';" style="width:70px" v-on:click="addHero(thisHeroData(key)._id)" v-bind:alt="thisHeroData(key)._id" v-bind:titolo="thisHeroData(key).name"/>
+                <img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + thisHeroData(key).id + '_s.png'" onerror="/*this.onerror=null;*/this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + app.thisHeroData(this.alt).id + '_s.png';" style="width:70px" v-on:click="addHero(thisHeroData(key)._id)" v-bind:alt="thisHeroData(key)._id" v-bind:titolo="thisHeroData(key).name"/>
                 <div class="top-left" v-bind:style="'font-size:38px;display:' + isInTeam(thisHeroData(key)._id)">✔</div>
               </span>
             </td>
@@ -1210,7 +1301,7 @@ span.heroImgList {
           <tr v-for="key in displayList">
             <td>
               <div class="hero_potrait">
-                <img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + thisHeroData(key).id + '_s.png'" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + app.thisHeroData(this.alt).id + '_s.png';" style="width:70px;vertical-align: middle;top:15px;" v-on:click="addHero(thisHeroData(key)._id)" v-bind:alt="thisHeroData(key)._id" v-bind:titolo="thisHeroData(key).name"/>
+                <img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + thisHeroData(key).id + '_s.png'" onerror="/*this.onerror=null;*/this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + app.thisHeroData(this.alt).id + '_s.png';" style="width:70px;vertical-align: middle;top:15px;" v-on:click="addHero(thisHeroData(key)._id)" v-bind:alt="thisHeroData(key)._id" v-bind:titolo="thisHeroData(key).name"/>
 		            <span>{{ thisHeroTranslatedName(thisHeroData(key)._id) }}</span>
 		            <template v-if="isInTeam(thisHeroData(key)._id) === 'none'">  <!-- già aggiunto -->
                   <span v-on:click="addHero(thisHeroData(key)._id)" class="fa fa-plus displaylistTableIcons">   </span>
@@ -1226,16 +1317,22 @@ span.heroImgList {
 
     </div>
     <div id="manage_window" style="display:none;">
-      <h2><span style="position:relative;top:10px;vertical-align: middle">{{strings.i_tuoi_eroi}}  <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px" v-on:click="helpWindow('manage_window', 'manage_heroes_help')"></i> <font style="position:relative;top:0;color:red;font-size:12px;">({{rosterLength}})</font></span>
+      <h2>
+        <span style="position:relative;top:10px;vertical-align: middle">{{strings.i_tuoi_eroi}}
+          <span style="display: inline-block; background: rgb(250,0,80); border-radius: 4px; min-width: 40px; height: 25px; padding: 4px; text-align: center; color: white; font-size: 20px;">{{rosterLength}}</span>
+          <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px" v-on:click="helpWindow('manage_window', 'manage_heroes_help')"></i> 
+        </span>
           <div style="display: inline-block;">
             <input type="text" id="inputInMyHeroes" class="search_hero_filter searchBox" onkeyup="app.filtroTuttiGliEroi({tipo:'input',casella:this,value:this.value,className: 'search_hero_filter', name: 'ricerca'}, 'MyHeroes')" v-bind:placeholder="strings.cerca_eroe" title="Type in a name">
             <button class="search_input"><i class="fa fa-search" aria-hidden="true"></i></button>
           </div>
+          <!--
           <template v-if="locked.length>0">
             <button class="search_hero_filter active" style="width: auto;" name="filter_rarity" v-on:click="document.getElementById('calculate_window').style.display =''; document.getElementById('manage_window').style.display ='none'; isLoadingResults = true; risultati = []; var tmp = Object.keys(HeroDB); for (var i=0; i<locked.length;i++) tmp.splice(tmp.indexOf(locked[i]), 1); camperino.postMessage({HeroDB: HeroDB, myHeroesList: HeroDB, campList: tmp, locked: locked, classe: [], elemento: [], debuffs: [], buffs: [], AoE: false, noS1debuffs: false, noDebuffs: false, cartesianLock: [[],[],[],[]], preferenzeRisultati: customizedResuts, risultati: []});">
               <div style="font-size:16px">Variations</div>
             </button>
           </template>
+          -->
 	    </h2>
        <!-- Pulsanti filtro eroi -->
       <div style="display:inline-block;width:100%;">
@@ -1329,9 +1426,20 @@ span.heroImgList {
         <table id="myHeroes">
           <tr>
             <td style="text-align: center;">
-              <span v-for="key in displayMyHeroes" class="heroImgList">
-                <img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + heroId(key) + '_s.png'" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + app.thisHeroData(this.alt).id + '_s.png';" style="width:70px" v-on:click="app.lockHero(thisHeroData(key)._id)" v-bind:alt="key" v-bind:titolo="key"/><span v-on:click="app.removeHero(thisHeroData(key)._id)" class="removeHero" v-bind:title="'Remove ' + thisHeroData(key).name">×</span>
-		            <div class="top-right" v-bind:style="'display:' + isLocked(thisHeroData(key)._id)"  v-on:click="app.lockHero(thisHeroData(key)._id)">&#128274;</div>
+              <span v-for="key in displayMyHeroes" class="heroImgList" v-on:click="app.lockHero(thisHeroData(key)._id)">
+                <!-- Classco -->
+                <template v-if="isLocked(thisHeroData(key)._id) && lockType===1">
+                  <div class="top-right animate-flicker">&#128274;</div>
+                </template>
+                <!---->
+                <template v-else-if="isLocked(thisHeroData(key)._id)&& lockType===2">
+                  <img src="https://i.imgur.com/NDUMMYK.png" style="position: absolute;margin: -10px 0 0 -11px; height: 90px;">
+                </template>
+                <!---->
+                <template v-else-if="isLocked(thisHeroData(key)._id)&& lockType===3">
+                  <span style="position: absolute;margin-top: 35px;margin-left: 35px;transform: translate(-50%, -50%);font-size: 40px;" class="animate-flicker">🔒</span>
+                </template>
+                <img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + heroId(key) + '_s.png'" onerror="/*this.onerror=null;*/this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + app.thisHeroData(this.alt).id + '_s.png';" style="width:70px" v-bind:alt="key" v-bind:titolo="key"/><span v-on:click="app.removeHero(thisHeroData(key)._id)" class="removeHero" v-bind:title="'Remove ' + thisHeroData(key).name">×</span>
               </span>
             </td>
           </tr>
@@ -1342,10 +1450,10 @@ span.heroImgList {
          <tr v-for="key in displayMyHeroes">
            <td>
              <div class="hero_potrait">
-               <img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + thisHeroData(key).id + '_s.png'" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + app.thisHeroData(this.alt).id + '_s.png';" style="width:70px;vertical-align: middle;top:15px;" v-on:click="addHero(thisHeroData(key)._id)" v-bind:alt="thisHeroData(key)._id" v-bind:titolo="thisHeroData(key).name"/>
+               <img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + thisHeroData(key).id + '_s.png'" onerror="/*this.onerror=null;*/this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + app.thisHeroData(this.alt).id + '_s.png';" style="width:70px;vertical-align: middle;top:15px;" v-on:click="addHero(thisHeroData(key)._id)" v-bind:alt="thisHeroData(key)._id" v-bind:titolo="thisHeroData(key).name"/>
                 <span>{{ thisHeroTranslatedName(thisHeroData(key)._id) }}</span>
                 <span v-on:click="app.removeHero(thisHeroData(key)._id)" class="fa fa-trash displaylistTableIcons" aria-hidden="true"></span>
-                <template v-if="isLocked(thisHeroData(key)._id) === 'none'">  <!-- non lockato -->
+                <template v-if="isLocked(thisHeroData(key)._id)">  <!-- non lockato -->
                   <span class="fa fa-unlock-alt displaylistTableIcons" v-on:click="app.lockHero(thisHeroData(key)._id)"></span>
                 </template>
                 <template v-else> <!-- simbolo lock -->
@@ -1374,6 +1482,10 @@ span.heroImgList {
           <input type="checkbox" id="moraleMinimo" name="moraleMinimo" value="moraleMinimo" onclick="app.personalizzaRisultati()">
           <label for="moraleMinimo">{{strings.morale_minimo_risultati}}</label>
             <input style="display: inline-block; width: 100px; height: 20px" type="number" min="0" max="52" id="n_moraleMinimo" onkeyup="app.personalizzaRisultati()" placeholder="0 - 52" title="Min morale" disabled>
+        </span>
+        <span style="width: 95%">
+          <input type="checkbox" id="includi_locked_in_advanced_settings" onclick="app.personalizzaRisultati()">
+          <label for="includi_locked_in_advanced_settings">{{strings.includi_locked_in_adv}}</label>
         </span>
         <!--<span>
           <input type="checkbox" id="disattivaImmaingiRisultati" name="disattivaImmaingiRisultati" onclick="app.personalizzaRisultati()">
@@ -1469,7 +1581,7 @@ span.heroImgList {
           </tbody>
           <tbody>
             <tr v-for="(item, index) in risultati">
-              <td width="4%" style="padding-top: 30px;padding-bottom: 30px;text-align: center;" v-on:click="mostraSalvaRisultato(index)"><i class="fa fa-floppy-o" aria-hidden="true" style="font-size:30px;"></i>
+              <td width="4%" style="padding-top: 30px;padding-bottom: 30px;text-align: center;" v-on:click="mostraSalvaRisultato(index)"><i class="fa fa-save" aria-hidden="true" style="font-size:30px;"></i>
                 <br>{{index+1}}</td>
               <td class="hero_potrait"><img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + heroId(item.team[0]) + '_s.png'" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + app.thisHeroData(this.alt).id + '_s.png';" style="width:55px;height:55px;" v-bind:alt="item.team[0]" v-bind:titolo="item.team[0]"/></td>
               <td class="hero_potrait"><img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + heroId(item.team[1]) + '_s.png'" onerror="this.onerror=null;this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + app.thisHeroData(this.alt).id + '_s.png';" style="width:55px;height:55px;" v-bind:alt="item.team[1]" v-bind:titolo="item.team[1]"/></td>
@@ -1492,7 +1604,7 @@ span.heroImgList {
         </div>
         <div class="extra_icon box_advanced_settings" onclick="setWindow('my_teams_window')">
           <span>
-            <i class="fa fa-floppy-o" aria-hidden="true" style="font-size:90px;"></i><br><br>
+            <i class="fa fa-save" aria-hidden="true" style="font-size:90px;"></i><br><br>
             {{strings.my_teams}}
           </span>
         </div>
@@ -1504,7 +1616,7 @@ span.heroImgList {
         </div>
         <div class="extra_icon box_advanced_settings" onclick="setWindow('saved_teams_stats');app.computedGetSavedTeamsStats;">
           <span>
-            <i class="fa fa-bar-chart" aria-hidden="true" style="font-size:90px;"></i><br><br>
+            <i class="fa fa-chart-bar" aria-hidden="true" style="font-size:90px;"></i><br><br>
             {{strings.most_saved_teams}}
           </span>
         </div>
@@ -1642,16 +1754,16 @@ span.heroImgList {
 
     <div id="toolbar" class="icon-bar"> <!-- nascondi toolbar durante il calcolo -->
       <span id="icon-bar_add_window" onclick="setWindow('add_window')"><!--&#43;--><i class="fa fa-plus" aria-hidden="true"></i></span>
-      <span id="icon-bar_manage_window" onclick="setWindow('manage_window')"><!--&#9998;--><i class="fa fa-pencil" aria-hidden="true"></i></span>
+      <span id="icon-bar_manage_window" onclick="setWindow('manage_window')"><!--&#9998;--><i class="fa fa-pencil-alt" aria-hidden="true"></i></span>
       <span id="icon-bar_advanced_window" onclick="setWindow('advanced_window')"><!--&#9876;--><i class="fa fa-book" aria-hidden="true"></i></span>
       <span id="icon-bar_calculate_window" v-on:click="calcolaRisultati; setWindow('calculate_window');" style="font-size:36px;max-height:65.5px;">
         <!--Calcola-->
         <img src="https://cdn.glitch.com/5c21c869-ea9a-48ba-b019-90cd493f45cd%2Fcamp-fire-icon%20small.png?v=1585067234171" style="position:relative;top:-5px;margin-bottom:-10px;height:40px;" />
       </span>
       <span id="icon-bar_settings_window" onclick="setWindow('extras_window')"><!--&#9881;--><i class="fa fa-cog"></i></span>
-      <span id="icon-bar_my_teams_window" onclick="setWindow('my_teams_window')" style="display: none;"><i class="fa fa-floppy-o"></i></span>
+      <span id="icon-bar_my_teams_window" onclick="setWindow('my_teams_window')" style="display: none;"><i class="fa fa-save"></i></span>
       <span id="icon-bar_raid_map_window" onclick="setWindow('raid_map')" style="display: none;"><i class="fa fa-map"></i></span>
-      <span id="icon-bar_team_stats_window" onclick="setWindow('saved_teams_stats');app.computedGetSavedTeamsStats;" style="display: none;"><i class="fa fa-bar-chart"></i></span>
+      <span id="icon-bar_team_stats_window" onclick="setWindow('saved_teams_stats');app.computedGetSavedTeamsStats;" style="display: none;"><i class="fa fa-chart-bar"></i></span>
       <span id="icon-bar_real_settings_window" onclick="setWindow('settings_window')" style="display: none;"><i class="fa fa-cog"></i></span>
     </div>
 
@@ -1704,6 +1816,7 @@ span.heroImgList {
     
     function setWindow(current) {
       scrollTo(0,0);
+      currentTab = current; // For swap function
       document.getElementById('welcome').style.display='none';
       document.getElementById('add_window').style.display='none';
       document.getElementById('manage_window').style.display='none';
@@ -1862,20 +1975,7 @@ function askNotificationPermission() {
 };
 
   function setToolbarPosition (f) {
-    var sheet = document.styleSheets || [];
     var f = f!=undefined ? f : "hor", appDoc = document.getElementById("app");
-    var rules = f==="hor" ? {".icon-bar": "z-index: 2; position: fixed; bottom: 0; right: 0; width: 100%; background-color: #555; overflow: auto;", ".icon-bar span": "float: left; text-align: center; width: 20%; padding: 12px 0; transition: all 0.3s ease; color: white; font-size: 36px;"} : {".icon-bar": "position: fixed; top: 0; left: 0; height: 100vh;width: 90px; background-color: #555;", ".icon-bar span": "display: block; text-align: center; padding: 16px; transition: all 0.3s ease; color: white; font-size: 36px;"};
-    for (var j=sheet.length-1; j>0; j--) {
-      var documentRules = sheet[j].cssRules || sheet[j].rules;
-      for (var rule in rules) {
-        for (var i = 0; i < documentRules.length; i++) {
-          if (documentRules[i].selectorText === rule) {
-            documentRules[i].style = rules[rule];
-            break;
-          };
-        };
-      };
-    };
     if (f === "hor") {
       appDoc.style.marginLeft = "0";
       appDoc.style.marginBottom = "70px";
@@ -1884,6 +1984,7 @@ function askNotificationPermission() {
       document.getElementById("icon-bar_my_teams_window").style.display = "none";
       document.getElementById("icon-bar_raid_map_window").style.display = "none";
       document.getElementById("icon-bar_team_stats_window").style.display = "none";
+      document.getElementById("toolbar").className = "icon-bar";
     } else {
       appDoc.style.marginLeft = "90px";
       appDoc.style.marginBottom = "0";
@@ -1892,6 +1993,7 @@ function askNotificationPermission() {
       document.getElementById("icon-bar_my_teams_window").style.display = "";
       document.getElementById("icon-bar_raid_map_window").style.display = "";
       document.getElementById("icon-bar_team_stats_window").style.display = "";
+      document.getElementById("toolbar").className = "vertical-icon-bar";
     };
   };
 
@@ -1912,6 +2014,60 @@ function askNotificationPermission() {
     app.writeSettings();
   };
 
+
+  //////////////// M O B I L E  S W I P //////////////////
+  var touchStart = null;
+  var htoolbarTabs = ['add_window', 'manage_window', 'advanced_window', 'calculate_window', 'extras_window'];
+  var vtoolbarTabs = ['add_window', 'manage_window', 'advanced_window', 'calculate_window', 'my_teams_window', 'raid_map', 'saved_teams_stats', 'settings_window'];
+  var currentTab = "welcome";
+  window.addEventListener("touchstart",function(event){
+   if(event.touches.length === 1){
+      //just one finger touched
+      touchStart = event.touches.item(0).clientX;
+    }else{
+      //a second finger hit the screen, abort the touch
+      touchStart = null;
+    };
+  });
+  window.addEventListener("touchend",function(event){
+    var offset = 120;//at least 120px are a swipe
+    if(touchStart && app && !app.isLoadingResults){ // Can't swipe if loading results
+      var end = event.changedTouches.item(0).clientX;
+      var pageTabs = document.getElementById("toolbar_position").checked ? vtoolbarTabs : htoolbarTabs;
+      var currIndex = pageTabs.indexOf(currentTab);
+      if(end > touchStart + offset){//left -> right swipe
+        currIndex = currIndex-1 < 0 ? pageTabs.length-1 : currIndex-1;
+        setWindow(pageTabs[currIndex]);
+      } else if (end < touchStart - offset ){//left -> right swipe
+        currIndex = currIndex+1 > pageTabs.length-1 ? 0 : currIndex+1;
+        setWindow(pageTabs[currIndex]);
+      };
+      pageTabs[currIndex] === "calculate_window" ? app.calcolaRisultati : null;
+      //snackbarMessage(currIndex);
+    };
+  });
+  document.addEventListener('keydown', swipeTab);
+  function swipeTab(e){
+    if(app && !app.isLoadingResults){ // Can't swipe if loading results
+      var pageTabs = document.getElementById("toolbar_position").checked ? vtoolbarTabs : htoolbarTabs;
+      var currIndex = pageTabs.indexOf(currentTab);
+      switch (e.code) {
+        case 'ArrowRight':
+        case 'ArrowDown':
+          currIndex = currIndex+1 > pageTabs.length-1 ? 0 : currIndex+1;
+          setWindow(pageTabs[currIndex]);
+          break;
+        case 'ArrowLeft':
+        case 'ArrowUp':
+          currIndex = currIndex-1 < 0 ? pageTabs.length-1 : currIndex-1;
+          setWindow(pageTabs[currIndex]);
+          break;
+        default:
+          return;
+      };
+      pageTabs[currIndex] === "calculate_window" ? app.calcolaRisultati : null;
+    };
+  };
 
     //// context menu
     var showValues = false;
@@ -2021,8 +2177,9 @@ function mandaNotificaCompletamento(){
 };
 
 function snackbarMessage(text) {
-  $( "#snackbar" ).text(text);
+  //$( "#snackbar" ).text(text);
   var x = document.getElementById("snackbar");
+  x.innerHTML = text;
   x.className = "show";
   setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 };
@@ -2090,6 +2247,7 @@ function backendCalculation(camp) {
               strings: {},
               HeroDB: {}, // start the Database with the users heroes already in (to avoid boot errors)
               sortedHeroDB: [], // sort A to Z
+              displayList: [],
               buffList: {
                 "stic_debuf_impossible": {"name": "Immunity", "id": 12},
                 "stic_att_up": {"name": "Attack up", "id": 1},
@@ -2126,7 +2284,6 @@ function backendCalculation(camp) {
                 "stic_vampire": {"name": "Vampire", "id": 23},
                 "stic_bomb": {"name": "Bomb", "id": 53}
               },
-              displayList: [],
               myHeroesList: {},
               displayMyHeroes: [],
               rosterLength: 0,
@@ -2148,6 +2305,7 @@ function backendCalculation(camp) {
               inizializzazione: true, //nascondi tutto durante il caricamento iniziale di vue
               numeroCombinazioniPossibili: "/",
               lingua: "en", // Just a placeholder during boot, language is set at line 1701 and 1705
+              lockType: 2,
               translatedName:{}
             };
         },
@@ -2218,15 +2376,18 @@ function backendCalculation(camp) {
                 } else return "none";
           },
           isLocked: function(hero) {
-                if (this.locked.includes(hero)) {
-                  return ""
-                } else return "none";
+            if (this.locked.includes(hero))
+              return true;
+            else 
+              return false;
           },
           lockHero: function(hero) {
              if (!this.locked.includes(hero)) { // lock
                if (this.locked.length < 4) {
                 this.locked.push(hero);
-               } else {}
+               } else {
+                 snackbarMessage("4 Heroes Locked")
+               }
             } else { // già locked -> sblocca
               this.locked.splice(this.locked.indexOf(hero), 1)
             };
@@ -2816,7 +2977,7 @@ function backendCalculation(camp) {
             };
           },
           personalizzaRisultati: function () {
-            var risultati = { numeroMassimo: true, n: 200, noImmagini: false, minMorale: false, morale: 0 }
+            var risultati = { numeroMassimo: true, n: 200, noImmagini: false, minMorale: false, morale: 0, lockedMatter: false }
             checkNumeroMassimo = document.getElementById("numeroRisultatiMassimo");
             valoreRisultatiMassimo = document.getElementById("n_risultati");
             checkMoraleMinimo = document.getElementById("moraleMinimo");
@@ -2836,6 +2997,7 @@ function backendCalculation(camp) {
               risultati.minMorale = false;
               valoreMoraleMinimo.disabled = true;
             };
+            if (document.getElementById("includi_locked_in_advanced_settings").checked) risultati.lockedMatter = true;
             //if (checkImmagini.checked) {
             //  risultati.noImmagini = true;
             //};
@@ -2978,6 +3140,7 @@ function backendCalculation(camp) {
                 this.strings = {
                   welcome: "Benvenuto",
                   whats_new: "Novità",
+                  instructions: "Istruzioni",
                   websites: "Pagine",
                   credits: "Credits",
                   messaggio_di_benvenuto: "Benvenuto su Epic Seven Camp simulator",
@@ -2997,6 +3160,7 @@ function backendCalculation(camp) {
                   impostazioni_avanzate: "Impostazioni Avanzate",
                   numero_massimo_risultati: "Numero massimo di risultati",
                   morale_minimo_risultati: "Morale minimo",
+                  includi_locked_in_adv: "Gli eroi bloccati contano al fine del raggiungimento delle condizioni avanzate",
                   disabilita_immagini_in_risultati: "Disabilita avatar dei personaggi nei risultati (consigliato se si richiedono tanti risultati)",
                   deve_contenere_AoE: "Team deve contenere AoE",
                   no_s1_debuffs: "No S1 Debuffs (Esclusi: Provoke, Sleep, Stun e Poison)",
@@ -3079,6 +3243,7 @@ function backendCalculation(camp) {
                 this.strings = {
                   welcome: "欢迎",
                   whats_new: "更新日志",
+                  instructions: "简明教程",
                   websites: "实用链接",
                   credits: "作者",
                   messaggio_di_benvenuto: "欢迎使用第七史诗露营模拟器",
@@ -3098,6 +3263,7 @@ function backendCalculation(camp) {
                   impostazioni_avanzate: "高级设置",
                   numero_massimo_risultati: "显示结果数量",
                   morale_minimo_risultati: "最低心情限制",
+                  includi_locked_in_adv: "高级设置包括锁定的英雄",
                   disabilita_immagini_in_risultati: "结果页不显示英雄头像 (如果你设定的显示结果数量非常大，关闭英雄头像显示有助于提升性能)",
                   deve_contenere_AoE: "队伍必须包含 AoE",
                   no_s1_debuffs: "S1不带Debuff (挑衅, 睡眠, 晕眩 和中毒除外)",
@@ -3180,6 +3346,7 @@ function backendCalculation(camp) {
                 this.strings = {
                   welcome: "歡迎",
                   whats_new: "更新日誌",
+                  instructions: "簡明教程",
                   websites: "實用鏈接",
                   credits: "作者",
                   messaggio_di_benvenuto: "歡迎使用第七史詩露營模擬器",
@@ -3199,6 +3366,7 @@ function backendCalculation(camp) {
                   impostazioni_avanzate: "高級設定",
                   numero_massimo_risultati: "顯示結果數量",
                   morale_minimo_risultati: "最低心情限制",
+                  includi_locked_in_adv: "高級設置包括鎖定的英雄",
                   disabilita_immagini_in_risultati: "結果頁不顯示英雄頭像 (如果你設定的顯示結果數量非常大，關閉英雄頭像顯示有助於提升性能)",
                   deve_contenere_AoE: "隊伍必須包含 AoE",
                   no_s1_debuffs: "S1不帶Debuff (挑釁, 睡眠，暈眩 和中毒除外)",
@@ -3281,6 +3449,7 @@ function backendCalculation(camp) {
                 this.strings = {
                   welcome: "Bienvenue",
                   whats_new: "Quoi de neuf",
+                  instructions: "Instructions",
                   websites: "Sites web",
                   credits: "Crédits",
                   messaggio_di_benvenuto: "Bienvenue à E7 Camp Simulateur",
@@ -3300,6 +3469,7 @@ function backendCalculation(camp) {
                   impostazioni_avanzate: "Paramètre avancé",
                   numero_massimo_risultati: "Nombre maximum de résultats de camping",
                   morale_minimo_risultati: "Minimum morale",
+                  includi_locked_in_adv: "Héros verrouillés inclus dans les paramètres avancés",
                   disabilita_immagini_in_risultati: "Désactiver l'avatar du héro dans l'écran des résultats (Améliorer les performances si vous demandez trop de résultats)",
                   deve_contenere_AoE: "Equipe doit contenir AoE",
                   no_s1_debuffs: "S1 sans Debuff (Sauf: Provoquer, Sommeil, Etourdir et Poison)",
@@ -3372,6 +3542,7 @@ function backendCalculation(camp) {
                 this.strings = {
                   welcome: "Welcome",
                   whats_new: "What's new",
+                  instructions: "Instructions",
                   websites: "Websites",
                   credits: "Credits",
                   messaggio_di_benvenuto: "Welcome to Epic Seven Camp simulator",
@@ -3391,6 +3562,7 @@ function backendCalculation(camp) {
                   impostazioni_avanzate: "Advanced settings",
                   numero_massimo_risultati: "Maximum number of camping results",
                   morale_minimo_risultati: "Minimum morale",
+                  includi_locked_in_adv: "Locked heroes count towards the fulfillment of the selected advanced settings",
                   disabilita_immagini_in_risultati: "Disable character's avatar in results screen (better performance for your browser if you request too many results)",
                   deve_contenere_AoE: "Team must have AoE",
                   no_s1_debuffs: "No S1 Debuffs (Except: Provoke, Sleep, Stun and Poison)",
@@ -4447,27 +4619,33 @@ function backendCalculation(camp) {
           this.updateUserData();
         } catch (err) { // if URL is corrupted
           console.log("Error: corrupted URL");
+          snackbarMessage("Error: corrupted URL roster!<br>Loading from local storage.");
           this.getUserHeroesBoot(); // get heroes list from file
         };
       },
       boot: function () {
-        var urlParams = new URLSearchParams(window.location.search);
-        var getDbEng = new XMLHttpRequest();
-        getDbEng.open( "GET", "./HeroDatabase.json", false ); // false for synchronous request
-        getDbEng.send( null );
-        this.HeroDB = JSON.parse(getDbEng.response);
-        this.sortedHeroDB = Object.keys(this.HeroDB).sort(function (a,b) {return ((a < b) ? -1 : ((a == b) ? 0: 1))});
-        if (!urlParams.get("camproster")) { // get roster from file
-          this.getUserHeroesBoot();
-        } else {// get roster from url
-          this.getUserHeroesURL(urlParams.get("camproster"));
-          window.history.pushState("", "", window.location.pathname); // remove ?camproster= from the URL to avoid accidental refreshes replacing your current team
+        try {
+          var urlParams = new URLSearchParams(window.location.search);
+          var getDbEng = new XMLHttpRequest();
+          getDbEng.open( "GET", "./HeroDatabase.json", false ); // false for synchronous request
+          getDbEng.send( null );
+          this.HeroDB = JSON.parse(getDbEng.response);
+          this.sortedHeroDB = Object.keys(this.HeroDB).sort(function (a,b) {return ((a < b) ? -1 : ((a == b) ? 0: 1))});
+          if (!urlParams.get("camproster")) { // get roster from file
+            this.getUserHeroesBoot();
+          } else {// get roster from url
+            this.getUserHeroesURL(urlParams.get("camproster"));
+            window.history.pushState("", "", window.location.pathname); // remove ?camproster= from the URL to avoid accidental refreshes replacing your current team
+          };
+          this.sendAllTeams();
+          this.impostaLingua();
+          this.inizializzaione();
+          this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
+          this.inizializzazione = false;
+        } catch (err) {
+          console.log(err);
+          document.getElementById("caricamentoIniziale").innerHTML += "<span style='position: fixed; bottom: 0; right: 0; color: red; padding: 10px'><pre>FATAL ERROR<br>"+err+"<br><span style='color:green'>Please retry or contact me.</span></pre></span>";
         };
-        this.sendAllTeams();
-        this.impostaLingua();
-        this.inizializzaione();
-        this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
-        this.inizializzazione = false;
       },
       inizializzaione: function () {
         self = this;
