@@ -1453,7 +1453,7 @@ span.heroImgList {
                <img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + thisHeroData(key).id + '_s.png'" onerror="/*this.onerror=null;*/this.src='https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + app.thisHeroData(this.alt).id + '_s.png';" style="width:70px;vertical-align: middle;top:15px;" v-on:click="addHero(thisHeroData(key)._id)" v-bind:alt="thisHeroData(key)._id" v-bind:titolo="thisHeroData(key).name"/>
                 <span>{{ thisHeroTranslatedName(thisHeroData(key)._id) }}</span>
                 <span v-on:click="app.removeHero(thisHeroData(key)._id)" class="fa fa-trash displaylistTableIcons" aria-hidden="true"></span>
-                <template v-if="isLocked(thisHeroData(key)._id)">  <!-- non lockato -->
+                <template v-if="!isLocked(thisHeroData(key)._id)">  <!-- non lockato -->
                   <span class="fa fa-unlock-alt displaylistTableIcons" v-on:click="app.lockHero(thisHeroData(key)._id)"></span>
                 </template>
                 <template v-else> <!-- simbolo lock -->
