@@ -6,7 +6,7 @@
     <meta name="viewport" content="initial-scale=0.6, user-scalable=no">
     <title>E7 Camp Simulator</title>
     <meta name="keywords" content="epic seven camping, epic 7 camping simulator, e7 camp simulator, epic 7 morale calculator, e7 raid, epic seven raid" />
-    <meta name="description" content="Epic Seven Morale Calculator for Raid and Labyrinth. Add your roster to find the best team combination with high morale!" />
+    <meta name="description" content="Epic Seven Camping Simulator for Raid and Labyrinth. Add your roster to find the best team combination with high morale!" />
   
     <!--Favicon-->
     <link rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon.png">
@@ -199,11 +199,10 @@ span.heroImgList {
     margin-bottom: 12px;
     margin-left: 12px;
     margin-right: 12px;
-    /*font-weight: bold;*/
+    font-weight: bold;
     font-size:24px;
     color: var(--font-color);/*color: #221461;*/
-    /*The change*/
-    display:inline-block; /*or display:block;*/
+    display:inline-block;
     vertical-align: top;
 }
 .heroImgList:hover,
@@ -214,6 +213,7 @@ span.heroImgList {
 }
 .heroNameLabel {
   word-break: break-word;
+  font-weight: normal;
   font-size: 14px;
   margin: 0;
   width: 81px;
@@ -1443,11 +1443,11 @@ span.heroImgList {
                 <template v-if="isLocked(thisHeroData(key)._id) && lockType===1">
                   <div class="top-right animate-flicker">&#128274;</div>
                 </template>
-                <!---->
+                <!--Frame small frame="height: 90px; margin: -8px 0 0 -9px;" perfect frame="height: 100px; margin: -12px 0 0 -13px;"-->
                 <template v-else-if="isLocked(thisHeroData(key)._id)&& lockType===2">
-                  <img src="https://i.imgur.com/NDUMMYK.png" style="position: absolute;margin: -10px 0 0 -11px; height: 90px;">
+                  <img src="https://i.imgur.com/NDUMMYK.png" style="position: absolute; margin: -8px 0 0 -9px; height: 90px;">
                 </template>
-                <!---->
+                <!--Big lock-->
                 <template v-else-if="isLocked(thisHeroData(key)._id)&& lockType===3">
                   <span style="position: absolute;margin-top: 35px;margin-left: 35px;transform: translate(-50%, -50%);font-size: 40px;" class="animate-flicker">🔒</span>
                 </template>
@@ -1461,7 +1461,7 @@ span.heroImgList {
         </table>
       </template>
       <template v-else-if="displayStyle === 'list'">  <!-- Lista -->
-        <table class="displaylistTable" style="margin-left:auto;margin-right:auto;">
+        <table id="myHeroes" class="displaylistTable" style="margin-left:auto;margin-right:auto;">
          <tr v-for="key in displayMyHeroes">
            <td>
              <div class="hero_potrait">
@@ -1869,6 +1869,11 @@ span.heroImgList {
       document.getElementById("icon-bar_my_teams_window").className = "";
       document.getElementById("icon-bar_raid_map_window").className = "";
       document.getElementById("icon-bar_team_stats_window").className = "";
+
+      /*document.getElementById(current).style.display='block';
+      document.getElementById("icon-bar_"+current).className = "active-icon-bar";
+      if (current === "my_teams_window"  || current === "raid_map" || current === "saved_teams_stats") document.getElementById("icon-bar_settings_window").className = "active-icon-bar";
+      if (current === "settings_window") document.getElementById("icon-bar_real_settings_window").className = "active-icon-bar";*/
       switch (current) {
         case 'add_window':
           document.getElementById('add_window').style.display='block';
@@ -1964,45 +1969,45 @@ span.heroImgList {
   };
   function switchNotifiche() {
     if ('permissions' in navigator) {
-          if (riceviNotifiche == true) {
-            riceviNotifiche = false;
-            document.getElementById("notifications_toggle").checked = false;
-          } else {
-            riceviNotifiche = true;
-            document.getElementById("notifications_toggle").checked = true;
-          };
-          app.writeSettings();
+      if (riceviNotifiche == true) {
+        riceviNotifiche = false;
+        document.getElementById("notifications_toggle").checked = false;
+      } else {
+        riceviNotifiche = true;
+        document.getElementById("notifications_toggle").checked = true;
+      };
+      app.writeSettings();
     };
   };
 
-function askNotificationPermission() {
-  // Chiedi il permesso
-  function handlePermission(permission) {
-    // Conserva l'informazione
-    if(!('permission' in Notification)) {
-      Notification.permission = permission;
-    }
-    if (permission == "granted") {
-      switchNotifiche();
-    } else document.getElementById("notifications_toggle").checked = false;
-  };
+  function askNotificationPermission() {
+    // Chiedi il permesso
+    function handlePermission(permission) {
+      // Conserva l'informazione
+      if(!('permission' in Notification)) {
+        Notification.permission = permission;
+      }
+      if (permission == "granted") {
+        switchNotifiche();
+      } else document.getElementById("notifications_toggle").checked = false;
+    };
 
-  // Controlla se il browser supporta notifiche
-  if (!(Notification)) {
-    console.log("This browser does not support notifications.");
-  } else {
-        if(checkNotificationPromise()) {
-          Notification.requestPermission()
-          .then((permission) => {
-            handlePermission(permission);
-          });
-        } else {
-          Notification.requestPermission(function(permission) {
-            handlePermission(permission);
-          });
-        };
+    // Controlla se il browser supporta notifiche
+    if (!(Notification)) {
+      console.log("This browser does not support notifications.");
+    } else {
+      if(checkNotificationPromise()) {
+        Notification.requestPermission()
+        .then((permission) => {
+          handlePermission(permission);
+        });
+      } else {
+        Notification.requestPermission(function(permission) {
+          handlePermission(permission);
+        });
+      };
+    };
   };
-};
 
   function setToolbarPosition (f) {
     var f = f!=undefined ? f : "hor", appDoc = document.getElementById("app");
@@ -2043,7 +2048,7 @@ function askNotificationPermission() {
     else setToolbarPosition ();
     app.writeSettings();
   };
-  console.log(userSettings.heroNameInGrid)
+
   if (userSettings.heroNameInGrid == true) $("#heroNameInGrid").attr('checked', true);
   function toggleNamesInGrid () {
     userSettings.heroNameInGrid = document.getElementById("heroNameInGrid").checked;
@@ -2105,120 +2110,121 @@ function askNotificationPermission() {
     };
   };
 
-    //// context menu
-    var showValues = false;
+  //// context menu
+  var showValues = false;
+  if (showValues == true) {
+    var checkBoxes = $("#showValues_toggle");
+    checkBoxes.attr('checked', true);
+  };
+  function toggleDebugValues() {
     if (showValues == true) {
-      var checkBoxes = $("#showValues_toggle");
-      checkBoxes.attr('checked', true);
-    };
-    function toggleDebugValues() {
-      if (showValues == true) {
-        showValues = false;
-        document.getElementById("showValues_toggle").checked = false;
-      } else {
-        showValues = true;
-        document.getElementById("showValues_toggle").checked = true;
-      };
-    };
-    function getPosition(e) {
-      var posx = 0;
-      var posy = 0;
-
-      if (!e) var e = window.event;
-
-      if (e.pageX || e.pageY) {
-        posx = e.pageX;
-        posy = e.pageY;
-      } else if (e.clientX || e.clientY) {
-        posx = e.clientX + document.body.scrollLeft + 
-                          document.documentElement.scrollLeft;
-        posy = e.clientY + document.body.scrollTop + 
-                          document.documentElement.scrollTop;
-      }
-
-      return {
-        x: posx,
-        y: posy
-      };
-    };
-
-if (document.addEventListener) {
-  var tastoDestro = 0;
-  document.addEventListener('click', function(e) {
-    if (tastoDestro != 0) {
-      tastoDestro = 0;
-      $('#debugHeroInfo').remove();
-    }; 
-  }); 
-  document.addEventListener('contextmenu', function(e) {
-    if (showValues == true) {
-      if (tastoDestro != 0) {
-          $('#debugHeroInfo').remove();
-      }; 
-      if ((e.target.parentNode.className == "heroImgList" || e.target.parentNode.className == "hero_potrait") && e.target.tagName == "IMG") {
-        tastoDestro = 1;
-        var posX, posY;
-        let clickCoords = getPosition(e);
-        let clickCoordsX = clickCoords.x;
-        let clickCoordsY = clickCoords.y;
-
-        let menuWidth = 200 + 4;
-        let menuHeight = 480 + 4;
-        let currentYPosition = e.pageY;
-        
-        let windowWidth = window.innerWidth;
-        let windowHeight = window.innerHeight;
-
-        if ( (windowWidth - clickCoordsX - 50) < menuWidth ) {
-          posX = clickCoordsX - menuWidth - 15 + "px";
-        } else {
-          posX = clickCoordsX + "px";
-        }
-
-        if ( (windowHeight - e.clientY - 50) < menuHeight ) {
-          posY = clickCoordsY + windowHeight - e.clientY - menuHeight - 50 + "px";
-        } else {
-          posY = clickCoordsY + "px";
-        }
-
-        var topics = "";
-        for (var key in app.HeroDB[e.target.alt].camping.values) {
-          topics += `<div style="border-bottom: 1px solid grey;">` + app.translateTopics(key) + " " + '<span style="float: right;">' + app.HeroDB[e.target.alt].camping.values[key] + '</span></div>'
-        };
-        $( "#app" ).append(`
-        <div id="debugHeroInfo" class="blur" style="width:200px;position:absolute; top:` + posY + `; left:` + posX + `; padding: 10px;">
-          ` + "<center>" + app.translatedName[e.target.alt] + "</center>" +
-          `<div style="font-size:12px">` +
-            app.strings.topics + ": " + app.translateTopics(app.HeroDB[e.target.alt].camping.topics[0]) + ", " +  app.translateTopics(app.HeroDB[e.target.alt].camping.topics[1]) + "<br><br>" +
-            topics
-          + `</div>
-          </div>
-        `);
-        e.preventDefault(); // hide left click
-      };
-    };
-  }, false);
-} else {
-  document.attachEvent('oncontextmenu', function() {
-    window.event.returnValue = false;
-  });
-};
-function mandaNotificaCompletamento(){
-  if (riceviNotifiche == true) {
-    if (document.visibilityState != 'visible') {
-      var icon = "./favicons/android-chrome-192x192.png" // "https://cdn.glitch.com/5c21c869-ea9a-48ba-b019-90cd493f45cd%2Fcamp-fire-icon%20small.png?v=1585067234171"
-      var notification = new Notification(app.strings.notification_title, { body: app.strings.notification_ready, icon: icon }); // manda notifica di completamento
+      showValues = false;
+      document.getElementById("showValues_toggle").checked = false;
+    } else {
+      showValues = true;
+      document.getElementById("showValues_toggle").checked = true;
     };
   };
-};
+  function getPosition(e) {
+    var posx = 0;
+    var posy = 0;
 
-function snackbarMessage(text) {
-  //$( "#snackbar" ).text(text);
-  var x = document.getElementById("snackbar");
-  x.innerHTML = text;
-  x.className = "show";
-  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-};
+    if (!e) var e = window.event;
+
+    if (e.pageX || e.pageY) {
+      posx = e.pageX;
+      posy = e.pageY;
+    } else if (e.clientX || e.clientY) {
+      posx = e.clientX + document.body.scrollLeft + 
+                        document.documentElement.scrollLeft;
+      posy = e.clientY + document.body.scrollTop + 
+                        document.documentElement.scrollTop;
+    }
+
+    return {
+      x: posx,
+      y: posy
+    };
+  };
+
+  if (document.addEventListener) {
+    var tastoDestro = 0;
+    document.addEventListener('click', function(e) {
+      if (tastoDestro != 0) {
+        tastoDestro = 0;
+        $('#debugHeroInfo').remove();
+      }; 
+    }); 
+    document.addEventListener('contextmenu', function(e) {
+      if (showValues == true) {
+        if (tastoDestro != 0) {
+            $('#debugHeroInfo').remove();
+        }; 
+        if ((e.target.parentNode.className == "heroImgList" || e.target.parentNode.className == "hero_potrait") && e.target.tagName == "IMG") {
+          tastoDestro = 1;
+          var posX, posY;
+          let clickCoords = getPosition(e);
+          let clickCoordsX = clickCoords.x;
+          let clickCoordsY = clickCoords.y;
+
+          let menuWidth = 200 + 4;
+          let menuHeight = 480 + 4;
+          let currentYPosition = e.pageY;
+          
+          let windowWidth = window.innerWidth;
+          let windowHeight = window.innerHeight;
+
+          if ( (windowWidth - clickCoordsX - 50) < menuWidth ) {
+            posX = clickCoordsX - menuWidth - 15 + "px";
+          } else {
+            posX = clickCoordsX + "px";
+          }
+
+          if ( (windowHeight - e.clientY - 50) < menuHeight ) {
+            posY = clickCoordsY + windowHeight - e.clientY - menuHeight - 50 + "px";
+          } else {
+            posY = clickCoordsY + "px";
+          }
+
+          var topics = "";
+          for (var key in app.HeroDB[e.target.alt].camping.values) {
+            topics += `<div style="border-bottom: 1px solid grey;">` + app.translateTopics(key) + " " + '<span style="float: right;">' + app.HeroDB[e.target.alt].camping.values[key] + '</span></div>'
+          };
+          $( "#app" ).append(`
+          <div id="debugHeroInfo" class="blur" style="width:200px;position:absolute; top:` + posY + `; left:` + posX + `; padding: 10px;">
+            ` + "<center>" + app.translatedName[e.target.alt] + "</center>" +
+            `<div style="font-size:12px">` +
+              app.strings.topics + ": " + app.translateTopics(app.HeroDB[e.target.alt].camping.topics[0]) + ", " +  app.translateTopics(app.HeroDB[e.target.alt].camping.topics[1]) + "<br><br>" +
+              topics
+            + `</div>
+            </div>
+          `);
+          e.preventDefault(); // hide left click
+        };
+      };
+    }, false);
+  } else {
+    document.attachEvent('oncontextmenu', function() {
+      window.event.returnValue = false;
+    });
+  };
+
+  function mandaNotificaCompletamento(){
+    if (riceviNotifiche == true) {
+      if (document.visibilityState != 'visible') {
+        var icon = "./favicons/android-chrome-192x192.png" // "https://cdn.glitch.com/5c21c869-ea9a-48ba-b019-90cd493f45cd%2Fcamp-fire-icon%20small.png?v=1585067234171"
+        var notification = new Notification(app.strings.notification_title, { body: app.strings.notification_ready, icon: icon }); // manda notifica di completamento
+      };
+    };
+  };
+
+  function snackbarMessage(text) {
+    //$( "#snackbar" ).text(text);
+    var x = document.getElementById("snackbar");
+    x.innerHTML = text;
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  };
 
   function sendTeamUsageStatistics(data) {
     $.ajax({
@@ -3153,7 +3159,7 @@ function snackbarMessage(text) {
               } else {
                 document.title = "E7 Camp Simulator";
                 document.getElementsByTagName('meta')["keywords"].content = "epic seven camping, epic 7 camping simulator, e7 camp simulator, epic 7 morale calculator, e7 raid, epic seven raid";
-                document.getElementsByTagName('meta')["description"].content = "E7 Morale Calculator. Add your roster to find the best team combination with high morale!";
+                document.getElementsByTagName('meta')["description"].content = "Epic Seven Camping Simulator for Raid and Labyrinth. Add your roster to find the best team combination with high morale!";
               };
 
               if (this.lingua == "it") {
@@ -4767,7 +4773,17 @@ function snackbarMessage(text) {
       };
     };
   };
-
+  /*
+  window.onerror = function (message, file, line, col, error) {
+   snackbarMessage("ERROR<br>"+error.message + "<br>"+file+" "+line+":"+col);
+   return false;
+  };
+  */
+  window.addEventListener("error", function (e) {
+    //alert("Error occurred: " + e.error.message);
+    snackbarMessage("ERROR<br>"+e.message + "<br>"+e.error.fileName+" "+e.lineNumber+":"+e.columnNumber);
+    return false;
+  });
 </script>
 </body>
 </html>
