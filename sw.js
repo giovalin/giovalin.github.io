@@ -34,23 +34,20 @@ self.addEventListener('fetch', event => {
       if (response) {
         console.log('Found ', event.request.url, ' in cache');
         return response;
-      } else {
+      } else {/*
         console.log('Network request for ', event.request.url);
         caches.open(nomeCache)
           .then(cache => {
             return cache.add(event.request.url);
-          })
+          })*/
         return fetch(event.request)
-
         
-        /*
         .then(response => {
-          // TODO 5 - Respond with custom 404 page
           return caches.open(nomeCache).then(cache => {
             cache.put(event.request.url, response.clone());
             return response;
           });
-        });*/
+        });
       };
     }).catch(error => {
 
