@@ -15,7 +15,7 @@ const precacheResources = [
 self.addEventListener('install', event => {
   console.log('Service worker install event!');
   event.waitUntil(
-    caches.open(cacheName)
+    caches.open(nomeCache)
       .then(cache => {
         return cache.addAll(precacheResources);
       })
