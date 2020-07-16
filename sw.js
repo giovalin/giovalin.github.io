@@ -5,7 +5,7 @@ const precacheResources = [
   '/',
   'index.html',
   'worker.js',
-  './HeroDatabase.json',
+  'HeroDatabase.json',
   'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
   'https://cdn.jsdelivr.net/npm/js-combinatorics@0.5.5/combinatorics.min.js',
   'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
@@ -33,7 +33,8 @@ self.addEventListener('fetch', event => {
     .then(cachedResponse => {
         if (cachedResponse) {
           return cachedResponse;
-        }
+        };
+        console.log(event.request);
         caches.open(nomeCache)
           .then(cache => {
             return cache.add(event.request);
