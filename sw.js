@@ -25,7 +25,7 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   console.log('Service worker active!');
 });
-
+/*
 self.addEventListener('fetch', event => {
   console.log('Fetch event for ', event.request.url);
   event.respondWith(
@@ -34,12 +34,12 @@ self.addEventListener('fetch', event => {
       if (response) {
         console.log('Found ', event.request.url, ' in cache');
         return response;
-      } else {/*
+      } else {
         console.log('Network request for ', event.request.url);
         caches.open(nomeCache)
           .then(cache => {
             return cache.add(event.request.url);
-          })*/
+          })
         return fetch(event.request)
         
         .then(response => {
@@ -55,6 +55,20 @@ self.addEventListener('fetch', event => {
 
     })
   );
-});
+});*/
 
+
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.open(nomeCache).then(function(cache) {
+      return cache.match(event.request).then(function(response) {
+        var fetchPromise = fetch(event.request).then(function(networkResponse) {
+          cache.put(event.request, networkResponse.clone());
+          return networkResponse;
+        })
+        return response || fetchPromise;
+      })
+    })
+  );
+});
 
