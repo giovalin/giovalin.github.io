@@ -38,7 +38,6 @@ self.addEventListener('fetch', event => {
           cache.put(event.request.url, response.clone());
         });
         return fetch(event.request);
-        */
       })
     );
 });
