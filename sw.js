@@ -34,10 +34,11 @@ self.addEventListener('fetch', event => {
         if (cachedResponse) {
           return cachedResponse;
         };
+        var response = fetch(event.request);
         caches.open(nomeCache).then(cache => {
           cache.put(event.request.url, response.clone());
         });
-        return fetch(event.request);
+        return response;
       })
     );
 });
