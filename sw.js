@@ -1,8 +1,24 @@
 //service worker for Offline camping simulator
 const nomeCache = "cache-v1";
 
+const precacheResources = [
+  '/',
+  'index.html',
+  'HeroDatabase.json',
+  'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
+  'https://cdn.jsdelivr.net/npm/js-combinatorics@0.5.5/combinatorics.min.js',
+  'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
+  'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css'
+];
+
 self.addEventListener('install', event => {
-  console.log('Service worker installing...');
+  console.log('Service worker install event!');
+  event.waitUntil(
+    caches.open(cacheName)
+      .then(cache => {
+        return cache.addAll(precacheResources);
+      })
+  );
   self.skipWaiting(); // run even an older version is running
 });
 
