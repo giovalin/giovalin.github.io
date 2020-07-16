@@ -44,8 +44,8 @@ self.addEventListener('fetch', event => {
             console.log(event.request.url);
             /*
             cache.put(event.request.url, response.clone());
-            return response;
-          });*/
+            return response;*/
+          });
         });
       };
     }).catch(error => {
