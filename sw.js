@@ -41,7 +41,7 @@ self.addEventListener('fetch', event => {
 
       .then(response => {
         // TODO 5 - Respond with custom 404 page
-        return caches.open(staticCacheName).then(cache => {
+        return caches.open(nomeCache).then(cache => {
           cache.put(event.request.url, response.clone());
           return response;
         });
