@@ -1,4 +1,5 @@
 //service worker for Offline camping simulator
+const nomeCache = "cache-v1";
 
 self.addEventListener('install', event => {
   console.log('Service worker installing...');
@@ -10,5 +11,15 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  console.log('Fetching:', event.request.url);
+  console.log('Fetch intercepted for:', event.request.url);
+  event.respondWith(caches.match(event.request)
+    .then(cachedResponse => {
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+        return fetch(event.request);
+      })
+    );
 });
+
+
