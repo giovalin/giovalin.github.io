@@ -36,7 +36,7 @@ self.addEventListener('fetch', event => {
         };
         var response = fetch(event.request);
         caches.open(nomeCache).then(cache => {
-          cache.put(event.request.url, response.clone());
+          cache.put(event.request.url, response);
         });
         return response;
       })
