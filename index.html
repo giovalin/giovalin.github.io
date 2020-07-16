@@ -803,6 +803,19 @@ span.heroImgList {
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script defer src="https://www.googletagmanager.com/gtag/js?id=UA-161715700-1"></script>
 <script>
+	//Service worker
+	if ('serviceWorker' in navigator) {
+	  window.addEventListener('load', () => {
+	    navigator.serviceWorker.register('sw.js')
+	    .then(registration => {
+	      console.log('Service Worker is registered', registration);
+	    })
+	    .catch(err => {
+	      console.error('Registration failed:', err);
+	    });
+	  });
+	}
+	
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -2214,19 +2227,6 @@ span.heroImgList {
       window.event.returnValue = false;
     });
   };
-	
-	//Service worker
-	if ('serviceWorker' in navigator) {
-	  window.addEventListener('load', () => {
-	    navigator.serviceWorker.register('sw.js')
-	    .then(registration => {
-	      console.log('Service Worker is registered', registration);
-	    })
-	    .catch(err => {
-	      console.error('Registration failed:', err);
-	    });
-	  });
-	}
 
   function mandaNotificaCompletamento(){
     if (riceviNotifiche == true) {
