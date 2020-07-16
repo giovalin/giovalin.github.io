@@ -34,12 +34,11 @@ self.addEventListener('fetch', event => {
         if (cachedResponse) {
           return cachedResponse;
         }
-        var response = fetch(event.request);
         caches.open(nomeCache)
           .then(cache => {
-            return cache.add(response);
+            return cache.add(event.request);
           })
-        return response;
+        return fetch(event.request);
       })
     );
 });
