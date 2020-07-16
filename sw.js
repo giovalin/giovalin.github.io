@@ -34,14 +34,13 @@ self.addEventListener('fetch', event => {
         if (cachedResponse) {
           return cachedResponse;
         };
+        return fetch(event.request)
         .then(response => {
           // TODO 5 - Respond with custom 404 page
           return caches.open(nomeCache).then(cache => {
             cache.put(event.request.url, response.clone());
             return response;
           });
-        });
-        //return fetch(event.request);
       })
     );
 });
