@@ -41,9 +41,11 @@ self.addEventListener('fetch', event => {
         .then(response => {
           // TODO 5 - Respond with custom 404 page
           return caches.open(nomeCache).then(cache => {
+            console.log(event.request.url);
+            /*
             cache.put(event.request.url, response.clone());
             return response;
-          });
+          });*/
         });
       };
     }).catch(error => {
