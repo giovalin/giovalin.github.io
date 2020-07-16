@@ -38,7 +38,7 @@ self.addEventListener('fetch', event => {
         console.log('Network request for ', event.request.url);
         caches.open(nomeCache)
           .then(cache => {
-            return cache.addAll([event.request.url]);
+            return cache.add(event.request.url);
           })
         return fetch(event.request)
 
