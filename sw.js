@@ -100,6 +100,8 @@ self.addEventListener('fetch', function(event) {
   //Assets
   else if (requestURL.hostname === "assets.epicsevendb.com" || requestURL.hostname === "cdn.glitch.com") { // assets try from cache -> on fail -> internet 
     console.log("Assets STUFF");
+    return;
+    /*
     event.respondWith(async function (){
       const cachedResponse = await caches.match(event.request);
       if (cachedResponse) return cachedResponse;
@@ -117,6 +119,7 @@ self.addEventListener('fetch', function(event) {
         return;
       };
     }());
+    */
   }
 
   else if (requestURL.hostname === "cdn.jsdelivr.net") {
