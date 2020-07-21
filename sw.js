@@ -79,16 +79,17 @@ self.addEventListener('fetch', function(event) {
   
   //Dynamic stuff
   if (requestURL.origin == location.origin) {
-    console.log("DB STUFF");
+    //console.log("DB STUFF");
     event.respondWith (async function (){
       try { // try online
         return await fetch(event.request)
         .then(response => { // cache response
-          console.log(response.clone());
-          return caches.open(nomeCache).then(cache => {
-            cache.put(event.request.url, response.clone());
-            return response;
-          });
+          if (response.clone().status === 200) {
+            return caches.open(nomeCache).then(cache => {
+              cache.put(event.request.url, response.clone());
+              return response;
+            });
+          } else throw new Error();
         });
         
       } catch (error) { // offline
@@ -101,9 +102,8 @@ self.addEventListener('fetch', function(event) {
   
   //Assets
   else if (requestURL.hostname === "assets.epicsevendb.com" || requestURL.hostname === "cdn.glitch.com") { // assets try from cache -> on fail -> internet 
-    console.log("Assets STUFF");
-    return;
-    /*
+    //console.log("Assets STUFF");
+    //return;
     event.respondWith(async function (){
       const cachedResponse = await caches.match(event.request);
       if (cachedResponse) return cachedResponse;
@@ -111,29 +111,32 @@ self.addEventListener('fetch', function(event) {
       try {
         return await fetch (event.request)
         .then(response => { // cache response for next time
-          return caches.open(nomeCache).then(cache => {
-            cache.put(event.request.url, response.clone());
-            return response;
-          });
+          if (response.clone().status === 200) {
+            return caches.open(nomeCache).then(cache => {
+              cache.put(event.request.url, response.clone());
+              return response;
+            });
+          } else throw new Error();
         });
       } catch (error) {
         // Both failed
         return;
       };
     }());
-    */
   }
 
   else if (requestURL.hostname === "cdn.jsdelivr.net") {
-    console.log("depend. stuff");
+    //console.log("depend. stuff");
     event.respondWith (async function (){
       try { // try online
         return await fetch(event.request)
         .then(response => { // cache response
-          return caches.open(nomeCache).then(cache => {
-            cache.put(event.request.url, response.clone());
-            return response;
-          });
+          if (response.clone().status === 200) {
+            return caches.open(nomeCache).then(cache => {
+              cache.put(event.request.url, response.clone());
+              return response;
+            });
+          } else throw new Error();
         });
       } catch (error) { // offline
         return caches.match(event.request);
