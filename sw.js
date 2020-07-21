@@ -114,6 +114,7 @@ self.addEventListener('fetch', function(event) {
         });
       } catch (error) {
         // Both failed
+        return;
       };
     }());
   }
