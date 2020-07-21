@@ -83,9 +83,8 @@ self.addEventListener('fetch', function(event) {
       try {
         return await fetch(event.request);
       } catch (error) { // offline
-        return caches.open(nomeCache).then(function(cache) {
-          return cache.match(event.request);
-        });
+        console.log("offline");
+        return caches.match(event.request);
       };
     }());
     return;
@@ -102,9 +101,7 @@ self.addEventListener('fetch', function(event) {
       try {
         return await fetch(event.request);
       } catch (error) { // offline
-        return caches.open(nomeCache).then(function(cache) {
-          return cache.match(event.request);
-        });
+        return caches.match(event.request);
       };
     }());
     return;
