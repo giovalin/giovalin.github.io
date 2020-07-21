@@ -81,7 +81,14 @@ self.addEventListener('fetch', function(event) {
     console.log("DB STUFF");
     event.respondWith (async function (){
       try {
-        return await fetch(event.request);
+        return await fetch(event.request)
+        .then(response => {
+          return caches.open(nomeCache).then(cache => {
+            cache.put(event.request.url, response.clone());
+            return response;
+          });
+        });
+        
       } catch (error) { // offline
         console.log("offline");
         return caches.match(event.request);
