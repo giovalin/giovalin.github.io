@@ -2,6 +2,7 @@
 const nomeCache = "cache-v1";
 
 const precacheResources = [
+  '/',
   'index.html',
   'worker.js',
   'HeroDatabase.json',
