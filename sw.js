@@ -108,12 +108,15 @@ self.addEventListener('fetch', function(event) {
       };
     }());
     return;
-  };
+  }
   
   //Default
-  event.respondWith(async function (){
-    const cachedResponse = await chaches.match(event.request);
-    return cachedResponse || fetch(event.request);
-  });
+  else {
+    console.log("else");
+    event.respondWith(async function (){
+      const cachedResponse = await chaches.match(event.request);
+      return cachedResponse || fetch(event.request);
+    });
+  }
 });
 
