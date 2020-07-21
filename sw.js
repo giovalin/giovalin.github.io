@@ -79,6 +79,14 @@ self.addEventListener('fetch', function(event) {
   //Dynamic stuff
   if (requestURL.origin === location.origin) {
     console.log("DB STUFF");
+    event.respondWith (async function (){
+      try {
+        return await fetch(event.request);
+      } catch { // offline
+        return caches.match(event.request);
+      };
+    }());
+    return;
   }
   
   //Assets
@@ -88,6 +96,14 @@ self.addEventListener('fetch', function(event) {
 
   else if (requestURL.hostname === "cdn.jsdelivr.net") {
     console.log("depend. stuff");
+    event.respondWith (async function (){
+      try {
+        return await fetch(event.request);
+      } catch { // offline
+        return caches.match(event.request);
+      };
+    }());
+    return;
   };
   
   //Default
