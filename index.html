@@ -883,10 +883,21 @@ span.heroImgList {
             </div>
             <div id="whats_new_content" style="display: none;">
               <ul>
+                <li style="color:#007FFF">
+                  <b>21/07/2020</b>: Team must include dispel<br>
+                  You can check this option if you want your teams to have at least one hero that can remove buffs from enemies.<br>
+                  Note: Chloe is tagged as dispeller because of her EE (can remove buffs with S2), I also tagged cerise and some other heroes that reduce buff duration because there are just a few heroes that can dispel.<br>
+                  A warning will now appear in the "Advanced settings" to warn you about your team size and the time needed to calculate all combinations with advanced settings on (locking heroes can reduce the time required). This tool can calculate all combinations without crashing but it will require a long time. If you don't care and want to try anyway you can activate notifications in the settings window to let you know we results are ready :P .
+                </li>
                 <li style="color:rgb(0, 148, 32)">
-                  <b>18/07/2020</b>: Pagination for Results Page<br>
-                  Results are now split into pages to save up memory on your device. Each page will show 50 teams.
-                  TODO: Add pagination to "Most saved teams" to save more memory when visiting that function.
+                  <b>19/07/2020</b>: Bug 修复<br>
+                  删除一个英雄时会自动锁定列表中的下一个英雄或者锁定删除掉的英雄.
+                  在执行操作前添加了1毫秒的延迟用于修正这个bug.
+                </li>
+                <li style="color:rgb(0, 148, 32)">
+                  <b>18/07/2020</b>: 结果页添加分页<br>
+                  结果现在会分页显示用于节约你的内存，每页显示50个结果.
+                  TODO: 给"常用队伍/英雄"功能添加分页功能.
                 </li>
                 <li style="color:#007FFF">
                   <b>21/06/2020</b> 垂直工具栏.<br>
@@ -1008,10 +1019,21 @@ span.heroImgList {
             </div>
             <div id="whats_new_content" style="display: none;">
               <ul>
+                <li style="color:#007FFF">
+                  <b>21/07/2020</b>: Team must include dispel<br>
+                  You can check this option if you want your teams to have at least one hero that can remove buffs from enemies.<br>
+                  Note: Chloe is tagged as dispeller because of her EE (can remove buffs with S2), I also tagged cerise and some other heroes that reduce buff duration because there are just a few heroes that can dispel.<br>
+                  A warning will now appear in the "Advanced settings" to warn you about your team size and the time needed to calculate all combinations with advanced settings on (locking heroes can reduce the time required). This tool can calculate all combinations without crashing but it will require a long time. If you don't care and want to try anyway you can activate notifications in the settings window to let you know we results are ready :P .
+                </li>
                 <li style="color:rgb(0, 148, 32)">
-                  <b>18/07/2020</b>: Pagination for Results Page<br>
-                  Results are now split into pages to save up memory on your device. Each page will show 50 teams.
-                  TODO: Add pagination to "Most saved teams" to save more memory when visiting that function.
+                  <b>19/07/2020</b>: Bug 修複<br>
+                  刪除一個英雄時會自動鎖定列錶中的下一個英雄或者鎖定刪除掉的英雄.
+                  在執行操作前添加了1毫秒的延遲用於修正這個bug.
+                </li>
+                <li style="color:rgb(0, 148, 32)">
+                  <b>18/07/2020</b>: 結果頁添加分頁<br>
+                  結果現在會分頁顯示用於節約你的記憶體，每頁顯示50個結果.
+                  TODO: 給"常用隊伍/英雄"功能添加分頁功能.
                 </li>
                 <li style="color:#007FFF">
                   <b>21/06/2020</b> 垂直工具欄.<br>
@@ -1133,6 +1155,17 @@ span.heroImgList {
             </div>
             <div id="whats_new_content" style="display: none;">
               <ul>
+                <li style="color:#007FFF">
+                  <b>21/07/2020</b>: Team must include dispel<br>
+                  You can check this option if you want your teams to have at least one hero that can remove buffs from enemies.<br>
+                  Note: Chloe is tagged as dispeller because of her EE (can remove buffs with S2), I also tagged cerise and some other heroes that reduce buff duration because there are just a few heroes that can dispel.<br>
+                  A warning will now appear in the "Advanced settings" to warn you about your team size and the time needed to calculate all combinations with advanced settings on (locking heroes can reduce the time required). This tool can calculate all combinations without crashing but it will require a long time. If you don't care and want to try anyway you can activate notifications in the settings window to let you know we results are ready :P .
+                </li>
+                <li style="color:rgb(0, 148, 32)">
+                  <b>19/07/2020</b>: Bug fix<br>
+                  After removing a hero the next hero on the list would automatically get locked or the removed hero could lock itself.<br>
+                  Fixed by delaying the function by 1ms after the left click is released.
+                </li>
                 <li style="color:rgb(0, 148, 32)">
                   <b>18/07/2020</b>: Pagination for Results Page<br>
                   Results are now split into pages to save up memory on your device. Each page will show 50 teams.
@@ -1484,7 +1517,7 @@ span.heroImgList {
         <table id="myHeroes">
           <tr>
             <td style="text-align: center;">
-              <span v-for="key in displayMyHeroes" class="heroImgList" v-on:click="app.lockHero(thisHeroData(key)._id)">
+              <span v-for="key in displayMyHeroes" class="heroImgList" v-on:click="lockHero(thisHeroData(key)._id)">
                 <!-- Classco -->
                 <template v-if="isLocked(thisHeroData(key)._id) && lockType===1">
                   <div class="top-right animate-flicker">&#128274;</div>
@@ -1497,7 +1530,7 @@ span.heroImgList {
                 <template v-else-if="isLocked(thisHeroData(key)._id)&& lockType===3">
                   <span style="position: absolute;margin-top: 35px;margin-left: 35px;transform: translate(-50%, -50%);font-size: 40px;" class="animate-flicker">🔒</span>
                 </template>
-                <img v-bind:src="getHeroAssets(key).icon" onerror="this.onerror=null; this.src=app.getHeroAssets(this.alt, 'onerror').icon" style="width:70px" v-bind:alt="key" v-bind:titolo="key"/><span v-on:click="app.removeHero(thisHeroData(key)._id)" class="removeHero" v-bind:title="'Remove ' + thisHeroData(key).name">×</span>
+                <img v-bind:src="getHeroAssets(key).icon" onerror="this.onerror=null; this.src=app.getHeroAssets(this.alt, 'onerror').icon" style="width:70px" v-bind:alt="key" v-bind:titolo="key"/><span v-on:click="setTimeout(function() {removeHero(thisHeroData(key)._id)}, 1)" style="z-index: 1;" class="removeHero" v-bind:title="'Remove ' + thisHeroData(key).name">×</span> <!-- z-index 1 to avoid self lock when removing and timeout 1 to avoid locking the next hero when removing a hero-->
                 <template v-if="showNamesInGrid===true">
                   <p class="heroNameLabel">{{ thisHeroTranslatedName(thisHeroData(key)._id) }}</p>
                 </template>
@@ -1528,6 +1561,10 @@ span.heroImgList {
     </div>
 
     <div id="advanced_window" style="display:none;">
+      <div v-if="rosterLength>69 && locked.length===0" style="background-color: khaki;padding: 10px;border-radius: 4px;text-align: center;color: black;">
+        <p style="margin:0 0 8px 0"><b>{{ strings.warn_tsize_adv_title }}</b></p>
+        <p style="margin: 0; white-space: pre-wrap; font-size: 15px;">{{ strings.warn_tsize_adv_details }}</p>
+      </div>
       <h2>{{strings.impostazioni_avanzate}}  <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px" v-on:click="helpWindow('advanced_window', 'advanced_settings')"></i></h2>
       <div style="float: right;">
         <button class="search_hero_filter" onclick="document.getElementById('impostazioni_risultati').style.display='block'" style="font-size:16px; width:70px;" name="sort_by"><i class="fa fa-cog" aria-hidden="true"></i></button>
@@ -1562,7 +1599,9 @@ span.heroImgList {
       <input type="checkbox" id="noS1debuffs" name="noS1debuffs" value="noS1debuffs" onclick="app.aggiornaImposatazioniAvanzate()">
       <label for="noS1debuffs">{{strings.no_s1_debuffs}}</label><br>
       <input type="checkbox" id="noDebuffs" name="noDebuffs" value="noDebuffs" onclick="app.aggiornaImposatazioniAvanzate()">
-      <label for="noDebuffs">{{strings.no_debuffs}}</label><br><br>
+      <label for="noDebuffs">{{strings.no_debuffs}}</label><br>
+      <input type="checkbox" id="mustIncludeDispel" name="mustIncludeDispel" value="mustIncludeDispel" onclick="app.aggiornaImposatazioniAvanzate()">
+      <label for="mustIncludeDispel">{{strings.must_include_dispel}}</label><br><br>
       <div id="advanced_classe" class="box_advanced_settings" style="height:auto;width:100%;display:inline-block;padding-bottom: 25px;padding-top: 5px;">
         <center>{{strings.classe}}:</center>
           <input type="checkbox" id="checkbox_knight" name="classe" value="knight" style="display:none" onclick="app.aggiornaImposatazioniAvanzate()">
@@ -1645,16 +1684,16 @@ span.heroImgList {
             <td width="4%" style="padding-top: 30px;padding-bottom: 30px;text-align: center;" v-on:click="mostraSalvaRisultato(index+(currentResultsPage-1)*50)"><i class="fa fa-save" aria-hidden="true" style="font-size:30px;"></i>
               <br>{{index+1+(currentResultsPage-1)*50}}</td>
             <td class="hero_potrait">
-              <img v-bind:src="getHeroAssets(thisHeroData(item.team[0])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(item.team[0])._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[0]" v-bind:titolo="item.team[0]"/>
+              <img v-bind:src="getHeroAssets(thisHeroData(item.team[0])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(this.alt)._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[0]" v-bind:titolo="item.team[0]"/>
             </td>
             <td class="hero_potrait">
-              <img v-bind:src="getHeroAssets(thisHeroData(item.team[1])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(item.team[1])._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[1]" v-bind:titolo="item.team[1]"/>
+              <img v-bind:src="getHeroAssets(thisHeroData(item.team[1])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(this.alt)._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[1]" v-bind:titolo="item.team[1]"/>
             </td>
             <td class="hero_potrait">
-              <img v-bind:src="getHeroAssets(thisHeroData(item.team[2])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(item.team[2])._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[2]" v-bind:titolo="item.team[2]"/>
+              <img v-bind:src="getHeroAssets(thisHeroData(item.team[2])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(this.alt)._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[2]" v-bind:titolo="item.team[2]"/>
             </td>
             <td class="hero_potrait">
-              <img v-bind:src="getHeroAssets(thisHeroData(item.team[3])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(item.team[3])._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[3]" v-bind:titolo="item.team[3]"/>
+              <img v-bind:src="getHeroAssets(thisHeroData(item.team[3])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(this.alt)._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[3]" v-bind:titolo="item.team[3]"/>
             </td>
             <td class="topics"><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG1)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore1)}}</a><br><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG2)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore2)}}</a></td>
             <td style="text-align:center; font-family:sans-serif;font-size:17px" width="3%">{{item.morale}}</td>
@@ -2526,6 +2565,7 @@ span.heroImgList {
               AoE: false,
               noS1debuffs: false,
               noDebuffs:  false,
+              mustIncludeDispel: false,
               cartesian_lock: [[],[],[],[]],
               risultati: [],
               currentResultsPage: 1,
@@ -2628,12 +2668,12 @@ span.heroImgList {
               return false;
           },
           lockHero: function(hero) {
-             if (!this.locked.includes(hero)) { // lock
-               if (this.locked.length < 4) {
+            if (!this.locked.includes(hero)) { // lock
+              if (this.locked.length < 4) {
                 this.locked.push(hero);
-               } else {
-                 snackbarMessage(this.strings.cant_lock_more_heroes)
-               }
+              } else {
+                snackbarMessage(this.strings.cant_lock_more_heroes)
+              }
             } else { // già locked -> sblocca
               this.locked.splice(this.locked.indexOf(hero), 1)
             };
@@ -3316,6 +3356,11 @@ span.heroImgList {
                 {
                     this.noDebuffs = true;
                 } else this.noDebuffs = false;
+
+                if (document.getElementById("mustIncludeDispel").checked)
+                {
+                  this.mustIncludeDispel = true;
+                } else this.mustIncludeDispel = false;
             },
             impostaLingua: function () {
               var lingua = JSON.parse(localStorage.getItem('Settings') ? localStorage.getItem('Settings') : '{"lingua":"*"}').lingua;
@@ -3418,6 +3463,8 @@ span.heroImgList {
                   cerca_eroe: "Cerca eroe..",
                   cant_lock_more_heroes: "Hai già 4 eroi in squadra",
                   impostazioni_avanzate: "Impostazioni Avanzate",
+                  warn_tsize_adv_title: "Hai un sacco di eroi e nessun eroe bloccato",
+                  warn_tsize_adv_details: "Attivando le impostazioni avanzate aumenterà il tempo richiesto per il calcolo delle combinazioni. \nPuoi ridurre il tempo richiesto per il calcolo bloccando un personaggio.",
                   numero_massimo_risultati: "Numero massimo di risultati",
                   morale_minimo_risultati: "Morale minimo",
                   includi_locked_in_adv: "Gli eroi bloccati contano al fine del raggiungimento delle condizioni avanzate",
@@ -3425,6 +3472,7 @@ span.heroImgList {
                   deve_contenere_AoE: "Team deve contenere AoE",
                   no_s1_debuffs: "No S1 Debuffs (Esclusi: Provoke, Sleep, Stun e Poison)",
                   no_debuffs: "No Debuffs (Esclusi: Provoke, Sleep, Stun e Poison)",
+                  must_include_dispel: "Team deve contenere dispel (Rimuovi o riduci la durata dei buff dal nemico)",
                   classe: "Classe",
                   knight: "Knight",
                   warrior: "Warrior",
@@ -3523,6 +3571,8 @@ span.heroImgList {
                   cant_lock_more_heroes: "不能锁定超过4个英雄",
                   cerca_eroe: "搜索..",
                   impostazioni_avanzate: "高级设置",
+                  warn_tsize_adv_title: "You have a large roster and no heroes locked",
+                  warn_tsize_adv_details: "Activating any advanced features will increse the required time to calculate all the combinations. \nYou can reduce the required time by locking a hero.",
                   numero_massimo_risultati: "显示结果数量",
                   morale_minimo_risultati: "最低心情限制",
                   includi_locked_in_adv: "高级设置包括锁定的英雄",
@@ -3530,6 +3580,7 @@ span.heroImgList {
                   deve_contenere_AoE: "队伍必须包含 AoE",
                   no_s1_debuffs: "S1不带Debuff (挑衅, 睡眠, 晕眩 和中毒除外)",
                   no_debuffs: "技能不带Debuff (挑衅, 睡眠, 晕眩 和中毒除外)",
+                  must_include_dispel: "Team must include dispel (remove enemy's buffs or reduce their duration)",
                   classe: "职业",
                   knight: "骑士",
                   warrior: "战士",
@@ -3628,6 +3679,8 @@ span.heroImgList {
                   cant_lock_more_heroes: "不能鎖定超過4個英雄！",
                   cerca_eroe: "搜索..",
                   impostazioni_avanzate: "高級設定",
+                  warn_tsize_adv_title: "You have a large roster and no heroes locked",
+                  warn_tsize_adv_details: "Activating any advanced features will increse the required time to calculate all the combinations. \nYou can reduce the required time by locking a hero.",
                   numero_massimo_risultati: "顯示結果數量",
                   morale_minimo_risultati: "最低心情限制",
                   includi_locked_in_adv: "高級設置包括鎖定的英雄",
@@ -3635,6 +3688,7 @@ span.heroImgList {
                   deve_contenere_AoE: "隊伍必須包含 AoE",
                   no_s1_debuffs: "S1不帶Debuff (挑釁, 睡眠，暈眩 和中毒除外)",
                   no_debuffs: "技能不帶Debuff (挑釁, 睡眠，暈眩 和中毒除外)",
+                  must_include_dispel: "Team must include dispel (remove enemy's buffs or reduce their duration)",
                   classe: "職階",
                   knight: "騎士",
                   warrior: "戰士",
@@ -3733,6 +3787,8 @@ span.heroImgList {
                   cant_lock_more_heroes: "Impossible de verrouiller plus de 4 héros",
                   cerca_eroe: "Rechercher..",
                   impostazioni_avanzate: "Paramètre avancé",
+                  warn_tsize_adv_title: "You have a large roster and no heroes locked",
+                  warn_tsize_adv_details: "Activating any advanced features will increse the required time to calculate all the combinations. \nYou can reduce the required time by locking a hero.",
                   numero_massimo_risultati: "Nombre maximum de résultats de camping",
                   morale_minimo_risultati: "Minimum morale",
                   includi_locked_in_adv: "Héros verrouillés inclus dans les paramètres avancés",
@@ -3740,6 +3796,7 @@ span.heroImgList {
                   deve_contenere_AoE: "Equipe doit contenir AoE",
                   no_s1_debuffs: "S1 sans Debuff (Sauf: Provoquer, Sommeil, Etourdir et Poison)",
                   no_debuffs: "Non Debuff (Sauf: Provoquer, Sommeil, Etourdir et Poison)",
+                  must_include_dispel: "Team must include dispel (remove enemy's buffs or reduce their duration)",
                   classe: "Classe",
                   elemento: "Elément",
                   buff: "Buff",
@@ -3828,6 +3885,8 @@ span.heroImgList {
                   cant_lock_more_heroes: "Can't lock more than 4 heroes",
                   cerca_eroe: "Search..",
                   impostazioni_avanzate: "Advanced settings",
+                  warn_tsize_adv_title: "You have a large roster and no heroes locked",
+                  warn_tsize_adv_details: "Activating any advanced features will increse the required time to calculate all the combinations. \nYou can reduce the required time by locking a hero.",
                   numero_massimo_risultati: "Maximum number of camping results",
                   morale_minimo_risultati: "Minimum morale",
                   includi_locked_in_adv: "Locked heroes count towards the fulfillment of the selected advanced settings",
@@ -3835,6 +3894,7 @@ span.heroImgList {
                   deve_contenere_AoE: "Team must have AoE",
                   no_s1_debuffs: "No S1 Debuffs (Except: Provoke, Sleep, Stun and Poison)",
                   no_debuffs: "No Debuffs (Except: Provoke, Sleep, Stun and Posion)",
+                  must_include_dispel: "Team must include dispel (remove enemy's buffs or reduce their duration)",
                   classe: "Class",
                   knight: "Knight",
                   warrior: "Warrior",
@@ -4947,6 +5007,7 @@ span.heroImgList {
             this.AoE;
             this.noS1debuffs;
             this.noDebuffs;
+            this.mustIncludeDispel;
             this.customizedResuts;
            if (Object.keys(this.myHeroesList).length > 3) {
             this.isLoadingResults = true; // mostra animazione di caricamento
@@ -4958,7 +5019,7 @@ span.heroImgList {
                 };
             };
             try {
-              camperino.postMessage({HeroDB: this.HeroDB, myHeroesList: this.myHeroesList, campList: campList, locked: this.locked, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs, cartesianLock: this.cartesian_lock, preferenzeRisultati: this.customizedResuts, risultati: []});
+              camperino.postMessage({HeroDB: this.HeroDB, myHeroesList: this.myHeroesList, campList: campList, locked: this.locked, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs, mustIncludeDispel: this.mustIncludeDispel, cartesianLock: this.cartesian_lock, preferenzeRisultati: this.customizedResuts, risultati: []});
               this.numeroCombinazioniPossibili = Combinatorics.bigCombination(campList,4-this.locked.length).length;
             } catch (err) {
               this.isLoadingResults = false; // remove angelica loading
@@ -4974,7 +5035,8 @@ span.heroImgList {
   },
   mounted () {
 	  this.boot();
-  }
+  },
+  created () {console.log("created")}
 });
 
   var camperinoMessage = function (e) {
