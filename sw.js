@@ -84,6 +84,7 @@ self.addEventListener('fetch', function(event) {
       try { // try online
         return await fetch(event.request)
         .then(response => { // cache response
+          console.log(response.clone());
           return caches.open(nomeCache).then(cache => {
             cache.put(event.request.url, response.clone());
             return response;
