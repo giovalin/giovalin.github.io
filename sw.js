@@ -77,7 +77,7 @@ self.addEventListener('fetch', function(event) {
   const requestURL = new URL (event.request.url);
   
   //Dynamic stuff
-  if (requestURL.origin === location.origin) {
+  if (requestURL.origin == location.origin) {
     console.log("DB STUFF");
     event.respondWith (async function (){
       try {
