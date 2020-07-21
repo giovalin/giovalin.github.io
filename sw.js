@@ -142,12 +142,10 @@ self.addEventListener('fetch', function(event) {
   }
   
   //Default
-  else {
-    console.log("else");
-    event.respondWith(async function (){
-      const cachedResponse = await chaches.match(event.request);
-      return cachedResponse || fetch(event.request);
-    });
-  }
+  console.log("Default");
+  event.respondWith(async function (){
+    const cachedResponse = await chaches.match(event.request);
+    return cachedResponse || fetch(event.request);
+  });
 });
 
