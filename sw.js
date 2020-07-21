@@ -82,7 +82,7 @@ self.addEventListener('fetch', function(event) {
     event.respondWith (async function (){
       try {
         return await fetch(event.request);
-      } catch { // offline
+      } catch (error) { // offline
         return caches.match(event.request);
       };
     }());
@@ -99,7 +99,7 @@ self.addEventListener('fetch', function(event) {
     event.respondWith (async function (){
       try {
         return await fetch(event.request);
-      } catch { // offline
+      } catch (error) { // offline
         return caches.match(event.request);
       };
     }());
