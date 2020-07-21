@@ -57,7 +57,7 @@ self.addEventListener('fetch', event => {
   );
 });*/
 
-
+/*
 self.addEventListener('fetch', function(event) {
   event.respondWith(
     caches.open(nomeCache).then(function(cache) {
@@ -70,5 +70,30 @@ self.addEventListener('fetch', function(event) {
       })
     })
   );
+});
+*/
+self.addEventListener('fetch', function(event) {
+  //URL
+  const requestURL = new URL (event.request.url);
+  
+  //Dynamic stuff
+  if (requestURL.origin === location.origin) {
+    console.log("DB STUFF");
+  }
+  
+  //Assets
+  else if (requestURL.hostname === "assets.epicsevendb.com" || requestURL.hostname === "cdn.glitch.com") {
+    console.log("Assets STUFF");
+  }
+
+  else if (requestURL.hostname === "cdn.jsdelivr.net") {
+    console.log("depend. stuff");
+  };
+  
+  //Default
+  event.respondWith(async function (){
+    const cachedResponse = await chaches.match(event.request);
+    return cachedResponse || fetch(event.request);
+  });
 });
 
