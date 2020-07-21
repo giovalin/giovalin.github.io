@@ -123,6 +123,7 @@ self.addEventListener('fetch', function(event) {
         return;
       };
     }());
+    return;
   }
 
   else if (requestURL.hostname === "cdn.jsdelivr.net") {
