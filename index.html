@@ -1986,6 +1986,18 @@ span.heroImgList {
   </script>
 
 <script defer>
+	if ('serviceWorker' in navigator) {
+	  window.addEventListener('load', function() {
+	    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+	      // Registration was successful
+	      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+	    }, function(err) {
+	      // registration failed :(
+	      console.log('ServiceWorker registration failed: ', err);
+	    });
+	  });
+	}
+	
     var userSettings = JSON.parse(localStorage.getItem('Settings') ? localStorage.getItem('Settings') : "{}");
     function toggleCheck() {
         if (document.getElementById("darkModeCheck").checked === true) {
