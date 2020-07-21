@@ -80,9 +80,9 @@ self.addEventListener('fetch', function(event) {
   if (requestURL.origin == location.origin) {
     console.log("DB STUFF");
     event.respondWith (async function (){
-      try {
+      try { // try online
         return await fetch(event.request)
-        .then(response => {
+        .then(response => { // cache response
           return caches.open(nomeCache).then(cache => {
             cache.put(event.request.url, response.clone());
             return response;
@@ -98,15 +98,37 @@ self.addEventListener('fetch', function(event) {
   }
   
   //Assets
-  else if (requestURL.hostname === "assets.epicsevendb.com" || requestURL.hostname === "cdn.glitch.com") {
+  else if (requestURL.hostname === "assets.epicsevendb.com" || requestURL.hostname === "cdn.glitch.com") { // assets try from cache -> on fail -> internet 
     console.log("Assets STUFF");
+    event.respondWith(async function (){
+      const cachedResponse = await caches.match(event.request);
+      if (cachedResponse) return cachedResponse;
+      
+      try {
+        return await fetch (event.request)
+        .then(response => { // cache response for next time
+          return caches.open(nomeCache).then(cache => {
+            cache.put(event.request.url, response.clone());
+            return response;
+          });
+        });
+      } catch (error) {
+        // Both failed
+      };
+    }());
   }
 
   else if (requestURL.hostname === "cdn.jsdelivr.net") {
     console.log("depend. stuff");
     event.respondWith (async function (){
-      try {
-        return await fetch(event.request);
+      try { // try online
+        return await fetch(event.request)
+        .then(response => { // cache response
+          return caches.open(nomeCache).then(cache => {
+            cache.put(event.request.url, response.clone());
+            return response;
+          });
+        });
       } catch (error) { // offline
         return caches.match(event.request);
       };
