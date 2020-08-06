@@ -51,18 +51,6 @@
   --icon-bar-alt: #252B35;
   --icon-bar-active: #4CAF50;
 }
-
-[data-theme="dark2"] {
-    --font-color: #A1AEBD;
-    --bg-color: #181C22;
-    --bg-color-secondary: #1e2126;
-    --search-primary-color: #101317;
-    --search-border-color: #000;
-    --colore-check-eroi: red;
-    --icon-bar: #131417;
-    --icon-bar-alt: #1e2126;
-    --icon-bar-active: #4CAF50;
-}
   
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -304,9 +292,9 @@ span.heroImgList {
   top:0px;
   display: inline-block;
   font-size: 10px;
-  /*border-style: ridge;*/
+  /*border-style: ridge;
   border-width: thin;
-  border-color: var(--search-border-color);
+  border-color: var(--search-border-color);*/
   vertical-align: top;
   outline: none;
 } 
@@ -426,26 +414,14 @@ icon-bar span img {
 }
 
 .vertical-icon-bar span i, .vertical-icon-bar span img {
-    transform: translate(0,-52%);
-    margin-top: 50%;
+    /*transform: translate(0,-52%);
+    margin-top: 50%;*/
+    margin-top: 18px;
 }
 
 .active-icon-bar {
   background-color: var(--icon-bar-active) !important;
-}
-  
-  
-                  /* dark mode old */
-                  /*body { 
-                    background-color: #252B35;
-                    color: #A1AEBD;
-                  }
-                  .light-mode {
-                    background-color: white;
-                    color: black;
-                  }
-                  */
-  
+} 
                   .topics {
                     text-align:center; 
                     font-family:sans-serif;
