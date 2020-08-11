@@ -86,7 +86,8 @@ body {
 #content > div {
   overflow: scroll;
   box-sizing: border-box;
-  margin: 8px;
+  padding: 0 8px 8px;
+  min-height: 100%;
 }
 
 /* Full-width input fields */
@@ -527,8 +528,8 @@ span.heroImgList {
 }
 .top-left {
   position: absolute;
-  top: -15px;
-  left: -10px;
+  top: -10px;
+  left: 6px;
   color: var(--colore-check-eroi);
 }
 .center_img {
@@ -1604,7 +1605,7 @@ span.heroImgList {
       </div>
 
       <div id="advanced_window" style="display:none;">
-        <div v-if="rosterLength>69 && locked.length===0" style="background-color: #fff27dBF;padding: 10px;border-radius: 4px;text-align: center;color: black;">
+        <div v-if="rosterLength>69 && locked.length===0" style="background-color: #fff27dBF;padding: 10px;border-radius: 4px;text-align: center;color: black; margin-top: 8px;">
           <p style="margin:0 0 8px 0"><b>{{ strings.warn_tsize_adv_title }}</b></p>
           <p style="margin: 0; white-space: pre-wrap; font-size: 15px;">{{ strings.warn_tsize_adv_details }}</p>
         </div>
@@ -1714,7 +1715,7 @@ span.heroImgList {
       </div>
 
       <div id="calculate_window" style="display:none;">
-        <h2>{{strings.risultati}}  <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px" v-on:click="helpWindow('calculate_window', 'results_help')"></i></h2>
+        <h2 class="center" style="margin-top: auto; margin-bottom: auto;">{{strings.risultati}}  <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px" v-on:click="helpWindow('calculate_window', 'results_help')"></i></h2>
         <table class="center">
           <thead>
             <th></th>
@@ -1752,7 +1753,7 @@ span.heroImgList {
         />
       </div>
 
-      <div id="extras_window" style="display:none;height: 95%;">
+      <div id="extras_window" style="display:none;height: 100%;">
         <div id="extras_menu" class="extras_grid" style="margin-top: 5%">
           <div class="extra_icon box_advanced_settings" onclick="setWindow('settings_window')">
             <span>
