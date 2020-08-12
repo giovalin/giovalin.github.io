@@ -1,6 +1,7 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "E7 Camp Simulator",
+    "short_name": "E7 Camp Simulator",
+    "description": "Calculate your roster's best camping options",
     "icons": [
         {
             "src": "/favicons/android-chrome-192x192.png",
@@ -16,4 +17,6 @@
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
     "display": "standalone"
+    "start_url": "/",
+    "scope": "/",
 }
