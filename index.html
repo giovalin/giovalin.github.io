@@ -57,25 +57,9 @@ body {
   background-color: var(--bg-color);
   overscroll-behavior-y: contain; /* Prevent pull-to-refresh on mobile */
   color: var(--font-color); /* font color */
-  margin: 0;
-  height: 100vh;
-  width: 100vw;
 }
 
-* {
-  scrollbar-width: none; /* FireFox */
-  -ms-overflow-style: none;
-}
 
-::-webkit-scrollbar {
-  display: none;
-}
-
-#app > div {
-  height: 100%;
-  overflow: scroll;
-  padding: 8px 8px 0 8px;
-}
 
 /* Full-width input fields */
   
@@ -219,29 +203,27 @@ div.toolbar {
   
 span.heroImgList {
     position: relative;
-    padding: 12px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    margin-left: 12px;
+    margin-right: 12px;
     font-weight: bold;
     font-size:24px;
     color: var(--font-color);/*color: #221461;*/
     display:inline-block;
     vertical-align: top;
-    transition: all .2s ease;
 }
-@media (hover: hover) {
-  .heroImgList:hover:not(:active),
-  .heroImgList:focus {
-    background-color: var(--search-primary-color);
-    cursor: pointer;
-    transform: scale(1.3);
-    z-index: 1;
-  }
+.heroImgList:hover,
+.heroImgList:focus {
+  background-color:#ddd;
+  cursor: pointer;
+  color: black;
 }
 .heroNameLabel {
   font-weight: normal;
   font-size: 14px;
   margin: 0;
   width: 81px;
-  min-height: 30px;
 }
 
 .heroInTeam {
@@ -368,6 +350,9 @@ span.heroImgList {
   
 /* Icon Bar CSS */
 .icon-bar {
+  position:fixed;
+  bottom: 0;
+  right: 0;
   width: 100%;
   background-color: #555;
   z-index: 2;
@@ -394,8 +379,9 @@ icon-bar span img {
 }
 
 .vertical-icon-bar {
-  flex: 0 0 auto;
-  order: -1;
+  position: fixed; 
+  top: 0; 
+  left: 0; 
   height: 100vh;
   width: 90px; 
   background-color: var(--icon-bar);
@@ -403,6 +389,9 @@ icon-bar span img {
   overscroll-behavior: contain;
   scrollbar-width: none; /* FireFox */
   -ms-overflow-style: none;
+}
+.vertical-icon-bar::-webkit-scrollbar { /*Chrome*/
+  display: none;
 }
 
 .vertical-icon-bar span {
@@ -507,8 +496,8 @@ icon-bar span img {
 /* Lock icon */
 .top-right {
   position: absolute;
-  top: 5px;
-  right: 15px;
+  top: 2px;
+  right: 7px;
 }
 .top-left {
   position: absolute;
@@ -543,7 +532,7 @@ icon-bar span img {
   max-width: 500px;
   /*left: -40px;*/
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+  z-index: 2;
 }
 
 .dropdown-content div {
@@ -708,7 +697,7 @@ icon-bar span img {
   color: #fff;
   text-align: center;
   border-radius: 25px;
-  padding: 16px !important;
+  padding: 16px;
   position: fixed;
   z-index: 10; /* always on top. Loading screen z-index = 10 */
   left: 50%;
@@ -717,7 +706,6 @@ icon-bar span img {
   transform: translate(-50%);
   word-wrap: break-word;
   overflow-wrap: break-word;
-  height: auto !important;
 }
 
 #snackbar.show {
@@ -746,6 +734,12 @@ icon-bar span img {
   to {top: 0; opacity: 0;}
 }
 
+.noScrollBar {
+  -ms-overflow-style: none;
+}
+.noScrollBar::-webkit-scrollbar {
+  display: none;
+}
 .blur {
   background-color: rgba(0, 0, 0, 0.61);
   backdrop-filter: blur(5px);
@@ -865,8 +859,8 @@ icon-bar span img {
   gtag('config', 'UA-161715700-1');
 </script>
 </head>
-<body style="display: flex; flex-direction: column;">
-  <div id="app" style="flex: 1 1 auto; overflow: hidden;"><!-- vue.js -->
+<body class="noScrollBar">
+  <div id="app" style="margin-bottom: 67px"><!-- vue.js -->
     <!--WELCOME WINDOW START-->
     <div id="welcome" style="display: '';">
       <div id="contenuto_welcome" class="welcome">
@@ -1313,7 +1307,7 @@ icon-bar span img {
         </div>
 	    </h2>
        <!-- Pulsanti filtro eroi -->
-      <div style="display:inline-block;width:100%; margin-bottom: 5px;">
+      <div style="display:inline-block;width:100%;">
         <div class="search_hero_area" id="filter_all_rarity">
           <button class="search_hero_filter active" name="filter_rarity" onclick=app.filtroTuttiGliEroi(this) value="*">
             <div style="font-size:16px">{{strings.all}}</div>
@@ -1381,7 +1375,7 @@ icon-bar span img {
           </button>
         </div>
         <button id="myHeroes_sort_by" style="margin-right: 30px; width: auto; font-size: 16px;" class="search_hero_filter" v-on:click="if (displayList.length > 0) alertUserAction('addDisplayed');" style="font-size:16px; width:90px; width: auto;">{{strings.add_displayed_heroes}}</button>
-        <div id="pulsanti_display_add_window" class="search_hero_area" style="display:inline-block">
+        <div id="pulsanti_display_add_window" style="display:inline-block">
           <button class="search_hero_filter active" name="display_list" onclick="app.setDisplayStyle(this, 'add_window')" value="grid">
             <div><i class="fa fa-th-large"></i></div>
           </button><!--
@@ -1449,7 +1443,7 @@ icon-bar span img {
           -->
 	    </h2>
        <!-- Pulsanti filtro eroi -->
-      <div style="display:inline-block;width:100%; margin-bottom: 5px;">
+      <div style="display:inline-block;width:100%;">
         <div class="search_hero_area" id="filter_all_rarity">
           <button class="search_hero_filter active" name="filter_rarity" onclick="app.filtroTuttiGliEroi(this, 'MyHeroes')" value="*">
             <div style="font-size:16px">{{strings.all}}</div>
@@ -1525,7 +1519,7 @@ icon-bar span img {
           </div>
         </div>
         <button id="myHeroes_sort_by" style="margin-right: 30px; width: auto; font-size: 16px;" class="search_hero_filter" v-on:click="if (displayMyHeroes.length > 0) alertUserAction('removeDisplayed');" style="font-size:16px; width:90px; width: auto;">{{strings.remove_displayed_heroes}}</button>
-        <div id = "pulsanti_display_manage_window" class="search_hero_area" style="display:inline-block"> <!-- Grid/List buttons-->
+        <div id = "pulsanti_display_manage_window" style="display:inline-block"> <!-- Grid/List buttons-->
           <button class="search_hero_filter active" name="display_list" onclick="app.setDisplayStyle(this, 'manage_window')" value="grid">
             <div><i class="fa fa-th-large"></i></div>
           </button><!--
@@ -1540,7 +1534,7 @@ icon-bar span img {
         <table id="myHeroes">
           <tr>
             <td style="text-align: center;">
-              <span v-for="key in displayMyHeroes" class="heroImgList" v-on:click="if($event.target.className.indexOf('removeHero') === -1 ) lockHero(thisHeroData(key)._id)">
+              <span v-for="key in displayMyHeroes" class="heroImgList" v-on:click="lockHero(thisHeroData(key)._id)">
                 <!-- Classco -->
                 <template v-if="isLocked(thisHeroData(key)._id) && lockType===1">
                   <div class="top-right animate-flicker">&#128274;</div>
@@ -1553,7 +1547,7 @@ icon-bar span img {
                 <template v-else-if="isLocked(thisHeroData(key)._id)&& lockType===3">
                   <span style="position: absolute;margin-top: 35px;margin-left: 35px;transform: translate(-50%, -50%);font-size: 40px;" class="animate-flicker">🔒</span>
                 </template>
-                <img v-bind:src="getHeroAssets(key).icon" onerror="this.onerror=null; this.src=app.getHeroAssets(this.alt, 'onerror').icon" style="width:70px" v-bind:alt="key" v-bind:titolo="key"/><span v-on:click="setTimeout(function() {removeHero(thisHeroData(key)._id)}, 1)" class="removeHero" v-bind:title="'Remove ' + thisHeroData(key).name">×</span> <!-- z-index 1 to avoid self lock when removing and timeout 1 to avoid locking the next hero when removing a hero-->
+                <img v-bind:src="getHeroAssets(key).icon" onerror="this.onerror=null; this.src=app.getHeroAssets(this.alt, 'onerror').icon" style="width:70px" v-bind:alt="key" v-bind:titolo="key"/><span v-on:click="setTimeout(function() {removeHero(thisHeroData(key)._id)}, 1)" style="z-index: 1;" class="removeHero" v-bind:title="'Remove ' + thisHeroData(key).name">×</span> <!-- z-index 1 to avoid self lock when removing and timeout 1 to avoid locking the next hero when removing a hero-->
                 <template v-if="showNamesInGrid===true">
                   <p class="heroNameLabel">{{ thisHeroTranslatedName(thisHeroData(key)._id) }}</p>
                 </template>
@@ -1693,9 +1687,9 @@ icon-bar span img {
       </div>
     </div>
 
-    <div id="calculate_window" style="display:none;">
+    <div id="calculate_window" class="center" style="display:none;">
       <h2>{{strings.risultati}}  <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px" v-on:click="helpWindow('calculate_window', 'results_help')"></i></h2>
-      <table class="center">
+      <table>
         <thead>
           <th></th>
           <th colspan="4">{{strings.team}}</th>
@@ -1885,25 +1879,40 @@ icon-bar span img {
       </span>
       <br><br><br><br>
     </div>
-    <div id="saved_teams_stats" style="display: none;">
-      <div id="team_stats_container" class="center">
-        <h2>{{strings.most_saved_teams}}
-          <div style="float: right;">
-            <button id="refreshStats" class="search_hero_filter" style="width: 70px" v-on:click="getSavedTeamsStats();">
-              <i class="fa fa-refresh" aria-hidden="true" style="padding-right: 5px;"></i>{{strings.refresh_team_stats}}
-            </button>
-          </div>
-        </h2>
-        <br>
-        <div style="width: 100%">
-          <div id="team_tab_stats" class="tab_style activetab" style="margin-left: 0; margin-right: -2px" onclick="$('#char_tab_stats').removeClass('activetab'); $(this).addClass('activetab'); document.getElementById('teams_stats_tbody').style.display = 'block'; document.getElementById('char_stats_tbody').style.display = 'none'">
-            {{strings.teams}}
-          </div>
-          <div id="char_tab_stats" class="tab_style" style="margin-left: -2px; margin-right: -1px;" onclick="$('#team_tab_stats').removeClass('activetab'); $(this).addClass('activetab');  document.getElementById('teams_stats_tbody').style.display = 'none'; document.getElementById('char_stats_tbody').style.display = 'block'">
-            {{strings.heroes}}
-          </div>
+    <div id="saved_teams_stats" class="center" style="display: none;">
+      <h2>{{strings.most_saved_teams}}
+        <div style="float: right;">
+          <button id="refreshStats" class="search_hero_filter" style="width: 70px" v-on:click="getSavedTeamsStats();">
+            <i class="fa fa-refresh" aria-hidden="true" style="padding-right: 5px;"></i>{{strings.refresh_team_stats}}
+          </button>
+        </div>
+      </h2>
+      <br>
+      <div style="width: 100%">
+        <div id="team_tab_stats" class="tab_style activetab" style="margin-left: 0; margin-right: -2px" onclick="$('#char_tab_stats').removeClass('activetab'); $(this).addClass('activetab'); document.getElementById('teams_stats_tbody').style.display = 'block'; document.getElementById('char_stats_tbody').style.display = 'none'">
+          {{strings.teams}}
+        </div>
+        <div id="char_tab_stats" class="tab_style" style="margin-left: -2px; margin-right: -1px;" onclick="$('#team_tab_stats').removeClass('activetab'); $(this).addClass('activetab');  document.getElementById('teams_stats_tbody').style.display = 'none'; document.getElementById('char_stats_tbody').style.display = 'block'">
+          {{strings.heroes}}
         </div>
       </div>
+    </div>
+
+
+    <div id="toolbar" class="icon-bar"> <!-- nascondi toolbar durante il calcolo -->
+      <!--<span id="icon-bar_user_window" onclick="/*setWindow('user_window')*/" style="background-image: url(./favicons/android-chrome-192x192.png); background-size: cover; background-repeat: no-repeat;"></span>-->
+      <span id="icon-bar_add_window" onclick="setWindow('add_window')"><!--&#43;--><i class="fa fa-plus" aria-hidden="true"></i></span>
+      <span id="icon-bar_manage_window" onclick="setWindow('manage_window')"><!--&#9998;--><i class="fa fa-pencil-alt" aria-hidden="true"></i></span>
+      <span id="icon-bar_advanced_window" onclick="setWindow('advanced_window')"><!--&#9876;--><i class="fa fa-book" aria-hidden="true"></i></span>
+      <span id="icon-bar_calculate_window" v-on:click="calcolaRisultati; setWindow('calculate_window');" style="font-size:36px;">
+        <!--Calcola-->
+        <img src="https://cdn.glitch.com/5c21c869-ea9a-48ba-b019-90cd493f45cd%2Fcamp-fire-icon%20small.png?v=1585067234171" alt="calculate" style="margin-bottom: -10px; height: 40px;" />
+      </span>
+      <span id="icon-bar_settings_window" onclick="setWindow('extras_window')"><!--&#9881;--><i class="fa fa-cog"></i></span>
+      <span id="icon-bar_my_teams_window" onclick="setWindow('my_teams_window')" style="display: none;"><i class="fa fa-save"></i></span>
+      <span id="icon-bar_raid_map_window" onclick="setWindow('raid_map')" style="display: none;"><i class="fa fa-map"></i></span>
+      <span id="icon-bar_team_stats_window" onclick="setWindow('saved_teams_stats');app.computedGetSavedTeamsStats;" style="display: none;"><i class="fa fa-chart-bar"></i></span>
+      <span id="icon-bar_real_settings_window" onclick="setWindow('settings_window')" style="display: none;"><i class="fa fa-cog"></i></span>
     </div>
 
      <!-- Mostra durante il calcolo -->
@@ -1929,22 +1938,6 @@ icon-bar span img {
     </div>
     <div id="snackbar"></div> <!-- messaggio avvisi -->
   </div><!-- div id = app -->
-
-  <div id="toolbar" class="icon-bar"> <!-- nascondi toolbar durante il calcolo -->
-    <!--<span id="icon-bar_user_window" onclick="/*setWindow('user_window')*/" style="background-image: url(./favicons/android-chrome-192x192.png); background-size: cover; background-repeat: no-repeat;"></span>-->
-    <span id="icon-bar_add_window" onclick="setWindow('add_window')"><!--&#43;--><i class="fa fa-plus" aria-hidden="true"></i></span>
-    <span id="icon-bar_manage_window" onclick="setWindow('manage_window')"><!--&#9998;--><i class="fa fa-pencil-alt" aria-hidden="true"></i></span>
-    <span id="icon-bar_advanced_window" onclick="setWindow('advanced_window')"><!--&#9876;--><i class="fa fa-book" aria-hidden="true"></i></span>
-    <span id="icon-bar_calculate_window" onclick="app.calcolaRisultati; setWindow('calculate_window');" style="font-size:36px;">
-      <!--Calcola-->
-      <img src="https://cdn.glitch.com/5c21c869-ea9a-48ba-b019-90cd493f45cd%2Fcamp-fire-icon%20small.png?v=1585067234171" alt="calculate" style="margin-bottom: -10px; height: 40px;" />
-    </span>
-    <span id="icon-bar_settings_window" onclick="setWindow('extras_window')"><!--&#9881;--><i class="fa fa-cog"></i></span>
-    <span id="icon-bar_my_teams_window" onclick="setWindow('my_teams_window')" style="display: none;"><i class="fa fa-save"></i></span>
-    <span id="icon-bar_raid_map_window" onclick="setWindow('raid_map')" style="display: none;"><i class="fa fa-map"></i></span>
-    <span id="icon-bar_team_stats_window" onclick="setWindow('saved_teams_stats');app.computedGetSavedTeamsStats;" style="display: none;"><i class="fa fa-chart-bar"></i></span>
-    <span id="icon-bar_real_settings_window" onclick="setWindow('settings_window')" style="display: none;"><i class="fa fa-cog"></i></span>
-  </div>
 
   <script type="text/x-template" id="pagination">
     <ul class="pagination" v-if="totalPages>1">
@@ -2034,6 +2027,7 @@ icon-bar span img {
     };
     
     function setWindow(current) {
+      scrollTo(0,0);
       //currentTab = current; // For swipe function
       document.getElementById('welcome').style.display='none';
       document.getElementById('add_window').style.display='none';
@@ -2100,7 +2094,6 @@ icon-bar span img {
           document.getElementById("icon-bar_settings_window").className = "active-icon-bar";
           break;
       };
-      document.getElementById(current).scrollTo(0,0);
     };
 
     function welcome_toggle(id,menu) {
@@ -2195,17 +2188,19 @@ icon-bar span img {
   };
 
   function setToolbarPosition (f) {
-    var f = f!=undefined ? f : "hor";
+    var f = f!=undefined ? f : "hor", appDoc = document.getElementById("app");
     if (f === "hor") {
-      document.body.style.flexDirection = "column";
-      document.getElementById("icon-bar_settings_window").style.display = "";
+      appDoc.style.marginLeft = "0";
+      appDoc.style.marginBottom = "70px";
+      setTimeout(function(){ if (appDoc.style.marginLeft === "0px") document.getElementById("icon-bar_settings_window").style.display = ""; }, 370); // setTimeout to fix a transiction effect
       document.getElementById("icon-bar_real_settings_window").style.display = "none";
       document.getElementById("icon-bar_my_teams_window").style.display = "none";
       document.getElementById("icon-bar_raid_map_window").style.display = "none";
       document.getElementById("icon-bar_team_stats_window").style.display = "none";
       document.getElementById("toolbar").className = "icon-bar";
     } else {
-      document.body.style.flexDirection = "row";
+      appDoc.style.marginLeft = "90px";
+      appDoc.style.marginBottom = "0";
       document.getElementById("icon-bar_settings_window").style.display = "none";
       document.getElementById("icon-bar_real_settings_window").style.display = "";
       document.getElementById("icon-bar_my_teams_window").style.display = "";
@@ -2376,7 +2371,7 @@ icon-bar span img {
             topics += `<div style="border-bottom: 1px solid grey;">` + app.translateTopics(key) + " " + '<span style="float: right;">' + app.HeroDB[e.target.alt].camping.values[key] + '</span></div>'
           };
           $( "#app" ).append(`
-          <div id="debugHeroInfo" class="blur" style="z-index: 2; width:200px;position:absolute; top:` + posY + `; left:` + posX + `; padding: 10px; height: auto;">
+          <div id="debugHeroInfo" class="blur" style="z-index: 1; width:200px;position:absolute; top:` + posY + `; left:` + posX + `; padding: 10px;">
             ` + "<center>" + app.thisHeroTranslatedName(e.target.alt) + "</center>" +
             `<div style="font-size:12px">` +
               app.strings.topics + ": " + app.translateTopics(app.HeroDB[e.target.alt].camping.topics[0]) + ", " +  app.translateTopics(app.HeroDB[e.target.alt].camping.topics[1]) + "<br><br>" +
@@ -2609,7 +2604,7 @@ icon-bar span img {
         },
         methods: {
           changeResultsPage: function (page) {
-            document.getElementById("calculate_window").scrollTo(0,0);
+            scrollTo(0,0)
             this.currentResultsPage = page;
           },
           heroId: function (hero) {
@@ -2625,8 +2620,8 @@ icon-bar span img {
           },
           getHeroAssets: function (_id, f) {
             if (this.HeroDB[_id]){
-              if (!this.HeroDB[_id].assets) this.HeroDB[_id].assets = {icon: 'https://assets.epicsevendb.com/_source/face/' + this.heroId(_id) + '_s.png'};
-              if (f === "onerror") this.HeroDB[_id].assets = {icon: 'https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + this.heroId(_id) + '_s.png'};
+              if (!this.HeroDB[_id].assets) this.HeroDB[_id].assets = {icon: 'https://assets.epicsevendb.com/_source/face/' + this.thisHeroData(_id).id + '_s.png'};
+              if (f === "onerror") this.HeroDB[_id].assets = {icon: 'https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + this.thisHeroData(_id).id + '_s.png'};
               return this.HeroDB[_id].assets;
             } else return {icon: ""};
           },
@@ -3045,7 +3040,7 @@ icon-bar span img {
                 refreshButton.style.display = "";
                 $('#char_tab_stats').removeClass('activetab');
                 $('#team_tab_stats').addClass('activetab');
-                $( "#team_stats_container").append(`<table id="stats_table" style="width: 100%; background-color: var(--bg-color-secondary); padding: 10px; border-radius: 0 0 12px 12px;"><tbody id="teams_stats_tbody">
+                $( "#saved_teams_stats").append(`<table id="stats_table" style="width: 100%; background-color: var(--bg-color-secondary); padding: 10px; border-radius: 0 0 12px 12px;"><tbody id="teams_stats_tbody">
                   <th colspan="4">${self.strings.team}</th>
                   <th></th>
                   <th style="white-space: nowrap;">${self.strings.morale}</th>
@@ -3060,7 +3055,7 @@ icon-bar span img {
               },
               error: function(jqXHR, textStatus, errorThrown) {
                 refreshButton.style.display = "";
-                $( "#team_stats_container").append(`<table id="stats_table"><td style="text-align: center;">Error while retirving data.<br> Please retry.</td></table>`);
+                $( "#saved_teams_stats").append(`<table id="stats_table"><td style="text-align: center;">Error while retirving data.<br> Please retry.</td></table>`);
                 snackbarMessage(`failed to retrive data`);
               }
             });
