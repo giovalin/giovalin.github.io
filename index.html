@@ -59,10 +59,7 @@ body {
   color: var(--font-color); /* font color */
 }
 
-
-
 /* Full-width input fields */
-  
 input[type=text], input[type=password] {
   /*width: 100%;*/
   padding: 12px 20px;
@@ -129,7 +126,7 @@ span.psw {
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 3; /* toolbar's z-index = 3 */
+  z-index: 60; /* toolbar's z-index = 50 */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -139,7 +136,7 @@ span.psw {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   padding-top: 60px;
 }
-body.modal-open {
+.modal-open {
     overflow: hidden;
 }
 /* Modal Content/Box */
@@ -203,27 +200,32 @@ div.toolbar {
   
 span.heroImgList {
     position: relative;
-    margin-top: 12px;
-    margin-bottom: 12px;
-    margin-left: 12px;
-    margin-right: 12px;
+    padding: 12px;
     font-weight: bold;
     font-size:24px;
     color: var(--font-color);/*color: #221461;*/
     display:inline-block;
     vertical-align: top;
+    transition: all .2s ease;
 }
-.heroImgList:hover,
-.heroImgList:focus {
-  background-color:#ddd;
-  cursor: pointer;
-  color: black;
+@media (hover: hover) {
+  .heroImgList:hover {
+    background-color: var(--search-primary-color);
+    cursor: pointer;
+    transform: scale(1.3);
+    z-index: 1;
+  }
+  /* Will mess with remove hero function
+  .heroImgList:active {
+    transform: scale(2);
+  }*/
 }
 .heroNameLabel {
   font-weight: normal;
   font-size: 14px;
   margin: 0;
   width: 81px;
+  min-height: 34px;
 }
 
 .heroInTeam {
@@ -355,7 +357,7 @@ span.heroImgList {
   right: 0;
   width: 100%;
   background-color: #555;
-  z-index: 2;
+  z-index: 50;
 }
 
 .icon-bar span {
@@ -380,6 +382,7 @@ icon-bar span img {
 
 .vertical-icon-bar {
   position: fixed; 
+  z-index: 50;
   top: 0; 
   left: 0; 
   height: 100vh;
@@ -496,13 +499,13 @@ icon-bar span img {
 /* Lock icon */
 .top-right {
   position: absolute;
-  top: 2px;
-  right: 7px;
+  top: 5px;
+  right: 15px;
 }
 .top-left {
   position: absolute;
-  top: -15px;
-  left: -10px;
+  top: -10px;
+  left: 6px;
   color: var(--colore-check-eroi);
 }
 .center_img {
@@ -836,6 +839,7 @@ icon-bar span img {
   height: 40px;
   min-width: 40px;
   cursor: pointer;
+  outline: none;
 }
 
 @media screen and (max-width: 600px) { /* zoom pagintion buttons on small devices*/ 
@@ -1374,8 +1378,8 @@ icon-bar span img {
             <div style="max-height:20px;"><i class="fa fa-eye-slash"></i></div>
           </button>
         </div>
-        <button id="myHeroes_sort_by" style="margin-right: 30px; width: auto; font-size: 16px;" class="search_hero_filter" v-on:click="if (displayList.length > 0) alertUserAction('addDisplayed');" style="font-size:16px; width:90px; width: auto;">{{strings.add_displayed_heroes}}</button>
-        <div id="pulsanti_display_add_window" style="display:inline-block">
+        <button id="myHeroes_sort_by" style="margin-right: 30px; width: auto; font-size: 16px;" class="search_hero_area search_hero_filter" v-on:click="if (displayList.length > 0) alertUserAction('addDisplayed');" style="font-size:16px; width:90px; width: auto;">{{strings.add_displayed_heroes}}</button>
+        <div id="pulsanti_display_add_window" class="search_hero_area" style="display:inline-block">
           <button class="search_hero_filter active" name="display_list" onclick="app.setDisplayStyle(this, 'add_window')" value="grid">
             <div><i class="fa fa-th-large"></i></div>
           </button><!--
@@ -1518,8 +1522,8 @@ icon-bar span img {
             <div class="active" onclick="document.getElementById('myHeroes_sort_by').value='id'; app.filtroTuttiGliEroi(this, 'MyHeroes'); this.parentElement.style.display='none'">{{strings.ingame_id}}</div>
           </div>
         </div>
-        <button id="myHeroes_sort_by" style="margin-right: 30px; width: auto; font-size: 16px;" class="search_hero_filter" v-on:click="if (displayMyHeroes.length > 0) alertUserAction('removeDisplayed');" style="font-size:16px; width:90px; width: auto;">{{strings.remove_displayed_heroes}}</button>
-        <div id = "pulsanti_display_manage_window" style="display:inline-block"> <!-- Grid/List buttons-->
+        <button id="myHeroes_sort_by" style="margin-right: 30px; width: auto; font-size: 16px;" class="search_hero_area search_hero_filter" v-on:click="if (displayMyHeroes.length > 0) alertUserAction('removeDisplayed');" style="font-size:16px; width:90px; width: auto;">{{strings.remove_displayed_heroes}}</button>
+        <div id="pulsanti_display_manage_window" class="search_hero_area" style="display:inline-block"> <!-- Grid/List buttons-->
           <button class="search_hero_filter active" name="display_list" onclick="app.setDisplayStyle(this, 'manage_window')" value="grid">
             <div><i class="fa fa-th-large"></i></div>
           </button><!--
@@ -1534,7 +1538,7 @@ icon-bar span img {
         <table id="myHeroes">
           <tr>
             <td style="text-align: center;">
-              <span v-for="key in displayMyHeroes" class="heroImgList" v-on:click="lockHero(thisHeroData(key)._id)">
+              <span v-for="key in displayMyHeroes" class="heroImgList" v-on:click="if($event.target.className.indexOf('removeHero') === -1 ) lockHero(thisHeroData(key)._id)">
                 <!-- Classco -->
                 <template v-if="isLocked(thisHeroData(key)._id) && lockType===1">
                   <div class="top-right animate-flicker">&#128274;</div>
@@ -1547,7 +1551,7 @@ icon-bar span img {
                 <template v-else-if="isLocked(thisHeroData(key)._id)&& lockType===3">
                   <span style="position: absolute;margin-top: 35px;margin-left: 35px;transform: translate(-50%, -50%);font-size: 40px;" class="animate-flicker">🔒</span>
                 </template>
-                <img v-bind:src="getHeroAssets(key).icon" onerror="this.onerror=null; this.src=app.getHeroAssets(this.alt, 'onerror').icon" style="width:70px" v-bind:alt="key" v-bind:titolo="key"/><span v-on:click="setTimeout(function() {removeHero(thisHeroData(key)._id)}, 1)" style="z-index: 1;" class="removeHero" v-bind:title="'Remove ' + thisHeroData(key).name">×</span> <!-- z-index 1 to avoid self lock when removing and timeout 1 to avoid locking the next hero when removing a hero-->
+                <img v-bind:src="getHeroAssets(key).icon" onerror="this.onerror=null; this.src=app.getHeroAssets(this.alt, 'onerror').icon" style="width:70px" v-bind:alt="key" v-bind:titolo="key"/><span v-on:click="setTimeout(function() {removeHero(thisHeroData(key)._id)}, 1)" class="removeHero" v-bind:title="'Remove ' + thisHeroData(key).name">×</span>
                 <template v-if="showNamesInGrid===true">
                   <p class="heroNameLabel">{{ thisHeroTranslatedName(thisHeroData(key)._id) }}</p>
                 </template>
@@ -1917,7 +1921,7 @@ icon-bar span img {
 
      <!-- Mostra durante il calcolo -->
     <div v-show="isLoadingResults" id="loading_camp_results">
-      <div style="opacity: 0.3; filter: alpha(opacity=30); height:100%; width:100%; position:fixed; z-index:2; top: 0; right: 0;">
+      <div style="opacity: 0.3; filter: alpha(opacity=30); height:100%; width:100%; position:fixed; z-index:99; top: 0; right: 0;">
       </div> <!-- prevent user from changing menu -->
       <div class="center_img box_advanced_settings" style="height:200px;width:200px">
         <div class="center_img" style="text-align:center;"> 
@@ -1926,9 +1930,9 @@ icon-bar span img {
           {{strings.possibili_combinazioni}}<br><b>{{numeroCombinazioniPossibili}}</b>
         </div>
       </div>
-      <button style="z-index: 2;margin-right: 30px; width: auto; font-size: 16px; top: auto;bottom: 90px;right: 0;position: absolute;" class="search_hero_filter" onclick="restartCamperino();">{{strings.abort_calculation}}</button>
+      <button style="z-index: 99;margin-right: 30px; width: auto; font-size: 16px; top: auto;bottom: 90px;right: 0;position: absolute;" class="search_hero_filter" onclick="restartCamperino();">{{strings.abort_calculation}}</button>
     </div>
-    <div id="caricamentoIniziale" v-if="inizializzazione" class="center_img box_advanced_settings" style="z-index: 10; height: 100%; width: 100%; border-radius: 0; top: 49.9%;"> <!-- non è neccessario settare inizializzaione = true -->
+    <div id="caricamentoIniziale" v-if="inizializzazione" class="center_img box_advanced_settings" style="z-index: 100; height: 100%; width: 100%; border-radius: 0; top: 49.9%;"> <!-- non è neccessario settare inizializzaione = true -->
       <div class="center_img" style="text-align:center;"> 
         <i class="fa fa-cog fa-spin" style="font-size:70px"></i>
         <div>
