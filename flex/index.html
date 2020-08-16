@@ -1366,13 +1366,13 @@ span.heroImgList {
               <img src="https://assets.epicsevendb.com/attribute/cm_icon_proice.png" crossorigin="anonymous" />
             </button><!-- 
             --><button class="search_hero_filter" name="filter_element" onclick=app.filtroTuttiGliEroi(this) value="wind">
-              <img src="https://assets.epicsevendb.com/attribute/cm_icon_proearth.png"  crossorigin="anonymous"/>
+              <img src="https://assets.epicsevendb.com/attribute/cm_icon_proearth.png" crossorigin="anonymous"/>
             </button><!-- 
             --><button class="search_hero_filter" name="filter_element" onclick=app.filtroTuttiGliEroi(this) value="light">
-              <img src="https://assets.epicsevendb.com/attribute/cm_icon_prolight.png"  crossorigin="anonymous" />
+              <img src="https://assets.epicsevendb.com/attribute/cm_icon_prolight.png" crossorigin="anonymous" />
             </button><!-- 
             --><button class="search_hero_filter" name="filter_element" onclick=app.filtroTuttiGliEroi(this) value="dark">
-              <img src="https://assets.epicsevendb.com/attribute/cm_icon_promdark.png"  crossorigin="anonymous" />
+              <img src="https://assets.epicsevendb.com/attribute/cm_icon_promdark.png" crossorigin="anonymous" />
             </button>
           </div>
           <div class="search_hero_area">
@@ -2039,6 +2039,7 @@ span.heroImgList {
   </script>
 
 <script defer>
+/* Disabled --- issue with EpicSeven DB CORS assets
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('./fallen-cecilia.js').then(function(registration) {
@@ -2049,7 +2050,7 @@ if ('serviceWorker' in navigator) {
       console.log('ServiceWorker registration failed: ', err);
     });
   });
-};
+};*/
 
     var userSettings = JSON.parse(localStorage.getItem('Settings') ? localStorage.getItem('Settings') : "{}");
     function toggleCheck() {
