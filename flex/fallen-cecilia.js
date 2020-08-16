@@ -33,7 +33,7 @@ self.addEventListener('fetch', function(event) {
   const requestURL = new URL (event.request.url);
   
   //Dynamic stuff
-  if (requestURL.origin == location.origin) {
+  if (requestURL.origin == location.origin || requestURL.hostname === "api.epicsevendb.com") {
     //console.log("DB STUFF");
     event.respondWith (async function (){
       try { // try online
