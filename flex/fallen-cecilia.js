@@ -2,7 +2,7 @@
 const nomeCache = "cache-v1";
 
 function shouldCache (fetch) {
-  if (fetch.clone().status ==== 0 || (fetch.clone().status >= 400 && fetch.clone().status <= 500) ) return false;
+  if (fetch.clone().status === 0 || (fetch.clone().status >= 400 && fetch.clone().status <= 500) ) return false;
   return true;
 }
 
