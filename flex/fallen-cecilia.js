@@ -73,7 +73,7 @@ self.addEventListener('fetch', function(event) {
         .then(response => { // cache response for next time
           if (response.clone()) {
             return caches.open(nomeCache).then(cache => {
-              if (shouldCache) cache.put(event.request.url, response.clone());
+              if ( shouldCache(response) ) cache.put(event.request.url, response.clone());
               return response;
             });
           } else throw new Error();
