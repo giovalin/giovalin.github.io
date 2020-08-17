@@ -46,7 +46,7 @@ self.addEventListener('fetch', function(event) {
         .then(response => { // cache response
           if (response.clone().status === 200) {
             return caches.open(nomeCache).then(cache => {
-              cache.put(event.request.url, response.clone());
+              if ( shouldCache(response) ) cache.put(event.request.url, response.clone());
               return response;
             });
           } else throw new Error();
