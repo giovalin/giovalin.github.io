@@ -1,6 +1,11 @@
 //service worker for Offline camping simulator
 const nomeCache = "cache-v1";
 
+function shouldCache (fetch) {
+  if (fetch.clone().status ==== 0 || (fetch.clone().status >= 400 && fetch.clone().status <= 500) ) return false;
+  return true;
+}
+
 const precacheResources = [
   './',
   './index.html',
@@ -68,7 +73,7 @@ self.addEventListener('fetch', function(event) {
         .then(response => { // cache response for next time
           if (response.clone()) {
             return caches.open(nomeCache).then(cache => {
-              cache.put(event.request.url, response.clone());
+              if (shouldCache) cache.put(event.request.url, response.clone());
               return response;
             });
           } else throw new Error();
