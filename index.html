@@ -2076,6 +2076,10 @@ icon-bar span img {
           <!--<i class="fa fa-cog fa-spin" style="font-size:30px"></i><br> -->
           {{strings.possibili_combinazioni}}<br><b>{{numeroCombinazioniPossibili}}</b>
         </div>
+        <div style="display: none; width: 100%; height: 20px; background-color: transparent; padding: 0px; text-align: initial;border-radius: 0 0 15px 15px;position: absolute;bottom: 0;overflow: hidden;border: thin;border-style: solid none none;border-color: var(--font-color);">
+          <span style="left: 40%; position:absolute"></span>
+          <span id="calculationPer" style="height: 100%; width: 0%; background-color: rgb(76, 175, 80); display: inline-block; transition: all 1s ease 0s;"></span>
+        </div>
       </div>
       <button style="z-index: 99;margin-right: 30px; width: auto; font-size: 16px; top: auto;bottom: 90px;right: 0;position: absolute;" class="search_hero_filter" onclick="restartCamperino();">{{strings.abort_calculation}}</button>
     </div>
@@ -5366,16 +5370,50 @@ icon-bar span img {
   created () {console.log("created")}
 });
 
+function debounce(func, wait, immediate) {
+  var timeout;
+  return function executedFunction() {
+    var context = this;
+    var args = arguments;
+	    
+    var later = function() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+
+    var callNow = immediate && !timeout;
+	
+    clearTimeout(timeout);
+
+    timeout = setTimeout(later, wait);
+	
+    if (callNow) func.apply(context, args);
+  };
+};
+
+
   var camperinoMessage = function (e) {
-    app.isLoadingResults = false; // disattiva angelica
-    mandaNotificaCompletamento();
-    if (e.data.error) snackbarMessage(app.strings["results_error"] + `: ` + app.strings[e.data.error]) // throw error
-    else app.risultati = e.data.risultati
+    //mandaNotificaCompletamento();
+    if (e.data.error)
+      snackbarMessage(app.strings["results_error"] + `: ` + app.strings[e.data.error]), /* throw error */
+      document.getElementById('calculationPer').parentNode.style.display = "none",
+      document.getElementById('calculationPer').style.width = "0%",
+      app.isLoadingResults = false;
+    else if (e.data.status) {
+      document.getElementById('calculationPer').parentNode.style.display = "block";
+      document.getElementById('calculationPer').previousElementSibling.innerText = e.data.status + "%"
+      document.getElementById('calculationPer').style.width = e.data.status + "%";
+    }
+    else if (e.data.risultati)
+      app.risultati = e.data.risultati,
+      document.getElementById('calculationPer').parentNode.style.display = "none",
+      document.getElementById('calculationPer').style.width = "0%",
+      app.isLoadingResults = false;
   };
   // Genera un worker per eseguire i calcoli del camp
   var camperino = new Worker('./worker.js');
   camperino.onmessage = function(e) {
-    camperinoMessage(e);
+    camperinoMessage(e)
   };
   camperino.onerror = function(err) {
     console.log(err)
@@ -5391,6 +5429,7 @@ icon-bar span img {
       app.debuffs.push("aaaa"); // add something to trigger a new calculation attempt 
       app.debuffs = copy; // restore debuff list
       app.isLoadingResults = false; // disattiva angelica
+      document.getElementById('calculationPer').parentNode.style.display = "none",
       camperino.onmessage = function(e) {
         camperinoMessage(e);
       };
