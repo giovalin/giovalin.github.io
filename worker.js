@@ -340,8 +340,17 @@ onmessage = function(e) {
                     } else { // can calculate 
                         if ( (e.cartesianLock.length + e.locked.length) > 3 ) campList = ["Ras"]; // placeholder Ras if all heroes are used in multilock or lock-> avoid RangeError
                         c = printCombos(e.cartesianLock);
+                        var currIndex = 0;
+                        var lastProgress = -1;
+                        var tot = (Combinatorics.bigCombination(campList,4-e.locked.length-c[0].length).length * c.length).valueOf();
                         c.forEach( (cartesianLocked) => {
                                 Combinatorics.bigCombination(campList,4-e.locked.length-cartesianLocked.length).forEach(teamComb => {
+                                    //Progress Bar
+                                    currIndex++
+                                    if (lastProgress !== Math.round(currIndex * 100 / tot))
+                                        lastProgress = Math.round(currIndex * 100 / tot),
+                                        postMessage({"status": Math.round(currIndex * 100 / tot) });
+
                                     var teamComb = teamComb;
                                     if (e.cartesianLock.length + e.locked.length>3) teamComb = []; // Se locked = 4 allora team deve riportare array vuota
                                     //teamComb = teamComb.concat(cartesianLocked);
