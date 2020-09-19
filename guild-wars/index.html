@@ -186,7 +186,19 @@
         font-size: 25px;
         text-align: start;
       }
-
+      .reporterTab {
+        padding: 10px;
+        border-color: var(--search-border-color);
+        background-color: var(--bg-color-secondary);
+        min-width: 150px;
+        display: inline-block;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 10px 10px 0 0;
+      }
+      .activeReporterTab {
+        background-color: var(--icon-bar-active);
+      }
     </style>
   </head>
   <body>
@@ -237,6 +249,31 @@
               No reports for this tower yet
             </div>
           </div>
+
+          <dvi v-else>
+            <div style="position: absolute; transform: translateY(-100%); margin: 0 20px">
+              <span 
+                v-for="report,index in towerReport"
+                v-on:click="reportNumber = index" 
+                v-bind:class="{activeReporterTab: isActiveTab(reportNumber, index) }"
+                class="reporterTab">
+                  {{towerReport[index].reporter}}
+                </span>
+            </div>
+
+            <div style="height: 90%; padding: 20px; box-sizing: border-box;overflow: scroll;overscroll-behavior: contain; position: relative; background-color: var(--bg-color-secondary);">
+              <h2 style="margin: 0;">Enemy: {{towerReport[reportNumber].enemy}} - Reporter: {{towerReport[reportNumber].reporter}}</h2>
+              <div v-for="team in [serverFullReport[zone][tower][reportNumber].team1, serverFullReport[zone][tower][reportNumber].team2]">
+                  <formation v-bind:editable="false" teamnumber="-1" v-bind:north="HeroDB[team.team[1]]?.assets.icon || null" v-bind:south="HeroDB[team.team[2]]?.assets.icon || null" v-bind:weast="HeroDB[team.team[3]]?.assets.icon || null" v-bind:east="HeroDB[team.team[0]]?.assets.icon || null" style="margin: -50px 0 -70px;"></formation>
+                  <div style="display: inline-block">
+                    <div v-for="key in team.team" v-if="key">
+                      <img v-bind:src="HeroDB[key].assets.icon" height="60px" /> Artifact: {{team[key].artifact}} - Health: {{team[key].hp}} - Speed range: from {{team[key].speed?.min}} to {{team[key].speed?.max}}
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </dvi>
+
           <button v-on:click="reoport_open=false" style="height: 5%;min-width: 150px;padding: 5px 20px;margin: 20px;font-size: 20px;background-image: linear-gradient(rgb(5, 73, 5), rgb(6, 177, 14));border: none;color: white;border-radius: 5px; cursor: pointer; float: right;">Close</button>
           <button v-on:click="writting_new_report=true" style="height: 5%; min-width: 150px; padding: 5px 20px; margin: 20px; font-size: 20px; background-image: linear-gradient(rgb(11, 3, 111), rgb(11, 95, 255)); border: medium none; color: white; border-radius: 5px; cursor: pointer; float: right;">Write new Report</button>
         </div>
@@ -317,7 +354,7 @@
 
             <div style="min-height: 400px; text-align: center; display: flex; flex-wrap: wrap; justify-content: center;">
               <formation @characterselect="characterSelection($event)" teamnumber="2" v-bind:north="HeroDB[enemyTeam2[1]]?.assets.icon || null" v-bind:south="HeroDB[enemyTeam2[2]]?.assets.icon || null" v-bind:weast="HeroDB[enemyTeam2[3]]?.assets.icon || null" v-bind:east="HeroDB[enemyTeam2[0]]?.assets.icon || null"></formation>
-              <div id="team2Data" style="display: inline-block; vertical-align: top; height: 100%; flex-grow: 1;">
+              <div style="display: inline-block; vertical-align: top; height: 100%; flex-grow: 1;">
                 <div id="myTeam2" style="display: inline-flex;">
                   <div v-for="n in 3" style="display: flex; flex-wrap: wrap; width: 200px; border: thin solid; margin-left: 10px;">
                     <div style="flex: 0 0 100%">MY HERO {{n}}</div>
@@ -339,41 +376,64 @@
                     </div>
                   </div>
                 </div>
-                <div v-for="key in enemyTeam2" v-if="HeroDB[key]" style="max-width: 1440px; margin: 20px 0; display: flex; flex-wrap: wrap;">
-                  <div class="heroTitleFlex">
-                    {{HeroDB[key].name}}
-                  </div>
-
-                  <div style="flex: 0 0 25%; max-width: 25%; margin: 10px;">
-                    <div class="inputDiv">
-                      <input type="text" placeholder="Artifact">
+                <div id="team_2_stats">
+                  <div v-for="key in enemyTeam2" v-if="HeroDB[key]" v-bind:hero="key" style="max-width: 1440px; margin: 20px 0; display: flex; flex-wrap: wrap;">
+                    <div class="heroTitleFlex">
+                      {{HeroDB[key].name}}
                     </div>
-                  </div>
 
-                  <div style="flex: 0 0 150px; max-width: 25%; margin: 10px;">
-                    <div class="inputDiv">
-                      <input type="text">
-                      <div>
-                        HP
+                    <div style="flex: 0 0 25%; max-width: 25%; margin: 10px;">
+                      <div class="inputDiv">
+                        <input type="text" placeholder="Artifact">
                       </div>
                     </div>
-                  </div>
 
-                  <div style="flex: 0 0 120px; max-width: 25%; margin: 10px;">
-                    <div class="inputDiv">
-                      <input type="text">
-                      <div>
-                        % CR
+                    <div style="flex: 0 0 150px; max-width: 25%; margin: 10px;">
+                      <div class="inputDiv">
+                        <input type="text">
+                        <div>
+                          HP
+                        </div>
                       </div>
                     </div>
-                  </div>
 
+                    <div style="flex: 0 0 120px; max-width: 25%; margin: 10px;">
+                      <div class="inputDiv">
+                        <input type="text">
+                        <div>
+                          % CR
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
               </div>
             </div>
             <button v-on:click="writting_new_report=false; resetForm();" style="height: 5%;min-width: 150px;padding: 5px 20px;margin: 20px;font-size: 20px;background-image: linear-gradient(rgb(5, 73, 5), rgb(6, 177, 14));border: none;color: white;border-radius: 5px; cursor: pointer; float: right;">Close</button>
-            <button v-on:click="sendReport()" style="height: 5%; min-width: 150px; padding: 5px 20px; margin: 20px; font-size: 20px; background-image: linear-gradient(rgb(11, 3, 111), rgb(11, 95, 255)); border: medium none; color: white; border-radius: 5px; cursor: pointer; float: right;">Send Report</button>
+            <button v-on:click="comnpileThisReport()" style="height: 5%; min-width: 150px; padding: 5px 20px; margin: 20px; font-size: 20px; background-image: linear-gradient(rgb(11, 3, 111), rgb(11, 95, 255)); border: medium none; color: white; border-radius: 5px; cursor: pointer; float: right;">Done</button>
           </div>
+
+          <div v-if="myCompiledReport" style="background-color: #0000009c; width: 100%; height: 100%; position: absolute; left: 0; top: 0; overscroll-behavior: contain; overflow: hidden;">
+            <div style="background-color: var(--bg-color);
+              margin: 5% auto 15% auto;
+              border: 1px solid #888;
+              width: 80%;
+              height: 80%;
+            ">
+              <div style="height: 90%; padding: 20px; box-sizing: border-box;overflow: scroll;overscroll-behavior: contain; position: relative;">
+                <div v-for="team in [myCompiledReport.team1, myCompiledReport.team2]">
+                  <div v-for="key in team.team" v-if="key">
+                    <img v-bind:src="HeroDB[key]?.assets.icon" height="70px">
+                    {{HeroDB[key].name}} - Artifact: {{team[key].artifact}} - HP: {{team[key].hp}} - Speed: {{team[key].speed ? team[key].speed.min : "unknown"}}{{team[key].speed ? "-" + team[key].speed.max : ""}}
+                  </div>
+                </div>
+              </div>
+              <button v-on:click="myCompiledReport=false;" style="height: 5%;min-width: 150px;padding: 5px 20px;margin: 20px;font-size: 20px;background-image: linear-gradient(rgb(5, 73, 5), rgb(6, 177, 14));border: none;color: white;border-radius: 5px; cursor: pointer; float: right;">Close</button>
+              <button v-on:click="sendReport()" style="height: 5%; min-width: 150px; padding: 5px 20px; margin: 20px; font-size: 20px; background-image: linear-gradient(rgb(11, 3, 111), rgb(11, 95, 255)); border: medium none; color: white; border-radius: 5px; cursor: pointer; float: right;">Send Report</button>
+            </div>
+          </div>
+
         </div> <!-- write_new_report -->
       </div> <!-- REPORT OPEN -->
 
@@ -393,19 +453,19 @@
       <div v-bind:style="{height: boxsize, width: boxsize}" style="display: inline-block; position: relative;">
         <div @click="slotClicked(0)" style="position: absolute; background-image: url(./assets/File1931.png); background-repeat: no-repeat; background-size: contain;height: 30%;width: 40%;background-position: bottom;right: 5%;top: 47%;transform: translateY(-50%);">
           <img v-if="east" v-bind:src="east" style="position: absolute;left: 50%;top: 10%;transform: translateX(-50%);" width="50%">
-          <img v-else-if="teamsize<3" src="./assets/File2532.png" style="position: absolute;left: 53%;top: 10%;transform: translateX(-50%);" width="40%">
+          <img v-else-if="teamsize<3 && editable" src="./assets/File2532.png" style="position: absolute;left: 53%;top: 10%;transform: translateX(-50%);" width="40%">
         </div>
         <div @click="slotClicked(1)" style="position: absolute; background-image: url(./assets/File1927.png); background-repeat: no-repeat; background-size: contain;background-position: bottom;height: 30%;width: 40%;left: 46%;top: 20%;transform: translateX(-50%);">
           <img v-if="north" v-bind:src="north" style="position: absolute;left: 50%;top: 10%;transform: translateX(-50%);" width="50%">
-          <img v-else-if="teamsize<3" src="./assets/File2532.png" style="position: absolute;left: 53%;top: 10%;transform: translateX(-50%);" width="40%">
+          <img v-else-if="teamsize<3 && editable" src="./assets/File2532.png" style="position: absolute;left: 53%;top: 10%;transform: translateX(-50%);" width="40%">
         </div>
         <div @click="slotClicked(2)" style="position: absolute; background-image: url(./assets/File1927.png); background-repeat: no-repeat; background-size: contain;background-position: bottom;height: 30%;width: 40%;transform: translateX(-50%);top: 46%;left: 50%;">
           <img v-if="south" v-bind:src="south" style="position: absolute;left: 50%;top: 10%;transform: translateX(-50%);" width="50%">
-          <img v-else-if="teamsize<3" src="./assets/File2532.png" style="position: absolute;left: 53%;top: 10%;transform: translateX(-50%);" width="40%">
+          <img v-else-if="teamsize<3 && editable" src="./assets/File2532.png" style="position: absolute;left: 53%;top: 10%;transform: translateX(-50%);" width="40%">
         </div>
         <div @click="slotClicked(3)" style="position: absolute; background-image: url(./assets/File1927.png); background-repeat: no-repeat; background-size: contain;background-position: bottom;height: 30%;width: 40%;transform: translateY(-50%);top: 50%;">
           <img v-if="weast" v-bind:src="weast" style="position: absolute;left: 50%;top: 10%;transform: translateX(-50%);" width="50%">
-          <img v-else-if="teamsize<3" src="./assets/File2532.png" style="position: absolute;left: 53%;top: 10%;transform: translateX(-50%);" width="40%">
+          <img v-else-if="teamsize<3 && editable" src="./assets/File2532.png" style="position: absolute;left: 53%;top: 10%;transform: translateX(-50%);" width="40%">
         </div>
       </div>
     </script>
@@ -486,6 +546,11 @@
             type: String,
             required: false,
             default: null
+          },
+          editable: { /* Tower Health */
+            type: Boolean,
+            required: false,
+            default: true
           },
         },
         computed: {
@@ -605,23 +670,31 @@
 
             HeroDB: {},
             zone: -1,
+            tower: 0,
+            reportNumber: 0,
             reoport_open: false,
 
             writting_new_report: false,
             selecting_hero: false,
+            myCompiledReport: false,
+            myCurrReport: null,
             enemyTeam1: [null,null,null,null],
             enemyTeam2: [null,null,null,null],
 
             towerReport: [],
             serverFullReport: [
               [], // 0 = Lionheart Stronghold
-              new Array(9).fill([]), // 1 = Bronze Mirror Fortress
-              new Array(9).fill([]), // 2 = Delberg Fortress
-              new Array(9).fill([]) // 3 = Silver Monarch Fortress
+              [[],[],[],[],[],[],[],[],[]], // 1 = Bronze Mirror Fortress
+              [[],[],[],[],[],[],[],[],[]], // 2 = Delberg Fortress
+              [[],[],[],[],[],[],[],[],[]] // 3 = Silver Monarch Fortress
             ]
           }
         },
         methods: {
+          isActiveTab: function (n1,n2){
+            if (n1===n2) return true;
+            else return false;
+          },
           selectWarZone: function( z = -1) {
             if (z === this.zone) return;
             document.getElementById("contenuto").scrollTo(0,0);
@@ -633,11 +706,12 @@
           },
           checkingTower: function ( fortress, tower) {
             this.towerReport = this.serverFullReport[fortress][tower] || [];
+            this.tower = tower;
             this.reoport_open = true;
-            console.log("Fortress: " + fortress,"Tower: " + tower);
+            if (dev) console.log("Fortress: " + fortress,"Tower: " + tower);
           },
           characterSelection: function (e) {
-            console.log("Character select",e)
+            if (dev) console.log("Character select",e)
             this.selecting_hero = e;
           },
           enemyCharacterSelected: function (selection) {
@@ -649,25 +723,36 @@
             var min = [], max = [];
             if (!enemyCR || enemyCR === "NaN") return null;
             for (var j = 0; j < mySpeed.length; j++) {
-              if (!mySpeed[j] || !mySpeed[j] === "NaN" || !myCr[j]) continue;
-              var cr = enemyCR > myCr[j] ? parseInt(enemyCR) + 100 : enemyCR;
+              if (!mySpeed[j] || mySpeed[j] === "NaN" || !myCr[j]) continue;
               min.push( ((enemyCR - 5) * mySpeed[j]) / myCr[j] );
               max.push( (enemyCR * mySpeed[j]) / (myCr[j]-5) );
             };
             return {min: Math.round(Math.max(...min)), max: Math.round(Math.min(...max)) };
           },
-          sendReport: function () {
-            console.log("report sent");
+          comnpileThisReport: function () {
+            if (dev) console.log("report sent");
             var characters = document.getElementById("team_1_stats");
             var myTeam1Stats = document.getElementById("myTeam1").getElementsByTagName("input");
-            console.log(myTeam1Stats)
+            if (dev) console.log(myTeam1Stats);
             var _obj = {reporter: this.user, enemy: document.getElementById("enemyName").value, team1: {team: this.enemyTeam1}, team2: {team: this.enemyTeam2}};
             for(var i = 0; i < characters.children.length; i++ ) {
               var _inputs = characters.children[i].getElementsByTagName("input");
               _obj.team1[characters.children[i].attributes.hero?.value] = {artifact: _inputs[0].value, hp: _inputs[1].value, speed: this.calcualteSpeed(parseInt( _inputs[2].value), [ parseInt(myTeam1Stats[0].value), parseInt(myTeam1Stats[2].value), parseInt(myTeam1Stats[4].value)], [parseInt(myTeam1Stats[1].value), parseInt(myTeam1Stats[3].value), parseInt(myTeam1Stats[5].value)]) };
             };
-            console.log(_obj)
+            characters = document.getElementById("team_2_stats");
+            myTeam1Stats = document.getElementById("myTeam2").getElementsByTagName("input");
+            for(var i = 0; i < characters.children.length; i++ ) {
+              var _inputs = characters.children[i].getElementsByTagName("input");
+              _obj.team2[characters.children[i].attributes.hero?.value] = {artifact: _inputs[0].value, hp: _inputs[1].value, speed: this.calcualteSpeed(parseInt( _inputs[2].value), [ parseInt(myTeam1Stats[0].value), parseInt(myTeam1Stats[2].value), parseInt(myTeam1Stats[4].value)], [parseInt(myTeam1Stats[1].value), parseInt(myTeam1Stats[3].value), parseInt(myTeam1Stats[5].value)]) };
+            };
+            if (dev) console.log(_obj);
+            this.myCompiledReport = _obj;
+          },
+          sendReport: function () {
+            this.serverFullReport[this.zone][this.tower].push(this.myCompiledReport); 
             this.resetForm();
+            this.myCompiledReport = false;
+            this.writting_new_report = false;
           },
           boot: function () {
             var self = this;
@@ -677,7 +762,7 @@
             JSON.parse(getDb.response).results.forEach(function(item) {
               self.HeroDB[item.id] = item;
             });
-            console.log(this.HeroDB)
+            if (dev) console.log(this.HeroDB)
           }
         },
         mounted () {
