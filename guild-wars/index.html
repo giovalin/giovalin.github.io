@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta name="viewport" content="width=device-width, initial-scale=0.6, user-scalable=no">
+    <title>E7 Gwild War</title>
+    <meta name="keywords" content="epic seven camping, epic 7 camping simulator, e7 camp simulator, epic 7 morale calculator, e7 raid, epic seven raid" />
+    <meta name="description" content="Epic Seven Camping Simulator for Raid and Labyrinth. Add your roster to find the best team combination with high morale!" />
+  
+    <!--Favicon-->
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicons/favicon-16x16.png">
+    <link rel="manifest" href="./favicons/site.webmanifest">
+    <link rel="mask-icon" href="./favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="./favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="./favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-combinatorics@0.5.5/combinatorics.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" async>
+
+    <!--<link rel="preload" href="https://i.imgur.com/NDUMMYK.png" as="image" media="(max-width: 90px)">-->
+    <style>
+      :root {
+        --font-color: #A1AEBD;
+        --bg-color: #252B35;
+        --bg-color-secondary: #1e2126;
+        --search-primary-color: #181C22;
+        --search-border-color: #0e0f11;
+        --colore-check-eroi: red;
+        --icon-bar: #1e2126;
+        --icon-bar-alt: #252B35;
+        --icon-bar-active: #4CAF50;
+        --asset_filter: invert(100%);
+
+
+      }
+
+
+        /* variabili del tema*/
+      [data-theme="dark"] {
+        --font-color: #424242;
+        --bg-color: #fff;
+        --bg-color-secondary: #f1f1f1;
+        --search-primary-color: #f1f1f1;
+        --search-border-color: #666666;
+        --colore-check-eroi: green;
+        --icon-bar: #555;
+        --icon-bar-alt: #36393f;
+        --icon-bar-active: #4CAF50;
+        --asset_filter: none;
+      }
+
+      html, body {
+        height: 100%;
+        width: 100%;
+      }
+
+      body {
+        /*overflow: hidden;*/
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #252B35;
+        overscroll-behavior-y: contain; /* Prevent pull-to-refresh on mobile */
+        color: var(--font-color);
+        margin: 0;
+      }
+
+      html, div, span { /*Firefox scrollbar*/
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      ::-webkit-scrollbar { /*Chrome scrollbar*/
+        display: none;
+      }
+
+      #app {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        width: 100%;
+      }
+
+      #contenuto {
+        flex: 1 1 auto;
+        overflow: scroll;
+        overscroll-behavior: contain;
+      }
+      #toolbar {
+        flex: 0 0 auto;
+        order: -1;
+        height: 100%;
+        width: 0px; /*90px;*/ 
+        background-color: var(--icon-bar);
+        overflow: scroll;
+        overscroll-behavior: contain;
+        scrollbar-width: none; /* FireFox */
+        -ms-overflow-style: none;
+      }
+
+      #toolbar > span {
+        cursor: pointer;
+        display: block;
+        text-align: center;
+        transition: all 0.3s ease;
+        color: white;
+        font-size: 36px;
+        width: 75px;
+        height: 75px;
+        background-color: var(--icon-bar-alt);
+        margin-left: 8px;
+        margin-top: 10px;
+        border-radius: 28px;
+      }
+
+      #toolbar > span:hover:not(.active-icon-bar) {
+        background-color: #000;
+      }
+
+      #toolbar > span i, #toolbar > span img {
+          transform: translate(0,-52%);
+          margin-top: 50%;
+      }
+
+      .active-icon-bar {
+        background-color: var(--icon-bar-active) !important;
+      }
+      .modal-open {
+        overflow: hidden !important;
+        /*margin-bottom: 100%; /*Fix for firefox*/
+      }
+      .hover_icon_options {
+        cursor: initial;
+        position: absolute;
+        height: 80px;
+        width: 200px;
+        background-color: black;
+        top: 0;
+        display: none;
+        border-radius: 20px;
+        margin-top: 8px;
+      }
+      #toolbar > span:hover:not(.active-icon-bar) .hover_icon_options {
+        display: inline-block;
+      }
+      .hover_icon_options > a {
+        height: 60px;
+        width: 60px;
+        background-color: var(--icon-bar-alt);
+        display: inline-block;
+        border-radius: 20px;
+        margin: 10px;
+        background-size: contain; 
+        background-repeat: no-repeat;
+      }
+      .inputDiv {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        width: 100%;
+      }
+      .inputDiv > input {
+        position: relative;
+        flex: 1 1 auto;
+        width: 1%;
+        min-height: 28px;
+        box-sizing: border-box;
+        min-width: 0;
+        margin-bottom: 0;
+      }
+      .inputDiv > div {
+        margin-left: -1px;
+        background-color: var(--bg-color-secondary);
+        padding: 5px 15px;
+        border-radius: 0 6px 6px 0;
+      }
+      .heroTitleFlex {
+        flex: 0 0 25%;
+        max-width: 25%;
+        margin: 10px;
+        font-size: 25px;
+        text-align: start;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="app">
+
+      <div id="toolbar">
+        <span>
+          <i class="fa fa-user"></i>
+          <div class="hover_icon_options">
+            <a href="https://ceciliabot.github.io/" target="_blank" style="background-image: url(https://ceciliabot.github.io/favicons/android-chrome-192x192.png); "></a>
+            <a href="http://localhost:52672/gw/" target="_blank" style="background-image: url(./assets/c2074_s.png); "></a>
+          </div>
+        </span>
+      </div>
+
+      <div id="contenuto" v-bind:class="{'modal-open': reoport_open}">
+        <div id="war_status" v-show="zone===-1" style="position: relative; width: 100%; height: 100%; background-image: url(./GW/File4738.png); background-size: cover;">
+          <div id="war_banner" style="height: 100%; width: 21%; background-image: url(./GW/File4777.png); background-size: cover;">
+          </div>
+          <div v-on:click="selectWarZone(0)" style="height: 20%;width: 20%;background-image: url(./GW/File4766.png);background-size: contain;position: absolute;top: 17%;right: 9%;background-repeat: no-repeat;"></div>
+          <div v-on:click="selectWarZone(1)" style="height: 15%;width: 15%;background-image: url(./GW/File4776.png);background-size: contain;position: absolute;top: 17%;right: 30.7%;background-repeat: no-repeat;"></div>
+          <div v-on:click="selectWarZone(2)" style="height: 20%;width: 20%;background-image: url(./GW/File4789.png);background-size: contain;position: absolute;top: 31%;right: 20%;background-repeat: no-repeat;"></div>
+          <div v-on:click="selectWarZone(3)" style="height: 20%;width: 20%;background-image: url(./GW/File4714.png);background-size: contain;position: absolute;top: 41.6%;right: 4%;background-repeat: no-repeat;"></div>
+        </div>
+        <div id="stronghold" v-if="zone==0" v-bind:style="{width: ((790/360)*window.innerHeight) + 'px'}" style="position: relative; width: 100%; height: 100%; background-image: url(./GW/File4704.png); background-size: cover;">
+          <div v-on:click="selectWarZone()" style="font-size: 40px;color: white;padding: 10px 40px 0;display: inline-block;position: fixed; cursor: pointer;">
+            &lt; Back
+          </div>
+          <div v-on:click="checkingTower(0, 0)" style="height: 30%;width: 30%;background-image: url(./GW/File4711.png);background-size: contain;position: absolute;top: 40%;right: 27%;background-repeat: no-repeat;"></div>
+        </div>
+        <div id="fortress" v-if="zone>0" v-bind:style="{width: ((790/360)*window.innerHeight) + 'px'}" style="position: relative; width: 100%; height: 100%; background-image: url(./GW/File4704.png); background-size: cover;">
+          <div v-on:click="selectWarZone()" style="font-size: 40px;color: white;padding: 10px 40px 0;display: inline-block;position: fixed; cursor: pointer;">
+            &lt; Back
+          </div>
+          <towers v-for="n in [0,1,2,3,4,5,6,7,8]" :number="n" :enemyName="n" :life="500" @towerclicked="checkingTower(zone, $event)" />
+        </div>
+      </div>
+
+      <div v-if="reoport_open===true" style="background-color: #0000009c; width: 100%; height: 100%; position: absolute; left: 0; top: 0; overscroll-behavior: contain; overflow: hidden;">
+        <div style="background-color: var(--bg-color);
+          margin: 5% auto 15% auto;
+          border: 1px solid #888;
+          width: 80%;
+          height: 80%;
+        ">
+          <div v-if="towerReport.length===0" style="height: 90%; padding: 20px; box-sizing: border-box;overflow: scroll;overscroll-behavior: contain; position: relative;">
+            <div style="position: absolute; left: 50%; top: 50%;transform: translate(-50%, -50%);background-color: var(--icon-bar);padding: 20px 30px;border-radius: 15px;">
+              No reports for this tower yet
+            </div>
+          </div>
+          <button v-on:click="reoport_open=false" style="height: 5%;min-width: 150px;padding: 5px 20px;margin: 20px;font-size: 20px;background-image: linear-gradient(rgb(5, 73, 5), rgb(6, 177, 14));border: none;color: white;border-radius: 5px; cursor: pointer; float: right;">Close</button>
+          <button v-on:click="writting_new_report=true" style="height: 5%; min-width: 150px; padding: 5px 20px; margin: 20px; font-size: 20px; background-image: linear-gradient(rgb(11, 3, 111), rgb(11, 95, 255)); border: medium none; color: white; border-radius: 5px; cursor: pointer; float: right;">Write new Report</button>
+        </div>
+
+        <div 
+          id="write_new_report" 
+          v-if="writting_new_report"
+          style="
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            overflow: scroll;
+            overscroll-behavior: contain;
+            background-color: var(--bg-color);"
+        >
+          <h2 style="text-align: center;">NEW REPORT<br><input id="enemyName" placeholder="Enemy player name"></h2>
+          <div style="position: relative; max-width: 1440px; margin: 0 auto;">
+            <div style="min-height: 400px; text-align: center; display: flex; flex-wrap: wrap; justify-content: center;">
+              <formation @characterselect="characterSelection($event)" teamnumber="1" v-bind:north="HeroDB[enemyTeam1[1]]?.assets.icon || null" v-bind:south="HeroDB[enemyTeam1[2]]?.assets.icon || null" v-bind:weast="HeroDB[enemyTeam1[3]]?.assets.icon || null" v-bind:east="HeroDB[enemyTeam1[0]]?.assets.icon || null"></formation>
+              <div style="display: inline-block; vertical-align: top; height: 100%; flex-grow: 1;">
+                <div id="myTeam1" style="display: inline-flex;">
+                  <div v-for="n in 3" style="display: flex; flex-wrap: wrap; width: 200px; border: thin solid; margin-left: 10px;">
+                    <div style="flex: 0 0 100%">MY HERO {{n}}</div>
+                    <div style="flex: 0 0 40%; margin: 10px;">
+                      <div class="inputDiv">
+                        <input type="text" style="width: 100%;">
+                        <div style="width: 100%; border-radius: 0 0 6px 6px;">
+                          Speed
+                        </div>
+                      </div>
+                    </div>
+                    <div style="flex: 0 0 40%; margin: 10px;">
+                      <div class="inputDiv">
+                        <input type="text" style="width: 100%;">
+                        <div style="width: 100%; border-radius: 0 0 6px 6px;">
+                          % CR
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="team_1_stats">
+                  <div v-for="key in enemyTeam1" v-if="HeroDB[key]" v-bind:hero="key" style="max-width: 1440px; margin: 20px 0; display: flex; flex-wrap: wrap;">
+                    <div class="heroTitleFlex">
+                      {{HeroDB[key].name}}
+                    </div>
+
+                    <div style="flex: 0 0 25%; max-width: 25%; margin: 10px;">
+                      <div class="inputDiv">
+                        <input type="text" placeholder="Artifact">
+                      </div>
+                    </div>
+
+                    <div style="flex: 0 0 150px; max-width: 25%; margin: 10px;">
+                      <div class="inputDiv">
+                        <input type="text">
+                        <div>
+                          HP
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style="flex: 0 0 120px; max-width: 25%; margin: 10px;">
+                      <div class="inputDiv">
+                        <input type="text">
+                        <div>
+                          % CR
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="min-height: 400px; text-align: center; display: flex; flex-wrap: wrap; justify-content: center;">
+              <formation @characterselect="characterSelection($event)" teamnumber="2" v-bind:north="HeroDB[enemyTeam2[1]]?.assets.icon || null" v-bind:south="HeroDB[enemyTeam2[2]]?.assets.icon || null" v-bind:weast="HeroDB[enemyTeam2[3]]?.assets.icon || null" v-bind:east="HeroDB[enemyTeam2[0]]?.assets.icon || null"></formation>
+              <div id="team2Data" style="display: inline-block; vertical-align: top; height: 100%; flex-grow: 1;">
+                <div id="myTeam2" style="display: inline-flex;">
+                  <div v-for="n in 3" style="display: flex; flex-wrap: wrap; width: 200px; border: thin solid; margin-left: 10px;">
+                    <div style="flex: 0 0 100%">MY HERO {{n}}</div>
+                    <div style="flex: 0 0 40%; margin: 10px;">
+                      <div class="inputDiv">
+                        <input type="text" style="width: 100%;">
+                        <div style="width: 100%; border-radius: 0 0 6px 6px;">
+                          Speed
+                        </div>
+                      </div>
+                    </div>
+                    <div style="flex: 0 0 40%; margin: 10px;">
+                      <div class="inputDiv">
+                        <input type="text" style="width: 100%;">
+                        <div style="width: 100%; border-radius: 0 0 6px 6px;">
+                          % CR
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div v-for="key in enemyTeam2" v-if="HeroDB[key]" style="max-width: 1440px; margin: 20px 0; display: flex; flex-wrap: wrap;">
+                  <div class="heroTitleFlex">
+                    {{HeroDB[key].name}}
+                  </div>
+
+                  <div style="flex: 0 0 25%; max-width: 25%; margin: 10px;">
+                    <div class="inputDiv">
+                      <input type="text" placeholder="Artifact">
+                    </div>
+                  </div>
+
+                  <div style="flex: 0 0 150px; max-width: 25%; margin: 10px;">
+                    <div class="inputDiv">
+                      <input type="text">
+                      <div>
+                        HP
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="flex: 0 0 120px; max-width: 25%; margin: 10px;">
+                    <div class="inputDiv">
+                      <input type="text">
+                      <div>
+                        % CR
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <button v-on:click="writting_new_report=false; resetForm();" style="height: 5%;min-width: 150px;padding: 5px 20px;margin: 20px;font-size: 20px;background-image: linear-gradient(rgb(5, 73, 5), rgb(6, 177, 14));border: none;color: white;border-radius: 5px; cursor: pointer; float: right;">Close</button>
+            <button v-on:click="sendReport()" style="height: 5%; min-width: 150px; padding: 5px 20px; margin: 20px; font-size: 20px; background-image: linear-gradient(rgb(11, 3, 111), rgb(11, 95, 255)); border: medium none; color: white; border-radius: 5px; cursor: pointer; float: right;">Send Report</button>
+          </div>
+        </div> <!-- write_new_report -->
+      </div> <!-- REPORT OPEN -->
+
+      <div v-if="selecting_hero" style="position: absolute; height:100%; width: 100%; top: 0px; left: 0;">
+        <div style="background-color: var(--bg-color-secondary);margin: 5%;border: 1px solid #888;width: 90%;height: 80%;overflow: scroll;overscroll-behavior: contain;">
+          <div style="height: calc(100% - 70px); overflow: scroll; overscroll-behavior: contain;padding: 20px; box-sizing: border-box; text-align: center;">
+            <img v-on:click="enemyCharacterSelected(null)" src="./assets/File4455.png" height="60px" width="60px" style="padding: 10px">
+            <img v-for="value,key in HeroDB" v-on:click="enemyCharacterSelected(key)" v-bind:src="value.assets.icon" height="60px" width="60px" style="padding: 10px">
+          </div>
+          <button v-on:click="selecting_hero=false;" style="height: 5%;min-width: 150px;padding: 5px 20px;margin: 20px;font-size: 20px;background-image: linear-gradient(rgb(5, 73, 5), rgb(6, 177, 14));border: none;color: white;border-radius: 5px; cursor: pointer; float: right;">Close</button>
+        </div>
+      </div>
+
+    </div> <!-- APP -->
+
+    <script type="text/x-template" id="formation"> <!-- SLOT 0 = Leader, SLOT 1 = North, Slot 2 = South, Slot 3 = Weast-->
+      <div v-bind:style="{height: boxsize, width: boxsize}" style="display: inline-block; position: relative;">
+        <div @click="slotClicked(0)" style="position: absolute; background-image: url(./assets/File1931.png); background-repeat: no-repeat; background-size: contain;height: 30%;width: 40%;background-position: bottom;right: 5%;top: 47%;transform: translateY(-50%);">
+          <img v-if="east" v-bind:src="east" style="position: absolute;left: 50%;top: 10%;transform: translateX(-50%);" width="50%">
+          <img v-else-if="teamsize<3" src="./assets/File2532.png" style="position: absolute;left: 53%;top: 10%;transform: translateX(-50%);" width="40%">
+        </div>
+        <div @click="slotClicked(1)" style="position: absolute; background-image: url(./assets/File1927.png); background-repeat: no-repeat; background-size: contain;background-position: bottom;height: 30%;width: 40%;left: 46%;top: 20%;transform: translateX(-50%);">
+          <img v-if="north" v-bind:src="north" style="position: absolute;left: 50%;top: 10%;transform: translateX(-50%);" width="50%">
+          <img v-else-if="teamsize<3" src="./assets/File2532.png" style="position: absolute;left: 53%;top: 10%;transform: translateX(-50%);" width="40%">
+        </div>
+        <div @click="slotClicked(2)" style="position: absolute; background-image: url(./assets/File1927.png); background-repeat: no-repeat; background-size: contain;background-position: bottom;height: 30%;width: 40%;transform: translateX(-50%);top: 46%;left: 50%;">
+          <img v-if="south" v-bind:src="south" style="position: absolute;left: 50%;top: 10%;transform: translateX(-50%);" width="50%">
+          <img v-else-if="teamsize<3" src="./assets/File2532.png" style="position: absolute;left: 53%;top: 10%;transform: translateX(-50%);" width="40%">
+        </div>
+        <div @click="slotClicked(3)" style="position: absolute; background-image: url(./assets/File1927.png); background-repeat: no-repeat; background-size: contain;background-position: bottom;height: 30%;width: 40%;transform: translateY(-50%);top: 50%;">
+          <img v-if="weast" v-bind:src="weast" style="position: absolute;left: 50%;top: 10%;transform: translateX(-50%);" width="50%">
+          <img v-else-if="teamsize<3" src="./assets/File2532.png" style="position: absolute;left: 53%;top: 10%;transform: translateX(-50%);" width="40%">
+        </div>
+      </div>
+    </script>
+
+    <script type="text/x-template" id="towers">
+      <div
+        @click="towerClicked()"
+        v-bind:style="towerStyle()"
+      >
+      </div>
+    </script>
+
+    <script>
+      var dev = true;
+      $(function(){
+        var curDown = false,
+            curYPos = 0,
+            curXPos = 0;
+        
+        $(window).mousemove(function(m){
+          if(curDown){
+            document.getElementById("contenuto").scrollBy(curXPos - m.pageX, curYPos - m.pageY)
+          }
+        });
+        
+        $(window).mousedown(function(m){
+          curYPos = m.pageY;
+          curXPos = m.pageX;
+          curDown = true;
+        });
+        
+        $(window).mouseup(function(){
+          curDown = false;
+        });
+      })
+      
+      document.getElementById("war_status").style.width = ((790/360)*window.innerHeight) + "px";
+      window.addEventListener("orientationchange", function(e) {
+        document.getElementById("war_status").style.width = ((790/360)*window.innerHeight) + "px",
+        document.getElementById("war_status").style.height = window.innerHeight + "px";
+      });
+
+      document.addEventListener('contextmenu', function (event) {
+        if (dev) return;
+        event.preventDefault();
+      });
+
+      ///Component
+      const formation = {
+        name: 'formation',
+        template: '#formation',
+        props: {
+          teamnumber: {
+            type: Number,
+            required: true
+          },
+          boxsize: {
+            type: String,
+            required: false,
+            default: "400px"
+          },
+          north: {
+            type: String,
+            required: false,
+            default: null
+          },
+          south: {
+            type: String,
+            required: false,
+            default: null
+          },
+          east: {
+            type: String,
+            required: false,
+            default: null
+          },
+          weast: {
+            type: String,
+            required: false,
+            default: null
+          },
+        },
+        computed: {
+          teamsize: function () {
+            var size = 0;
+            var team = [this.east,this.north,this.south,this.weast];
+            for (var value in team){
+              if (team[value])
+                size++;
+            };
+            return size;
+          },
+        },
+        methods: {
+          slotClicked: function(slot) {
+            this.$emit('characterselect', {team: parseInt(this.teamnumber), slot: slot});
+          },
+        }
+      }; 
+
+      const towers = {
+        name: 'towers',
+        template: '#towers',
+          props: {
+          number: { /* Tower Number */
+            type: Number,
+            required: true
+          },
+          enemy: { /* Enemy name */
+            type: String,
+            required: true
+          },
+          life: { /* Tower Health */
+            type: Number,
+            required: true
+          }
+        },
+        computed: {
+        },
+        methods: {
+          setIconSize: function () {
+            if (this.number===0) return ((window.innerHeight*40/100)/260) * 168 + "px";
+            return ((window.innerHeight*30/100)/260) * 168 + "px";
+          },
+          setPosition: function() {
+            switch (this.number) {
+              case 0:
+                return {left: "47%", top: "32%"}
+                break;
+              case 1:
+                return {left: "6%", top: "20%"}
+                break;
+              case 2:
+                return {left: "13%", top: "60%"}
+                break;
+              case 3:
+                return {left: "30%", top: "50%"}
+                break;
+              case 4:
+                return {left: "36%", top: "14%"}
+                break;
+              case 5:
+                return {left: "62%", top: "60%"}
+                break;
+              case 6:
+                return {left: "70%", top: "14%"}
+                break;
+              case 7:
+                return {left: "85%", top: "29%"}
+                break;
+              case 8:
+                return {left: "90%", top: "48%"}
+                break;
+              default:
+                return {left: "30%", top: "30%"}
+            }
+          },
+          getTowerIcon: function () {
+            if ( this.number === 0 )
+              return this.life === 800 ? "File4812.png" : this.life > 400 ? "File4811.png" : "File4810.png";
+            else if ( [2,4,8].indexOf(this.number) != -1 )
+              return this.life === 800 ? "File4807.png" : this.life > 400 ? "File4804.png" : "File4810.png";
+            else if ( [3,4,5].indexOf(this.number) != -1 )
+              return this.life === 800 ? "File4808.png" : this.life > 400 ? "File4805.png" : "File4810.png";
+            else
+              return this.life === 800 ? "File4809.png" : this.life > 400 ? "File4806.png" : "File4810.png";
+          },
+          towerStyle() {
+            var style = {
+              height: this.number != 0 ? "30%" : "40%",
+              width: this.setIconSize(),
+              "background-image": "url(./GW/" + this.getTowerIcon() + ")",
+              "background-size": "contain",
+              position: "absolute",
+              left: this.setPosition().left,
+              top: this.setPosition().top,
+              "background-repeat": "no-repeat",
+            };
+            return style;
+          },
+          towerClicked() {
+            this.$emit('towerclicked', this.number);    
+          }
+        }
+      };
+
+
+      var app = new Vue ({
+        el: "#app",
+        components: {
+          towers: towers,
+          formation: formation
+        },
+        data: function () {
+          return {
+            user: "gio",
+
+            HeroDB: {},
+            zone: -1,
+            reoport_open: false,
+
+            writting_new_report: false,
+            selecting_hero: false,
+            enemyTeam1: [null,null,null,null],
+            enemyTeam2: [null,null,null,null],
+
+            towerReport: [],
+            serverFullReport: [
+              [], // 0 = Lionheart Stronghold
+              new Array(9).fill([]), // 1 = Bronze Mirror Fortress
+              new Array(9).fill([]), // 2 = Delberg Fortress
+              new Array(9).fill([]) // 3 = Silver Monarch Fortress
+            ]
+          }
+        },
+        methods: {
+          selectWarZone: function( z = -1) {
+            if (z === this.zone) return;
+            document.getElementById("contenuto").scrollTo(0,0);
+            this.zone = z;
+          },
+          resetForm() {
+            this.enemyTeam1 = [null,null,null,null];
+            this.enemyTeam2 = [null,null,null,null];
+          },
+          checkingTower: function ( fortress, tower) {
+            this.towerReport = this.serverFullReport[fortress][tower] || [];
+            this.reoport_open = true;
+            console.log("Fortress: " + fortress,"Tower: " + tower);
+          },
+          characterSelection: function (e) {
+            console.log("Character select",e)
+            this.selecting_hero = e;
+          },
+          enemyCharacterSelected: function (selection) {
+            if (this.selecting_hero.team===1) this.enemyTeam1[this.selecting_hero.slot] = selection;
+            else if (this.selecting_hero.team===2) this.enemyTeam2[this.selecting_hero.slot] = selection;
+            this.selecting_hero = false;
+          },
+          calcualteSpeed: function (enemyCR, mySpeed, myCr) {
+            var min = [], max = [];
+            if (!enemyCR || enemyCR === "NaN") return null;
+            for (var j = 0; j < mySpeed.length; j++) {
+              if (!mySpeed[j] || !mySpeed[j] === "NaN" || !myCr[j]) continue;
+              var cr = enemyCR > myCr[j] ? parseInt(enemyCR) + 100 : enemyCR;
+              min.push( ((enemyCR - 5) * mySpeed[j]) / myCr[j] );
+              max.push( (enemyCR * mySpeed[j]) / (myCr[j]-5) );
+            };
+            return {min: Math.round(Math.max(...min)), max: Math.round(Math.min(...max)) };
+          },
+          sendReport: function () {
+            console.log("report sent");
+            var characters = document.getElementById("team_1_stats");
+            var myTeam1Stats = document.getElementById("myTeam1").getElementsByTagName("input");
+            console.log(myTeam1Stats)
+            var _obj = {reporter: this.user, enemy: document.getElementById("enemyName").value, team1: {team: this.enemyTeam1}, team2: {team: this.enemyTeam2}};
+            for(var i = 0; i < characters.children.length; i++ ) {
+              var _inputs = characters.children[i].getElementsByTagName("input");
+              _obj.team1[characters.children[i].attributes.hero?.value] = {artifact: _inputs[0].value, hp: _inputs[1].value, speed: this.calcualteSpeed(parseInt( _inputs[2].value), [ parseInt(myTeam1Stats[0].value), parseInt(myTeam1Stats[2].value), parseInt(myTeam1Stats[4].value)], [parseInt(myTeam1Stats[1].value), parseInt(myTeam1Stats[3].value), parseInt(myTeam1Stats[5].value)]) };
+            };
+            console.log(_obj)
+            this.resetForm();
+          },
+          boot: function () {
+            var self = this;
+            var getDb = new XMLHttpRequest();
+            getDb.open( "GET", "https://api.epicsevendb.com/hero", false );
+            getDb.send( null );
+            JSON.parse(getDb.response).results.forEach(function(item) {
+              self.HeroDB[item.id] = item;
+            });
+            console.log(this.HeroDB)
+          }
+        },
+        mounted () {
+          this.boot();
+        }
+      });
+    </script>
+  </body>
+</html>
