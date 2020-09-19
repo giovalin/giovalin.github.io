@@ -28,6 +28,7 @@
     <style>
       :root {
         --font-color: #A1AEBD;
+        --font-color-secondary:#1e2126;
         --bg-color: #252B35;
         --bg-color-secondary: #1e2126;
         --search-primary-color: #181C22;
@@ -37,8 +38,6 @@
         --icon-bar-alt: #252B35;
         --icon-bar-active: #4CAF50;
         --asset_filter: invert(100%);
-
-
       }
 
 
@@ -129,6 +128,52 @@
       .active-icon-bar {
         background-color: var(--icon-bar-active) !important;
       }
+
+      /* Snackbar for system messages */
+      #snackbar {
+        visibility: hidden;
+        min-width: 250px;
+        max-width: 70%;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 25px;
+        padding: 16px;
+        position: fixed;
+        z-index: 100; /* always on top. Loading screen z-index = 10 */
+        left: 50%;
+        top: 30px;
+        font-size: 17px;
+        transform: translate(-50%);
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+      #snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein_snackbar 0.5s, fadeout_snackbar 0.5s 2.5s;
+        animation: fadein_snackbar 0.5s, fadeout_snackbar 0.5s 2.5s;
+      }
+
+      @-webkit-keyframes fadein_snackbar {
+        from {top: 0; opacity: 0;} 
+        to {top: 30px; opacity: 1;}
+      }
+
+      @keyframes fadein_snackbar {
+        from {top: 0; opacity: 0;}
+        to {top: 30px; opacity: 1;}
+      }
+
+      @-webkit-keyframes fadeout_snackbar {
+        from {top: 30px; opacity: 1;} 
+        to {top: 0; opacity: 0;}
+      }
+
+      @keyframes fadeout_snackbar {
+        from {top: 30px; opacity: 1;}
+        to {top: 0; opacity: 0;}
+      }
+
       .modal-open {
         overflow: hidden !important;
         /*margin-bottom: 100%; /*Fix for firefox*/
@@ -198,11 +243,13 @@
       }
       .activeReporterTab {
         background-color: var(--icon-bar-active);
+        color: var(--font-color-secondary) !important;
       }
     </style>
   </head>
   <body>
     <div id="app">
+      <div id="snackbar"></div> <!-- messaggio avvisi -->
 
       <div id="toolbar">
         <span>
@@ -217,6 +264,16 @@
       <div id="contenuto" v-bind:class="{'modal-open': reoport_open}">
         <div id="war_status" v-show="zone===-1" style="position: relative; width: 100%; height: 100%; background-image: url(./GW/File4738.png); background-size: cover;">
           <div id="war_banner" style="height: 100%; width: 21%; background-image: url(./GW/File4777.png); background-size: cover;">
+            <div style="font-size: 40px;text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;text-align: center;max-width: 90%;margin-left: 5%; padding-top: 10%;">
+              <img src="./GW/File0344.png">
+              <p style="margin:0;">{{guild}}</p>
+            </div>
+            <div style="font-size: 40px; text-shadow: black -1px -1px 0px, black 1px -1px 0px, black -1px 1px 0px, black 1px 1px 0px; text-align: center; max-width: 90%; margin-left: 5%; padding-top: 50%;">
+              <img src="./GW/File0344.png">
+              <p style="margin: 0px;">
+                {{enemyGuild}}
+              </p>
+            </div>
           </div>
           <div v-on:click="selectWarZone(0)" style="height: 20%;width: 20%;background-image: url(./GW/File4766.png);background-size: contain;position: absolute;top: 17%;right: 9%;background-repeat: no-repeat;"></div>
           <div v-on:click="selectWarZone(1)" style="height: 15%;width: 15%;background-image: url(./GW/File4776.png);background-size: contain;position: absolute;top: 17%;right: 30.7%;background-repeat: no-repeat;"></div>
@@ -233,7 +290,7 @@
           <div v-on:click="selectWarZone()" style="font-size: 40px;color: white;padding: 10px 40px 0;display: inline-block;position: fixed; cursor: pointer;">
             &lt; Back
           </div>
-          <towers v-for="n in [0,1,2,3,4,5,6,7,8]" :number="n" :enemyName="n" :life="500" @towerclicked="checkingTower(zone, $event)" />
+          <towers v-for="n in [0,1,2,3,4,5,6,7,8]" :number="n" :enemyName="n" :life="800" @towerclicked="checkingTower(zone, $event)" />
         </div>
       </div>
 
@@ -258,7 +315,7 @@
                 v-bind:class="{activeReporterTab: isActiveTab(reportNumber, index) }"
                 class="reporterTab">
                   {{towerReport[index].reporter}}
-                </span>
+              </span>
             </div>
 
             <div style="height: 90%; padding: 20px; box-sizing: border-box;overflow: scroll;overscroll-behavior: contain; position: relative; background-color: var(--bg-color-secondary);">
@@ -266,8 +323,9 @@
               <div v-for="team in [serverFullReport[zone][tower][reportNumber].team1, serverFullReport[zone][tower][reportNumber].team2]">
                   <formation v-bind:editable="false" teamnumber="-1" v-bind:north="HeroDB[team.team[1]]?.assets.icon || null" v-bind:south="HeroDB[team.team[2]]?.assets.icon || null" v-bind:weast="HeroDB[team.team[3]]?.assets.icon || null" v-bind:east="HeroDB[team.team[0]]?.assets.icon || null" style="margin: -50px 0 -70px;"></formation>
                   <div style="display: inline-block">
-                    <div v-for="key in team.team" v-if="key">
-                      <img v-bind:src="HeroDB[key].assets.icon" height="60px" /> Artifact: {{team[key].artifact}} - Health: {{team[key].hp}} - Speed range: from {{team[key].speed?.min}} to {{team[key].speed?.max}}
+                    <div v-for="key in team.team" v-if="key" style="height: 60px; margin: 20px 0;">
+                      <img v-bind:src="HeroDB[key].assets.icon" height="60px" /> 
+                      <p style="display: inline-block;vertical-align: text-bottom;margin: 20px;">Artifact: {{team[key].artifact}} - Health: {{team[key].hp}} - Speed range: from {{team[key].speed?.min}} to {{team[key].speed?.max}}</p>
                     </div>
                   </div>
               </div>
@@ -429,7 +487,7 @@
                   </div>
                 </div>
               </div>
-              <button v-on:click="myCompiledReport=false;" style="height: 5%;min-width: 150px;padding: 5px 20px;margin: 20px;font-size: 20px;background-image: linear-gradient(rgb(5, 73, 5), rgb(6, 177, 14));border: none;color: white;border-radius: 5px; cursor: pointer; float: right;">Close</button>
+              <button v-on:click="myCompiledReport=false;" style="height: 5%;min-width: 150px;padding: 5px 20px;margin: 20px;font-size: 20px;background-image: linear-gradient(rgb(5, 73, 5), rgb(6, 177, 14));border: none;color: white;border-radius: 5px; cursor: pointer; float: right;">Back</button>
               <button v-on:click="sendReport()" style="height: 5%; min-width: 150px; padding: 5px 20px; margin: 20px; font-size: 20px; background-image: linear-gradient(rgb(11, 3, 111), rgb(11, 95, 255)); border: medium none; color: white; border-radius: 5px; cursor: pointer; float: right;">Send Report</button>
             </div>
           </div>
@@ -480,6 +538,12 @@
 
     <script>
       var dev = true;
+      function snackbarMessage(text) {
+        var x = document.getElementById("snackbar");
+        x.innerHTML = text;
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+      };
       $(function(){
         var curDown = false,
             curYPos = 0,
@@ -509,7 +573,7 @@
       });
 
       document.addEventListener('contextmenu', function (event) {
-        if (dev) return;
+        //if (dev) return;
         event.preventDefault();
       });
 
@@ -666,7 +730,9 @@
         },
         data: function () {
           return {
+            guild: "Guild Name",
             user: "gio",
+            enemyGuild: "Enemy Guild",
 
             HeroDB: {},
             zone: -1,
@@ -683,7 +749,7 @@
 
             towerReport: [],
             serverFullReport: [
-              [], // 0 = Lionheart Stronghold
+              [[]], // 0 = Lionheart Stronghold
               [[],[],[],[],[],[],[],[],[]], // 1 = Bronze Mirror Fortress
               [[],[],[],[],[],[],[],[],[]], // 2 = Delberg Fortress
               [[],[],[],[],[],[],[],[],[]] // 3 = Silver Monarch Fortress
@@ -729,8 +795,20 @@
             };
             return {min: Math.round(Math.max(...min)), max: Math.round(Math.min(...max)) };
           },
+          checkReportForErrors: function () { // return true if error
+            var tmp1 = [], tmp2 = [];
+            for (var i = 0; i < this.enemyTeam1.length; i++)
+            {
+              if (tmp1.includes(this.enemyTeam1[i])) {snackbarMessage("Duplicate hero"); return true};
+              if (this.enemyTeam1[i]) tmp1.push(this.enemyTeam1[i]);
+              if (tmp2.includes(this.enemyTeam2[i])) {snackbarMessage("Duplicate hero"); return true};
+              if (this.enemyTeam2[i]) tmp2.push(this.enemyTeam2[i]);
+            };
+            if (tmp1.length < 1 || tmp2.length < 1) {snackbarMessage("Please provide at least 1 hero for each team"); return true};
+            if (tmp1.length > 3 || tmp2.length > 3) {snackbarMessage("Team size error"); return true};
+            return false;
+          },
           comnpileThisReport: function () {
-            if (dev) console.log("report sent");
             var characters = document.getElementById("team_1_stats");
             var myTeam1Stats = document.getElementById("myTeam1").getElementsByTagName("input");
             if (dev) console.log(myTeam1Stats);
@@ -749,6 +827,7 @@
             this.myCompiledReport = _obj;
           },
           sendReport: function () {
+            if (this.checkReportForErrors()) return;
             this.serverFullReport[this.zone][this.tower].push(this.myCompiledReport); 
             this.resetForm();
             this.myCompiledReport = false;

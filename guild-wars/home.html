@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+        <meta name="viewport" content="width=device-width, initial-scale=0.6, user-scalable=no">
+        <title>E7 Gwild War</title>
+        <meta name="keywords" content="epic seven camping, epic 7 camping simulator, e7 camp simulator, epic 7 morale calculator, e7 raid, epic seven raid" />
+        <meta name="description" content="Epic Seven Camping Simulator for Raid and Labyrinth. Add your roster to find the best team combination with high morale!" />
+    
+        <!--Favicon-->
+        <link rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./favicons/favicon-16x16.png">
+        <link rel="manifest" href="./favicons/site.webmanifest">
+        <link rel="mask-icon" href="./favicons/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="./favicons/favicon.ico">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-config" content="./favicons/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" async>
+
+        <!--<link rel="preload" href="https://i.imgur.com/NDUMMYK.png" as="image" media="(max-width: 90px)">-->
+        <style>
+            :root {
+                --font-color: #A1AEBD;
+                --font-color-secondary:#1e2126;
+                --bg-color: #252B35;
+                --bg-color-alpha: #252B35ee;
+                --bg-color-secondary: #1e2126;
+                --search-primary-color: #181C22;
+                --search-border-color: #0e0f11;
+                --colore-check-eroi: red;
+                --icon-bar: #1e2126;
+                --icon-bar-alt: #252B35;
+                --icon-bar-active: #4CAF50;
+                --asset_filter: invert(100%);
+            }
+            html, body {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                overflow-x: hidden;
+                overflow-y: hidden;
+            } 
+            h1 {
+                font-family: Verdana, Geneva, sans-serif;
+                font-size: 50px;
+                text-align: center;
+                color: var(--font-color);
+            }
+            p {
+                font-family: Verdana, Geneva, sans-serif;
+                color: var(--font-color);
+                font-size: 20px;
+                text-align: center;
+            }
+            small {
+                font-family: Verdana, Geneva, sans-serif;
+                color: var(--font-color);
+                font-size: 12px;
+            }
+            button {
+                padding: 10px 20px;
+                color: white;
+                border: none;
+                background-color: brown;
+                text-align: center;
+                font-size: 20px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                outline: none;
+            }
+            button:hover {
+                box-shadow: 0 0 20px brown;
+            }
+            .greenbtn {
+                background-color: var(--icon-bar-active);
+            }
+            .greenbtn:hover {
+                box-shadow: 0 0 20px var(--icon-bar-active);
+            }
+            input {
+                width: 100%;
+                padding: 10px 20px;
+                box-sizing: border-box;
+                border: none;
+            }
+            input:focus {
+                box-shadow: 0 0 20px var(--icon-bar-active);
+            }
+            .label {
+                font-family: Verdana, Geneva, sans-serif;
+                color: var(--font-color);
+                font-size: 20px;
+            }
+            .container {
+                height: 100%;
+                width: 80%;
+                max-width: 800px;
+                position: relative;
+                margin: 0 auto 0 auto;
+                background-color: var(--bg-color-alpha);
+                box-shadow: 0 0 20px 20px var(--bg-color-alpha);
+                overflow: hidden;
+            }
+            .box {
+                width: 50%;
+                min-width: 300px;
+                height: 200px;
+                margin: 40px auto 40px auto;
+                background-color: var(--bg-color-secondary);
+                box-shadow: 0 0 10px var(--bg-color-secondary);
+                padding: 30px;
+                box-sizing: border-box;
+                text-align: center;
+            }
+            .closeWindow {
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 60;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+            }
+            .modal-open {
+                overflow: hidden;
+                margin-bottom: 100%;
+            }
+            .modal-content {
+                position: relative;
+                background-color: var(--search-primary-color);
+                color: var(--font-color);
+                margin: 5% auto 10% auto;
+                width: 80%;
+                max-width:760px;
+                height: 360px;
+                box-shadow: 0 0 15px var(--search-primary-color);
+                padding: 20px
+            }
+            .animate {
+                -webkit-animation: animatezoom 0.6s;
+                animation: animatezoom 0.6s
+            }
+
+            @-webkit-keyframes animatezoom {
+                from {-webkit-transform: scale(0)} 
+                to {-webkit-transform: scale(1)}
+            }
+            
+            @keyframes animatezoom {
+                from {transform: scale(0)} 
+                to {transform: scale(1)}
+            }
+        </style>
+    </head>
+    <body style="background-color: var(--bg-color);">
+        <div style="position: absolute; right: 0; box-shadow: inset 100px 0 40px -30px var(--bg-color);height: 100vh;width: 550px;overflow: hidden;">
+            <img src="./assets/landy-bg.jpg" style="z-index: -1;position: relative;" height="100%">
+        </div>
+
+        <div class="container">
+            <h1>E7 Guild War Tracker</h1>
+            <div class="box">
+                <p>
+                    Create new tracker
+                </p>
+                <button onclick="newTrackerForm()">
+                    Create tracker
+                </button>
+            </div>
+            <div class="box">
+                <p>
+                    Enter with a tracker ID given you by your Guild Leader
+                </p>
+                <button onclick="enterWithIDForm()" class="greenbtn">
+                    Enter with ID
+                </button>
+            </div>
+        </div>
+        <script>
+            var url = "ceciliabotgithub.io.glitch.me";
+            function newTrackerForm () {
+                $("body").append(`
+                    <div id="modal" class="modal" style="display:block;">
+                        <div class="modal-content animate" style="height: 430px;">
+                            <div style="margin: 20px 0;">
+                                <span class="label">Guild name:</span>
+                                <input placeholder="Your guild's name" />
+                            </div>
+                            <div style="margin: 20px 0;">
+                                <span class="label">Your username:</span>
+                                <input placeholder="Username that will be displayed when reporting towers in the tracker" />
+                            </div>
+                            <div style="margin: 20px 0;">
+                                <span class="label">Password:</span>
+                                <input type="password" placeholder="Enter password" />
+                                <small>Give this password along with the ID to your guildes to access the tracker</small>
+                            </div>
+                            <div style="margin: 20px 0;">
+                                <span class="label">Captain password:</span>
+                                <input type="password" placeholder="Admin password" />
+                                <small>Give this password to guild captain's (used to reset daily tracker)</small>
+                            </div>
+                            <button class="closeWindow" onclick="$('#modal').remove()">x</button>
+                            <button onclick="createTrackerID()">Create ID</button>
+                        </div>
+                    </div>
+                `);
+            };
+            function createTrackerID () {
+                var form = document.getElementById('modal');
+                var formAnswer = form.getElementsByTagName("input");
+                for (var i = 0; i < formAnswer.length; i++)
+                {
+                    if (!formAnswer[i].value || formAnswer[i].value === "") return;
+                };
+                //Send form
+                $.ajax({
+                    url: url + "/trackerCreate",
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: {guildName: formAnswer[0].value, username: formAnswer[1].value, password: formAnswer[2].value, cptPassword: formAnswer[3].value},
+                    success: function (response) {
+                        //Tracker created correctly
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        //Tracker creation error
+                    }
+                });
+            };
+            function enterWithIDForm () {
+                $("body").append(`
+                    <div id="modal" class="modal" style="display:block;">
+                        <div class="modal-content animate">
+                            <div style="margin: 20px 0;">
+                                <span class="label">Your username:</span>
+                                <input placeholder="Username" />
+                                <small>The user name will be used to track the user who reported to the guild</small>
+                            </div>
+                            <div style="margin: 20px 0;">
+                                <span class="label">Tracker ID:</span>
+                                <input placeholder="ID" />
+                                <small>ID given to you by your guild leader</small>
+                            </div>
+                            <div style="margin: 20px 0;">
+                                <span class="label">Password:</span>
+                                <input type="password" placeholder="Enter password" />
+                                <small>Password given to you by your guild leader</small>
+                            </div>
+                            <button class="closeWindow" onclick="$('#modal').remove()">x</button>
+                            <button class="greenbtn" onclick="enterWithID()">Enter</button>
+                        </div>
+                    </div>
+                `);
+            };
+            function enterWithID () {
+                var form = document.getElementById('modal');
+                var formAnswer = form.getElementsByTagName("input");
+                for (var i = 0; i < formAnswer.length; i++)
+                {
+                    if (!formAnswer[i].value || formAnswer[i].value === "") return;
+                };
+                //Send form
+                $.ajax({
+                    url: url + "/trackerLogin",
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: {username: formAnswer[0].value, trackerId: formAnswer[1].value, password: formAnswer[2].value},
+                    success: function (response) {
+                        //logged in redirect
+                        window.location.href = window.location.hostname + "/guild-war/";
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        //login error
+                    }
+                });
+            };
+        </script>
+    </body>
+</html>
