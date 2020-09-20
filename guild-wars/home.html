@@ -257,7 +257,7 @@
                                         <p>Give the ID to your guildes along with the password to access the tracker</p>
                                     </div>
                                     <button class="closeWindow" onclick="$('#modal').remove()">x</button>
-                                    <button class="greenbtn" onclick="window.location.href = window.location.origin + '/guild-wars/?guid=${uniqueID}&pw=${data.password}&name=${data.password}'">Go to the tracker</button>
+                                    <button class="greenbtn" onclick="window.location.href = window.location.origin + window.location.pathname.replace(/home.html/gi,'') + '?guid=${uniqueID}&pw=${data.password}&name=${data.password}'">Go to the tracker</button>
                                 `
 
                     },
@@ -311,7 +311,7 @@
                     data: JSON.stringify(data),
                     success: function (response) {
                         //logged in redirect
-                        window.location.href = window.location.origin + window.location.pathname + "?guid=" + data.trackerId + "&pw=" + data.password + "&name=" + data.username;
+                        window.location.href = window.location.origin +window.location.pathname.replace(/home.html/gi,"") + "?guid=" + data.trackerId + "&pw=" + data.password + "&name=" + data.username;
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         //login error
