@@ -854,7 +854,7 @@
             }
             if (!urlParams.get("guid")) {
               // go back to login page
-              window.location.href = window.location.origin + window.location.pathname + "home.html";
+              window.location.href = window.location.hostname + window.location.pathname + "home.html";
             } else {
               // get Guild War Status
               var id = urlParams.get("guid");
