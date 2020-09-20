@@ -87,6 +87,8 @@
                 padding: 10px 20px;
                 box-sizing: border-box;
                 border: none;
+                background-color: var(--bg-color);
+                color: var(--font-color);
             }
             input:focus {
                 box-shadow: 0 0 20px var(--icon-bar-active);
@@ -161,6 +163,13 @@
                 from {transform: scale(0)} 
                 to {transform: scale(1)}
             }
+            .spinner {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 80px;
+            }
         </style>
     </head>
     <body style="background-color: var(--bg-color);">
@@ -188,7 +197,7 @@
             </div>
         </div>
         <script>
-            var url = "ceciliabotgithub.io.glitch.me";
+            var url = "https://ceciliae7wartracker.glitch.me";
             function newTrackerForm () {
                 $("body").append(`
                     <div id="modal" class="modal" style="display:block;">
@@ -222,19 +231,39 @@
                 var formAnswer = form.getElementsByTagName("input");
                 for (var i = 0; i < formAnswer.length; i++)
                 {
-                    if (!formAnswer[i].value || formAnswer[i].value === "") return;
+                    if (!formAnswer[i].value || formAnswer[i].value.replace(/  +/g,"") === "") return;
                 };
                 //Send form
+                var data = {guildName: formAnswer[0].value, username: formAnswer[1].value, password: formAnswer[2].value, cptPassword: formAnswer[3].value};
+                document.getElementsByClassName("modal-content")[0].innerHTML = "<div class='spinner'><i class='fa fa-cog fa-spin'></i></div>"
                 $.ajax({
                     url: url + "/trackerCreate",
                     type: 'POST',
                     contentType: 'application/json',
-                    data: {guildName: formAnswer[0].value, username: formAnswer[1].value, password: formAnswer[2].value, cptPassword: formAnswer[3].value},
+                    data: JSON.stringify(data),
                     success: function (response) {
                         //Tracker created correctly
+                        console.log(response);
+                        var uniqueID = response;
+                        document.getElementsByClassName("modal-content")[0].innerHTML = 
+                                `
+                                    <div>
+                                        <p>Your Guild's tracker ID is:</p>
+                                        <p style="color: green;">${uniqueID}</p>
+                                        <p>Guild Name: ${data.guildName}</p>
+                                        <p>Password: ${data.password}</p>
+                                        <p>Cpt. Password: ${data.cptPassword}</p>
+                                        <br><br><br>
+                                        <p>Give the ID to your guildes along with the password to access the tracker</p>
+                                    </div>
+                                    <button class="closeWindow" onclick="$('#modal').remove()">x</button>
+                                    <button class="greenbtn" onclick="window.location.href = window.location.origin + window.location.pathname + '?guid=${uniqueID}&pw=${data.password}&name=${data.password}'">Go to the tracker</button>
+                                `
+
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         //Tracker creation error
+                        document.getElementsByClassName("modal-content")[0].innerHTML = "<div class='spinner'>an error occurred while generating the tracker ID</div><button class='closeWindow' onclick=\"$('#modal').remove()\">x</button>"
                     }
                 });
             };
@@ -259,6 +288,7 @@
                             </div>
                             <button class="closeWindow" onclick="$('#modal').remove()">x</button>
                             <button class="greenbtn" onclick="enterWithID()">Enter</button>
+                            <span id="errorMessage" style="color:red"></span>
                         </div>
                     </div>
                 `);
@@ -266,22 +296,30 @@
             function enterWithID () {
                 var form = document.getElementById('modal');
                 var formAnswer = form.getElementsByTagName("input");
+                var form = [];
                 for (var i = 0; i < formAnswer.length; i++)
                 {
-                    if (!formAnswer[i].value || formAnswer[i].value === "") return;
+                    if (!formAnswer[i].value || formAnswer[i].value.replace(/  +/g,"") === "") return;
                 };
+
                 //Send form
+                var data = {username: formAnswer[0].value, trackerId: formAnswer[1].value, password: formAnswer[2].value};
                 $.ajax({
                     url: url + "/trackerLogin",
                     type: 'POST',
                     contentType: 'application/json',
-                    data: {username: formAnswer[0].value, trackerId: formAnswer[1].value, password: formAnswer[2].value},
+                    data: JSON.stringify(data),
                     success: function (response) {
                         //logged in redirect
-                        window.location.href = window.location.hostname + "/guild-war/";
+                        window.location.href = window.location.origin + window.location.pathname + "?guid=" + data.trackerId + "&pw=" + data.password + "&name=" + data.username;
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         //login error
+                      if (jqXHR.status === 401) { // login error
+                        document.getElementById("errorMessage").innerHTML = "The tracker ID or password is incorrect";
+                      } else {
+                        document.getElementById("errorMessage").innerHTML = "An Error occurred during the process. Please retry.";
+                      };
                     }
                 });
             };

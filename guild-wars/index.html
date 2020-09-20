@@ -730,9 +730,9 @@
         },
         data: function () {
           return {
-            guild: "Guild Name",
-            user: "gio",
-            enemyGuild: "Enemy Guild",
+            guild: undefined,
+            user: undefined,
+            enemyGuild: undefined,
 
             HeroDB: {},
             zone: -1,
@@ -835,6 +835,7 @@
           },
           boot: function () {
             var self = this;
+            this.getGWStatus();
             var getDb = new XMLHttpRequest();
             getDb.open( "GET", "https://api.epicsevendb.com/hero", false );
             getDb.send( null );
@@ -842,7 +843,38 @@
               self.HeroDB[item.id] = item;
             });
             if (dev) console.log(this.HeroDB)
-          }
+          },
+          getGWStatus: function () {
+            var self = this;
+            var urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get("name")) 
+              this.user = urlParams.get("name");
+            else {
+              // get username from storage
+            }
+            if (!urlParams.get("guid")) {
+              // go back to login page
+              window.location.href = window.location.origin + window.location.pathname + "/home.html";
+            } else {
+              // get Guild War Status
+              var id = urlParams.get("guid");
+              var password = urlParams.get("pw");
+              $.ajax({
+                  url: "ceciliae7wartracker.glitch.me/trackerUpdate",
+                  type: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify({trackerId: id, password: password, type: "get"}),
+                  success: function (response) {
+                      //logged in redirect
+                      console.log(response);
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                    //incorrect password or other error
+                    //...
+                  }
+              });
+            };
+          },
         },
         mounted () {
           this.boot();
