@@ -733,6 +733,8 @@
             guild: undefined,
             user: undefined,
             enemyGuild: undefined,
+            trackerId: undefined,
+            password: undefined,
 
             HeroDB: {},
             zone: -1,
@@ -828,10 +830,50 @@
           },
           sendReport: function () {
             if (this.checkReportForErrors()) return;
-            this.serverFullReport[this.zone][this.tower].push(this.myCompiledReport); 
-            this.resetForm();
-            this.myCompiledReport = false;
-            this.writting_new_report = false;
+            var self = this;
+            console.log("start")
+            $.ajax({
+              url: "https://ceciliae7wartracker.glitch.me/trackerUpdate",
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify({trackerId: this.trackerId, password: this.password, type: "post", data: { zone: this.zone, tower: this.tower, report: this.myCompiledReport }}),
+              success: (response) => {
+                console.log(response);
+                self.serverFullReport[this.zone][this.tower].push(this.myCompiledReport);
+                self.myCompiledReport = false;
+                self.writting_new_report = false;
+                self.resetForm();
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                //incorrect password or other error
+                //...
+                console.log("login error or other error")
+              }
+            });
+            /*
+              this.serverFullReport[this.zone][this.tower].push(this.myCompiledReport); 
+              this.resetForm();
+              this.myCompiledReport = false;
+              this.writting_new_report = false;
+            */
+          },
+          newGuildWar: function () {
+            var self = this;
+            $.ajax({
+              url: "https://ceciliae7wartracker.glitch.me/trackerAdmin",
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify({trackerId: self.trackerId, cptPassword: 9999, function: "newWar"}),
+              success: function (response) {
+                //logged in redirect
+                console.log(response);
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                //incorrect password or other error
+                //...
+                console.log("login error or other error")
+              }
+            });
           },
           boot: function () {
             var self = this;
@@ -854,23 +896,29 @@
             }
             if (!urlParams.get("guid")) {
               // go back to login page
-              window.location.href = window.location.hostname + window.location.pathname + "home.html";
+              window.location.href = window.location.pathname + "home.html";
             } else {
               // get Guild War Status
-              var id = urlParams.get("guid");
-              var password = urlParams.get("pw");
+              this.trackerId = urlParams.get("guid");
+              this.password = urlParams.get("pw");
               $.ajax({
-                  url: "ceciliae7wartracker.glitch.me/trackerUpdate",
+                  url: "https://ceciliae7wartracker.glitch.me/trackerUpdate",
                   type: 'POST',
                   contentType: 'application/json',
-                  data: JSON.stringify({trackerId: id, password: password, type: "get"}),
+                  data: JSON.stringify({trackerId: this.trackerId, password: this.password, type: "get"}),
                   success: function (response) {
                       //logged in redirect
                       console.log(response);
+                      if (!response) return;
+                      self.guild = response.guildName;
+                      if (response.war){
+                        self.serverFullReport = response.war;
+                      };
                   },
                   error: function(jqXHR, textStatus, errorThrown) {
                     //incorrect password or other error
                     //...
+                    if (jqXHR.status === 401) window.location.href = window.location.pathname + "home.html";
                   }
               });
             };
