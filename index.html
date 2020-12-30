@@ -17,8 +17,17 @@
     <link rel="shortcut icon" href="./favicons/favicon.ico">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="msapplication-config" content="./favicons/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-    
+    <meta name="theme-color" content="#252B35">
+
+    <meta property="og:title" content="Camping Simulator">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="CeciliaBot">
+    <meta property="og:url" content="/">
+    <meta property="og:image" content="./android-chrome-256x256.png">
+    <meta property="og:image:width" content="256">
+    <meta property="og:image:height" content="256">
+    <meta property="og:description" content="Epic Seven Camping Simulator for Raid and Labyrinth. Add your roster to find the best team combination with high morale!">
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-combinatorics@0.5.5/combinatorics.min.js" async></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
@@ -343,6 +352,58 @@ span.heroImgList {
 	border-radius: 15px;
 }
 
+.adv_settings_elem {
+  width: 120px;
+  display: inline-block;
+  padding: 12px;
+  text-align: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.class-quantity-container {
+  position: absolute;
+  height: 60px;
+  width: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.class-quantity-container > .incrementa {
+  position: absolute;
+  bottom: -15px;
+  right: 0;
+  cursor: pointer;
+  padding: 4px 8px;
+  background-color: var(--bg-color);
+  color: green;
+  border-radius: 50px;
+}
+.class-quantity-container > .decrementa {
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  cursor: pointer;
+  padding: 4px 10px;
+  background-color: var(--bg-color);
+  color: red;
+  border-radius: 50px;
+}
+.class-quantity-container > .quantity_curr_quantity {
+  position: absolute;
+  top: -8px;
+  left: -5px;
+  background-color: green;
+  color: white;
+  border-radius: 40px;
+  padding: 5px 10px;
+}
+
 .searchBox {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -553,24 +614,24 @@ icon-bar span img {
   z-index: 2;
 }
 
-.dropdown-content div {
+.dropdown-content > div, .dropdown-content > a {
   color: var(--font-color);
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
-.dropdown-content span {
+.dropdown-content > span {
   color: var(--font-color);
   padding: 12px 16px;
   width: 500px;
   text-decoration: none;
   display: block;
+  box-sizing: border-box;
 }
-.dropdown-content div:hover {
+.dropdown-content > div:hover, .dropdown-content > a:hover {
   background-color: var(--search-border-color);
   color: white;
 }
-
 .dropdown:hover .dropdown-content {display: block;}
 
 
@@ -806,6 +867,20 @@ icon-bar span img {
   color: white;
 }
 
+.rightClickIconMenu {
+  display: inline-block;
+  cursor: pointer;
+  height: 50px;
+  width: 33.33%; /* 3 icons */
+  background-size: 45px;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 10px 0;
+}
+.rightClickIconMenu:hover {
+  background-color: var(--search-border-color);
+}
+
 .welcome {
   display: grid;
   margin-top: -10px;
@@ -948,7 +1023,7 @@ icon-bar span img {
               <h2 style="text-align: center;">{{strings.messaggio_di_benvenuto}}<br><a href="https://epicsevendb.com/" style="text-decoration: none;color:red"><u>{{strings.data_by}}</u></a>
               </h2>
               <div style="color: orangered; text-align: center;">
-                ! 残月的暴君泰妮布里雅被移除因为官方回滚了她特有的迷宫对话 !<br>如果你保存的队伍里有她请手动删掉那个队伍.
+                右键点击英雄头像显示更多信息!
               </div>
               <div v-if='!Object.keys(myHeroesList).length' onmouseover="" style="cursor: pointer; color: orangered; text-align: center; margin-top: 30vh; font-size: 30px;" onclick="welcome_toggle('instructions',{})">
                 第一次使用?<br> 点击查看简明使用教程.
@@ -962,9 +1037,24 @@ icon-bar span img {
             </div>
             <div id="whats_new_content" style="display: none;">
               <ul>
-                <li style="color:rgb(0, 148, 32)"></li>
-                  <b>20/08/2020</b>: Add Thai (ภาษาไทย) language support<br>
-                  With the Epic Seven DB API update you can now select Thai for the game data (menus are still english).
+                <li style="color:#007FFF">
+                  <b>12/09/2020</b>: 右键菜单<br>
+                  右键 (手机长按) 可以打开快捷菜单 可以查看英雄技能 或者跳转到 Epic Seven DB 查看更多英雄信息 或者跳转至e7herder.com查看英雄的模型.<br>
+                  已知问题: 火狐手机版长按会同时显示浏览器自带的长按菜单.
+                </li>
+                <li style="color:#007FFF">
+                  <b>08/09/2020</b>: 高级选项新增职业数量设定<br>
+                 你现在可以设置队伍中包含的 精灵师/骑士/战士 的最低数量<br>
+                  例如你可以设置成 2骑士2精灵师 提高迷宫成功率.
+                </li>
+                <li>
+                  <b>29/08/2020</b>: 添加计算进度条 :D<br>
+                  现在选了高级设置以后，计算会显示进度条.  例如 2020 年 8月 29 日的版本需要花17分钟计算 187 个英雄带高级设置的所有排列组合, 锁定一个英雄后计算耗时20秒.<br>
+                  不选择高级设置则不会显示进度条，因为最长计算时间仅4秒左右.
+                </li>
+                <li style="color:rgb(0, 148, 32)">
+                  <b>20/08/2020</b>: 添加泰文 (ภาษาไทย) 支持<br>
+                  Epic Seven DB API 更新后可以选择泰文作为数据显示语言 (菜单依旧为英文).
                 </li>
                 <li style="color:rgb(0, 148, 32)">
                   <b>15/08/2020</b>:<br>
@@ -1075,6 +1165,7 @@ icon-bar span img {
               <p><a href="https://e7herder.com/">E7herder</a> 有非常酷的角色模型动画查看器</p>
               <p><a href="https://maphe.github.io/e7-damage-calc/zh/index.html">Epic 7 伤害计算器</a> by Maphe</p>
               <p><a href="https://www.e7leaks.com/">Epic 7 Leaks</a> by Maphe</p>
+              <p><a href="https://epic7pvp.com">Epic7pvp.com</a> for PVP community events</p>
               <p><a href="https://meowyih.github.io/epic7-gear/index.html?lang=cn">装备评分计算器</a> by meowyih</p>
               <p><a href="http://www.epicseventools.com/Home/LabMoraleOptimizer">E7 Tools</a> by Budandan</p>
               <p><a href="https://gamepress.gg/epicseven/">GamePress.gg</a></p>
@@ -1094,7 +1185,7 @@ icon-bar span img {
               <h2 style="text-align: center;">{{strings.messaggio_di_benvenuto}}<br><a href="https://epicsevendb.com/" style="text-decoration: none;color:red"><u>{{strings.data_by}}</u></a>
               </h2>
               <div style="color: orangered; text-align: center;">
-                ! 殘月的暴君泰妮布里雅被移除因為官方回滾了她特有的迷宮對話 !<br>如果你保存的隊伍裏有她請手動刪掉那個隊伍.
+                右鍵點選英雄頭像顯示更多信息!
               </div>
               <div v-if='!Object.keys(myHeroesList).length' onmouseover="" style="cursor: pointer; color: orangered; text-align: center; margin-top: 30vh; font-size: 30px;" onclick="welcome_toggle('instructions',{})">
                 第一次使用?<br> 點擊查看簡明使用教程.
@@ -1108,9 +1199,24 @@ icon-bar span img {
             </div>
             <div id="whats_new_content" style="display: none;">
               <ul>
-                <li style="color:rgb(0, 148, 32)"></li>
-                  <b>20/08/2020</b>: Add Thai (ภาษาไทย) language support<br>
-                  With the Epic Seven DB API update you can now select Thai for the game data (menus are still english).
+                <li style="color:#007FFF">
+                  <b>12/09/2020</b>: 右鍵菜單<br>
+                  右鍵 (手機長按) 可以打開快捷菜單 可以檢視英雄技能 或者跳轉到 Epic Seven DB 檢視更多英雄信息 或者跳轉至e7herder.com檢視英雄的模型.<br>
+                  已知問題: 火狐手機版長按會同時顯示瀏覽器自帶的長按菜單.
+                </li>
+                <li style="color:#007FFF">
+                  <b>08/09/2020</b>: 高級選項新增職業數量設定<br>
+                 你現在可以設定隊伍中包含的 精靈師/騎士/戰士 的最低數量<br>
+                  例如你可以設定成 2騎士2精靈師 提高迷宮成功率.
+                </li>
+                <li>
+                  <b>29/08/2020</b>: 添加計算進度條 :D<br>
+                  現在選了高級設定以後，計算會顯示進度條.  例如 2020 年 8月 29 日的版本需要花17分鍾計算 187 個英雄帶高級設定的所有排列組合, 鎖定一個英雄後計算耗時20秒.<br>
+                  不選擇高級設定則不會顯示進度條，因為最長計算時間僅4秒左右.
+                </li>
+                <li style="color:rgb(0, 148, 32)">
+                <b>20/08/2020</b>: 添加泰文 (ภาษาไทย) 支援<br>
+                  Epic Seven DB API 更新後可以選擇泰文作為數據顯示語言 (菜單依舊為英文).
                 </li>
                 <li style="color:rgb(0, 148, 32)">
                   <b>15/08/2020</b>:<br>
@@ -1220,6 +1326,7 @@ icon-bar span img {
               <p><a href="https://e7herder.com/">E7herder</a> 有非常酷的角色模型動畫查看器</p>
               <p><a href="https://maphe.github.io/e7-damage-calc/zhTW/index.html">Epic 7 傷害計算器</a> by Maphe</p>
               <p><a href="https://www.e7leaks.com/">Epic 7 Leaks</a> by Maphe</p>
+              <p><a href="https://epic7pvp.com">Epic7pvp.com</a> for PVP community events</p>
               <p><a href="https://meowyih.github.io/epic7-gear/index.html?lang=tw">裝備評分計算器</a> by meowyih</p>
               <p><a href="http://www.epicseventools.com/Home/LabMoraleOptimizer">E7 Tools</a> by Budandan</p>
               <p><a href="https://gamepress.gg/epicseven/">GamePress.gg</a></p>
@@ -1239,7 +1346,7 @@ icon-bar span img {
               <h2 style="text-align: center;">{{strings.messaggio_di_benvenuto}}<br><a href="https://epicsevendb.com/" style="text-decoration: none;color:red"><u>{{strings.data_by}}</u></a>
               </h2>
               <div style="color: orangered; text-align: center;">
-                ! Dark Tyrant Tenebria has been removed from this tool and your roster because her original camplines have been restored !<br>If you have saved teams that include S. Tenebria's skin you have to manually delete them.
+                Right click a character to view that character's skills!
               </div>
               <div v-if='!Object.keys(myHeroesList).length' onmouseover="" style="cursor: pointer; color: orangered; text-align: center; margin-top: 30vh; font-size: 30px;" onclick="welcome_toggle('instructions',{})">
                 First time here?<br> Click here for a quick guide.
@@ -1253,12 +1360,27 @@ icon-bar span img {
             </div>
             <div id="whats_new_content" style="display: none;">
               <ul>
+                <li style="color:#007FFF">
+                  <b>12/09/2020</b>: Contextual menu<br>
+                  Right click (long tap on mobile) on a character to open a quick menu where you can read that hero's skills and quickly jump to Epic Seven DB to read more or open the model viewer on e7herder.com.<br>
+                  Known issue: on mobile FireFox the default long tap menu will also be displayed.
+                </li>
+                <li style="color:#007FFF">
+                  <b>08/09/2020</b>: Request a specific number of character classes<br>
+                  You can now set a specific minimum number of soul-weavers/knights/warriors etc...<br>
+                  For example you can request 2 soul-weavers and a knight for safer runs.
+                </li>
+                <li>
+                  <b>02/09/2020</b>: Advanced Settings speed improvements<br>
+                  Now it can calculate all the combinations under 7 minutes instead of 17 minutes (as of 02/09/2020 - on PC), under 8 seconds with 1 hero locked, with advanced settings on<br>
+                  The time required will increase as new heroes are released.
+                </li>
                 <li>
                   <b>29/08/2020</b>: New Progress bar :D<br>
                   When you select advanced settings a progress bar will be displayed while calculating team combinations. As of 29/08/2020 it takes 17 mins to calculate all the combinations with 187 heroes in your roster and advanced settings on, it takes 20 sec if you lock 1 hero.<br>
                   The progress bar is not displayed if no advanced settings are selected because it takes only 4 seconds to calculate the best combinations regardless of the roster's size.
                 </li>
-                <li style="color:rgb(0, 148, 32)"></li>
+                <li style="color:rgb(0, 148, 32)">
                   <b>20/08/2020</b>: Add Thai (ภาษาไทย) language support<br>
                   With the Epic Seven DB API update you can now select Thai for the game data (menus are still english).
                 </li>
@@ -1375,6 +1497,7 @@ icon-bar span img {
               <p><a href="https://e7herder.com/">E7herder</a> with a cool model viewer</p>
               <p><a href="https://maphe.github.io/e7-damage-calc/">Epic 7 Damage Calculator</a> by Maphe</p>
               <p><a href="https://www.e7leaks.com/">Epic 7 Leaks</a> by Maphe</p>
+              <p><a href="https://epic7pvp.com">Epic7pvp.com</a> for PVP community events</p>
               <p><a href="https://meowyih.github.io/epic7-gear/index.html?lang=en">Web tool to evaluate gears</a> by meowyih</p>
               <p><a href="http://www.epicseventools.com/Home/LabMoraleOptimizer">E7 Tools</a> by Budandan</p>
               <p><a href="https://gamepress.gg/epicseven/">GamePress.gg</a></p>
@@ -1487,7 +1610,7 @@ icon-bar span img {
         <table id="lista_hero_disponibili">
           <tr>
             <td style="text-align: center; padding-bottom: 20px;">
-              <span v-for="key in displayList" class="heroImgList" v-on:click="addHero(thisHeroData(key)._id)">
+              <span v-for="key in displayList" class="heroImgList" v-on:click="addHero(thisHeroData(key)._id)" @contextmenu="rightClickHero(key, $event)">
                 <img v-bind:src="getHeroAssets(key).icon" onerror="this.onerror=null; this.src=app.getHeroAssets(this.alt, 'onerror').icon" style="width:70px" v-bind:alt="thisHeroData(key)._id" v-bind:titolo="thisHeroData(key).name"/>
                 <template v-if="isInTeam(thisHeroData(key)._id)===true">
                   <div class="top-left" style="font-size:38px;">✔</div>
@@ -1504,7 +1627,7 @@ icon-bar span img {
          <table class="displaylistTable" style="margin-left:auto;margin-right:auto;">
           <tr v-for="key in displayList">
             <td>
-              <div class="hero_potrait">
+              <div class="hero_potrait" @contextmenu="rightClickHero(key, $event)">
                 <img v-bind:src="getHeroAssets(key).icon" onerror="this.onerror=null; this.src=app.getHeroAssets(this.alt, 'onerror').icon" style="width:70px;vertical-align: middle;top:15px;" v-on:click="addHero(thisHeroData(key)._id)" v-bind:alt="thisHeroData(key)._id" v-bind:titolo="thisHeroData(key).name"/>
 		            <span>{{ thisHeroTranslatedName(thisHeroData(key)._id) }}</span>
 		            <template v-if="!isInTeam(thisHeroData(key)._id)">  <!-- già aggiunto -->
@@ -1630,7 +1753,7 @@ icon-bar span img {
         <table id="myHeroes">
           <tr>
             <td style="text-align: center; padding-bottom: 20px;">
-              <span v-for="key in displayMyHeroes" class="heroImgList" v-on:click="if($event.target.className.indexOf('removeHero') === -1 ) lockHero(thisHeroData(key)._id)">
+              <span v-for="key in displayMyHeroes" class="heroImgList" v-on:click="if($event.target.className.indexOf('removeHero') === -1 ) lockHero(thisHeroData(key)._id)" @contextmenu="rightClickHero( key, $event)">
                 <!-- Classco -->
                 <template v-if="isLocked(thisHeroData(key)._id) && lockType===1">
                   <div class="top-right animate-flicker">&#128274;</div>
@@ -1656,7 +1779,7 @@ icon-bar span img {
         <table id="myHeroes" class="displaylistTable" style="margin-left:auto;margin-right:auto;">
          <tr v-for="key in displayMyHeroes">
            <td>
-             <div class="hero_potrait">
+             <div class="hero_potrait" @contextmenu="rightClickHero( key, $event)">
                <img v-bind:src="getHeroAssets(key).icon" onerror="this.onerror=null; this.src=app.getHeroAssets(this.alt, 'onerror').icon" style="width:70px;vertical-align: middle;top:15px;" v-on:click="addHero(thisHeroData(key)._id)" v-bind:alt="thisHeroData(key)._id" v-bind:titolo="thisHeroData(key).name"/>
                 <span>{{ thisHeroTranslatedName(thisHeroData(key)._id) }}</span>
                 <span v-on:click="app.removeHero(thisHeroData(key)._id)" class="fa fa-trash displaylistTableIcons" aria-hidden="true"></span>
@@ -1687,7 +1810,7 @@ icon-bar span img {
             <br>
             <input type="checkbox" id="numeroRisultatiMassimo" name="numeroRisultatiMassimo" onclick="app.personalizzaRisultati()">
             <label for="numeroRisultatiMassimo">{{strings.numero_massimo_risultati}}</label>
-              <input style="display: inline-block; width: 100px; height: 20px" type="number" min="1" id="n_risultati" onkeyup="app.personalizzaRisultati()" placeholder="200" title="Number of results" disabled>
+              <input style="display: inline-block; width: 100px; height: 20px" type="number" min="1" id="n_risultati" onkeyup="app.personalizzaRisultati()" placeholder="default 200" title="Number of results" disabled>
           </span>
           <span>
             <input type="checkbox" id="moraleMinimo" name="moraleMinimo" value="moraleMinimo" onclick="app.personalizzaRisultati()">
@@ -1717,23 +1840,29 @@ icon-bar span img {
       <label for="mustIncludeDispel">{{strings.must_include_dispel}}</label><br><br>
       <div id="advanced_classe" class="box_advanced_settings" style="height:auto;width:100%;display:inline-block;padding-bottom: 25px;padding-top: 5px;">
         <center>{{strings.classe}}:</center>
-          <input type="checkbox" id="checkbox_knight" name="classe" value="knight" style="display:none" onclick="app.aggiornaImposatazioniAvanzate()">
-          <label for="checkbox_knight" class="label"> <img src="https://assets.epicsevendb.com/class/cm_icon_role_knight.png" style="height:60px;width:60px;" /><p style="position:relative;text-align:center;" id="checkbox_knight_label">{{strings.knight}}</p></label>
+          <div class="adv_settings_elem" v-for="(value,key) in {
+                    knight: {string: strings['knight'], icon: 'cm_icon_role_knight'}, 
+                    assassin: {string: strings['thief'], icon: 'cm_icon_role_thief'}, 
+                    warrior: {string: strings['warrior'], icon: 'cm_icon_role_warrior'}, 
+                    ranger: {string: strings['ranger'], icon: 'cm_icon_role_ranger'}, 
+                    mage: {string: strings['mage'], icon: 'cm_icon_role_mage'},
+                    manauser: {string: strings['soul-weaver'], icon: 'cm_icon_role_soul-weaver'},
+                  }
+          " >
+            <div class="class-quantity-container" v-bind:value="key">
+              <span class="quantity_curr_quantity" style="display: none;">
+              </span>
+              <span class="incrementa" onclick="app.editClassQuantity(this)">
+                +
+              </span>
+              <span class="decrementa" onclick="app.editClassQuantity(this)">
+                -
+              </span>
+            </div>
+            <img v-bind:src="'https://assets.epicsevendb.com/class/' + value.icon + '.png'" style="height:60px;width:60px;" />
+            <p style="position:relative;text-align:center;">{{value.string}}</p>
+          </div>
 
-          <input type="checkbox" id="checkbox_thief" name="classe" value="assassin" style="display:none" onclick="app.aggiornaImposatazioniAvanzate()">
-          <label for="checkbox_thief" class="label"> <img src="https://assets.epicsevendb.com/class/cm_icon_role_thief.png" style="height:60px;width:60px;" /><p style="position:relative;text-align:center;" id="checkbox_thief_label">{{strings.thief}}</p></label>
-
-          <input type="checkbox" id="checkbox_warrior" name="classe" value="warrior" style="display:none" onclick="app.aggiornaImposatazioniAvanzate()">
-          <label for="checkbox_warrior" class="label"> <img src="https://assets.epicsevendb.com/class/cm_icon_role_warrior.png" style="height:60px;width:60px;" /><p style="position:relative;text-align:center;" id="checkbox_warrior_label">{{strings.warrior}}</p></label>
-        
-          <input type="checkbox" id="checkbox_ranger" name="classe" value="ranger" style="display:none" onclick="app.aggiornaImposatazioniAvanzate()">
-          <label for="checkbox_ranger" class="label"> <img src="https://assets.epicsevendb.com/class/cm_icon_role_ranger.png" style="height:60px;width:60px;" /><p style="position:relative;text-align:center;" id="checkbox_ranger_label">{{strings.ranger}}</p></label>
-        
-          <input type="checkbox" id="checkbox_mage" name="classe" value="mage" style="display:none" onclick="app.aggiornaImposatazioniAvanzate()">
-          <label for="checkbox_mage" class="label"> <img src="https://assets.epicsevendb.com/class/cm_icon_role_mage.png" style="height:60px;width:60px;" /><p style="position:relative;text-align:center;" id="checkbox_mage_label">{{strings.mage}}</p></label>
-        
-          <input type="checkbox" id="checkbox_soul-weaver" name="classe" value="manauser" style="display:none" onclick="app.aggiornaImposatazioniAvanzate()">
-          <label for="checkbox_soul-weaver" class="label"> <img src="https://assets.epicsevendb.com/class/cm_icon_role_soul-weaver.png" style="height:60px;width:60px;" /><p style="position:relative;text-align:center;" id="checkbox_soul-weaver_label">{{strings["soul-weaver"]}}</p></label>
       </div>
       <br><br>
       <div id="advanced_elemento" class="box_advanced_settings" style="height:auto;width:100%;display:inline-block;padding-bottom: 25px;padding-top: 5px;">
@@ -1797,16 +1926,16 @@ icon-bar span img {
             <td width="4%" style="padding-top: 30px;padding-bottom: 30px;text-align: center;" v-on:click="mostraSalvaRisultato(index+(currentResultsPage-1)*50)"><i class="fa fa-save" aria-hidden="true" style="font-size:30px;"></i>
               <br>{{index+1+(currentResultsPage-1)*50}}</td>
             <td class="hero_potrait">
-              <img v-bind:src="getHeroAssets(thisHeroData(item.team[0])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(this.alt)._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[0]" v-bind:titolo="item.team[0]"/>
+              <img v-bind:src="getHeroAssets(thisHeroData(item.team[0])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(this.alt)._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[0]" v-bind:titolo="item.team[0]" @contextmenu="rightClickHero( item.team[0], $event)" />
             </td>
             <td class="hero_potrait">
-              <img v-bind:src="getHeroAssets(thisHeroData(item.team[1])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(this.alt)._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[1]" v-bind:titolo="item.team[1]"/>
+              <img v-bind:src="getHeroAssets(thisHeroData(item.team[1])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(this.alt)._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[1]" v-bind:titolo="item.team[1]" @contextmenu="rightClickHero( item.team[1], $event)" />
             </td>
             <td class="hero_potrait">
-              <img v-bind:src="getHeroAssets(thisHeroData(item.team[2])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(this.alt)._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[2]" v-bind:titolo="item.team[2]"/>
+              <img v-bind:src="getHeroAssets(thisHeroData(item.team[2])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(this.alt)._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[2]" v-bind:titolo="item.team[2]" @contextmenu="rightClickHero( item.team[2], $event)" />
             </td>
             <td class="hero_potrait">
-              <img v-bind:src="getHeroAssets(thisHeroData(item.team[3])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(this.alt)._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[3]" v-bind:titolo="item.team[3]"/>
+              <img v-bind:src="getHeroAssets(thisHeroData(item.team[3])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(this.alt)._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[3]" v-bind:titolo="item.team[3]" @contextmenu="rightClickHero( item.team[3], $event)" />
             </td>
             <td class="topics"><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG1)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore1)}}</a><br><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG2)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore2)}}</a></td>
             <td style="text-align:center; font-family:sans-serif;font-size:17px" width="3%">{{item.morale}}</td>
@@ -2165,6 +2294,16 @@ icon-bar span img {
 
 <script defer>
     var userSettings = JSON.parse(localStorage.getItem('Settings') ? localStorage.getItem('Settings') : "{}");
+    
+    function defaultThemeColor() {
+	try {
+	      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+		 return 'dark';
+	     } else return 'light';
+	} catch (err) {
+	    return 'light';
+	};
+    };
     function toggleCheck() {
         if (document.getElementById("darkModeCheck").checked === true) {
             document.documentElement.setAttribute('data-theme', 'dark');
@@ -2184,6 +2323,12 @@ icon-bar span img {
             var checkBoxes = $("input[name=darkModeCheck]");
             checkBoxes.attr('checked', true);
         };
+    } else {
+	if (defaultThemeColor() == 'dark') { // check OS settings and set dark theme if necessary
+	    document.documentElement.setAttribute('data-theme', 'dark');
+            var checkBoxes = $("input[name=darkModeCheck]");
+            checkBoxes.attr('checked', true);
+	};
     };
     
     function setWindow(current) {
@@ -2502,66 +2647,67 @@ icon-bar span img {
     };
   };
 
+  var tastoDestro = 0;
   if (document.addEventListener) {
-    var tastoDestro = 0;
     document.addEventListener('click', function(e) {
+      if ($(e.target).parents("#debugHeroInfo").length>0 ) return;
       if (tastoDestro != 0) {
         tastoDestro = 0;
         $('#debugHeroInfo').remove();
       }; 
     }); 
     document.addEventListener('contextmenu', function(e) {
-      if (showValues == true) {
+      if (document.getElementById("debugHeroInfo") != null)
         if (tastoDestro != 0) {
-            $('#debugHeroInfo').remove();
+          tastoDestro = 0;
+          $('#debugHeroInfo').remove();
         }; 
-        if ((e.target.parentNode.className == "heroImgList" || e.target.parentNode.className == "hero_potrait") && e.target.tagName == "IMG") {
-          tastoDestro = 1;
-          var posX, posY;
-          let clickCoords = getPosition(e);
-          let clickCoordsX = clickCoords.x;
-          let clickCoordsY = clickCoords.y;
-
-          let menuWidth = 200 + 4;
-          let menuHeight = 480 + 4;
-          let currentYPosition = e.pageY;
-          
-          let windowWidth = window.innerWidth;
-          let windowHeight = window.innerHeight;
-
-          if ( (windowWidth - clickCoordsX - 50) < menuWidth ) {
-            posX = clickCoordsX - menuWidth - 15 + "px";
-          } else {
-            posX = clickCoordsX + "px";
-          }
-
-          if ( (windowHeight - e.clientY - 50) < menuHeight ) {
-            posY = clickCoordsY + windowHeight - e.clientY - menuHeight - 50 + "px";
-          } else {
-            posY = clickCoordsY + "px";
-          }
-
-          var topics = "";
-          for (var key in app.HeroDB[e.target.alt].camping.values) {
-            topics += `<div style="border-bottom: 1px solid grey;">` + app.translateTopics(key) + " " + '<span style="float: right;">' + app.HeroDB[e.target.alt].camping.values[key] + '</span></div>'
-          };
-          $( "#app" ).append(`
-          <div id="debugHeroInfo" class="blur" style="z-index: 1; width:200px;position:absolute; top:` + posY + `; left:` + posX + `; padding: 10px;">
-            ` + "<center>" + app.thisHeroTranslatedName(e.target.alt) + "</center>" +
-            `<div style="font-size:12px">` +
-              app.strings.topics + ": " + app.translateTopics(app.HeroDB[e.target.alt].camping.topics[0]) + ", " +  app.translateTopics(app.HeroDB[e.target.alt].camping.topics[1]) + "<br><br>" +
-              topics
-            + `</div>
-            </div>
-          `);
-          e.preventDefault(); // hide left click
-        };
-      };
     }, false);
   } else {
     document.attachEvent('oncontextmenu', function() {
       window.event.returnValue = false;
     });
+  };
+  function debugRightMenu(e,hero){
+    tastoDestro = 1;
+    var posX, posY;
+    let clickCoords = getPosition(e);
+    let clickCoordsX = clickCoords.x;
+    let clickCoordsY = clickCoords.y;
+
+    let menuWidth = 200 + 4;
+    let menuHeight = 480 + 4;
+    let currentYPosition = e.pageY;
+    
+    let windowWidth = window.innerWidth;
+    let windowHeight = window.innerHeight;
+
+    if ( (windowWidth - clickCoordsX - 50) < menuWidth ) {
+      posX = clickCoordsX - menuWidth - 15 + "px";
+    } else {
+      posX = clickCoordsX + "px";
+    }
+
+    if ( (windowHeight - e.clientY - 50) < menuHeight ) {
+      posY = clickCoordsY + windowHeight - e.clientY - menuHeight - 50 + "px";
+    } else {
+      posY = clickCoordsY + "px";
+    }
+
+    var topics = "";
+    for (var key in app.HeroDB[hero].camping.values) {
+      topics += `<div style="border-bottom: 1px solid grey;">` + app.translateTopics(key) + " " + '<span style="float: right;">' + app.HeroDB[hero].camping.values[key] + '</span></div>'
+    };
+    $( "#app" ).append(`
+    <div id="debugHeroInfo" class="blur" style="z-index: 1; width:200px;position:absolute; top:` + posY + `; left:` + posX + `; padding: 10px;">
+      ` + "<center>" + app.thisHeroTranslatedName(hero) + "</center>" +
+      `<div style="font-size:12px">` +
+        app.strings.topics + ": " + app.translateTopics(app.HeroDB[hero].camping.topics[0]) + ", " +  app.translateTopics(app.HeroDB[hero].camping.topics[1]) + "<br><br>" +
+        topics
+      + `</div>
+      </div>
+    `);
+    e.preventDefault(); // hide left click
   };
 
   function mandaNotificaCompletamento(){
@@ -2796,7 +2942,7 @@ icon-bar span img {
           getHeroAssets: function (_id, f) {
             if (this.HeroDB[_id]){
               if (!this.HeroDB[_id].assets) this.HeroDB[_id].assets = {icon: 'https://assets.epicsevendb.com/_source/face/' + this.thisHeroData(_id).id + '_s.png'};
-              if (f === "onerror") this.HeroDB[_id].assets = {icon: 'https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2F' + this.thisHeroData(_id).id + '_s.png'};
+              if (f === "onerror") this.HeroDB[_id].assets = {icon: 'https://cdn.glitch.com/65215d7c-0b60-4f17-a9c0-8d87bc9fa1d9%2F' + this.thisHeroData(_id).id + '_s.png'};
               return this.HeroDB[_id].assets;
             } else return {icon: ""};
           },
@@ -2872,7 +3018,9 @@ icon-bar span img {
             };
           },
           writeSettings: function() {
-            localStorage.setItem('Settings', JSON.stringify({notification: riceviNotifiche, lingua: this.lingua, verticalToolbar: document.getElementById("toolbar_position").checked, heroNameInGrid: document.getElementById("heroNameInGrid").checked}) );
+            var settings = JSON.stringify({notification: riceviNotifiche, lingua: this.lingua, verticalToolbar: document.getElementById("toolbar_position").checked, heroNameInGrid: document.getElementById("heroNameInGrid").checked});
+            localStorage.setItem('Settings', settings);
+            userSettings = JSON.parse(settings);
           },
           alertUserAction: function (f) {
             let action, message;
@@ -2891,6 +3039,118 @@ icon-bar span img {
             }
             else { // cancel
             }
+          },
+          rightClickHero: function (key,e) { 
+            e.preventDefault();
+            setTimeout(() => {
+              if (tastoDestro === 1) $("#debugHeroInfo").remove(), tastoDestro = 0;
+              if (showValues) return debugRightMenu(e, key);
+              var hero = this.thisHeroData(key);
+              var self = this;
+              /* E7DB language tags */
+              var _lingua = "/"
+              if (this.lingua === "kr") _lingua = "/ko/"
+              else if (this.lingua === "jp") _lingua = "/jp/"
+              else if (this.lingua === "cn") _lingua = "/cn/"
+              else if (this.lingua === "zht") _lingua = "/tw/"
+              else if (this.lingua === "fr") _lingua = "/fr/"
+              else if (this.lingua === "pt") _lingua = "/pt/"
+              else if (this.lingua === "es") _lingua = "/es/"
+              else if (this.lingua === "th") _lingua = "/th/"
+              else if (this.lingua === "de") _lingua = "/de/"
+              var e7dbLink = "https://epicsevendb.com" + _lingua + "hero/"+ hero._id;
+
+              tastoDestro = 1;
+
+              let menuWidth = 400;
+              let menuHeight = 480;
+              let _app = document.getElementById("app");
+              //let margin_bottom = parseInt( (_app.currentStyle?.marginTop || document.defaultView?.getComputedStyle(_app, '')?.getPropertyValue('margin-bottom') || 0 ), 10);
+              let margin_bottom = !userSettings.verticalToolbar ? 0 : 70;
+              
+              
+              //let margin_left = parseInt( (_app.currentStyle?.marginleft || document.defaultView?.getComputedStyle(_app, '')?.getPropertyValue('margin-left') || 0 ), 10);
+              var clickCoordsX = getPosition(e).x;
+              var clickCoordsY = getPosition(e).y;
+
+              let windowWidth = window.innerWidth;
+              let windowHeight = window.innerHeight;
+
+              var transformX = 0;
+              var transformY = 0;
+              if ( (windowWidth - clickCoordsX - 5) < menuWidth ) {
+                /*if (clickCoordsX - menuWidth > margin_left + 5)
+                  transformX = 100;
+                else*/
+                  transformX =  Math.abs(Math.abs(clickCoordsX - windowWidth) - menuWidth) * 100 / menuWidth + 3;
+              };
+
+              if ( (windowHeight - e.clientY - margin_bottom - 5) < menuHeight ) {
+                /*if ( e.clientY - menuHeight > margin_bottom && windowHeight - e.clientY > 0)
+                  transformY = 100;
+                else*/
+                  transformY =  Math.abs(Math.abs(e.clientY - windowHeight) - menuHeight - margin_bottom) * 100 / menuHeight + 3;
+              };
+
+              /*console.log({windowWidth: windowWidth, windowHeight: windowHeight, clickCoordsX: clickCoordsX, clickCoordsY: clickCoordsY, transformX: transformX+"%", transformY: transformY+"%"})*/
+              $( "#app" ).append(`
+              <div id="debugHeroInfo" class="dropdown-content" style="display: inline-block; max-height: 480px; top: `+ clickCoordsY +`px; left: `+clickCoordsX+`px; width: ` + menuWidth + `px; transform: translate(-`+transformX+`%, -`+transformY+`%); border-top: thick solid var(--icon-bar-active); box-sizing: border-box;">
+                <span style="width: 100%; font-size: 24px; text-align: center;"><b>` + this.thisHeroTranslatedName(hero._id) + `</b><b class="close" style="float: right; cursor: pointer; font-size: 30px; margin-right: -10px;" onclick="$('#debugHeroInfo').remove()">x</b></span>
+                <a href="` + e7dbLink + `" target="_blank">` + this.strings.view_on_e7db + `</a>
+                <a href="https://e7herder.com/tools/model-viewer#type=5,id=` + hero.id + `" target="_blank">` + this.strings.view_hero_model + `</a>
+                <span id="heroDetailsRight" style="width: 100% !important; padding: 0; overflow: scroll; position: relative; min-height: 50px;">
+                  <i class="fa  fa-circle-notch fa-spin" style="font-size: 40px; position: absolute; top 40%; left: 40%;"></i>
+                </span>
+              </div>
+              `);
+              $.ajax({
+                url: "https://api.epicsevendb.com/hero/" + hero._id + "?lang=" + this.lingua,
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (response) {
+                  if (document.getElementById("debugHeroInfo") === null ) return; // right click has been removed
+                  var skills = response.results[0].skills;
+
+                  for (var i = 0; i<skills.length; i++) {
+                    for (var j = 0; j < skills[i].values.length; j++) {
+                      var number = skills[i].values[j] <= 1 ? Math.round( skills[i].values[j]*100 ) + "%" : skills[i].values[j];
+                      if (skills[i].enhanced_description) {
+                        skills[i].enhanced_description = skills[i].enhanced_description.replace(/{{variable}}/i,'<font color="orangered">' + number + '</font>');
+                      } else {
+                        skills[i].description = skills[i].description.replace(/{{variable}}/i,'<font color="orangered">' + number + '</font>');
+                      };
+                    };
+                  };
+
+                  document.getElementById("heroDetailsRight").innerHTML = "";
+
+                  $( "#heroDetailsRight" ).append(
+                    `<span onclick="var menu = this.parentNode.children[3].childNodes; menu[0].style.display = 'inline-block'; menu[1].style.display = 'none'; menu[2].style.display = 'none';" style="background-image: url(` + skills[0].assets.icon + `);" class="rightClickIconMenu"></span>` + 
+                    `<span onclick="var menu = this.parentNode.children[3].childNodes; menu[0].style.display = 'none'; menu[1].style.display = 'inline-block'; menu[2].style.display = 'none';" style="background-image: url(` + skills[1].assets.icon + `);" class="rightClickIconMenu"></span>` + 
+                    (skills[2] ? `<span onclick="var menu = this.parentNode.children[3].childNodes; menu[0].style.display = 'none'; menu[1].style.display = 'none'; menu[2].style.display = 'inline-block';" style="background-image: url(` + skills[2].assets.icon + `);" class="rightClickIconMenu"></span>` : "<span></span>") +
+                    `<div style="padding: 0 16px 12px 16px; margin-top: -4px; background-color: var(--bg-color); max-height: 269px; overflow: scroll; overscroll-behavior: contain; box-sizing: border-box;">` +
+                      `<div style="display: inline-block;"><p style="text-align: center"><b>` + skills[0].name + `</b></p><p>` + (skills[0].enhanced_description || skills[0].description) + `</p><p>` + (skills[0].soul_description ? "Soulburn:<br>" + skills[0].soul_description : "") + `</p></div>` +
+                      `<div style="display: none;"><p style="text-align: center"><b>` + skills[1].name + `</b></p><p>` + (skills[1].enhanced_description || skills[1].description) + `</p><p>` + (skills[1].soul_description ? "Soulburn:<br>" + skills[1].soul_description : "") + `</p></div>` +
+                      (skills[2] ? 
+                          `<div style="display: none;"><p style="text-align: center"><b>` + skills[2].name + `</b></p><p>` + (skills[2].enhanced_description || skills[2].description) + `</p><p>` + (skills[2].soul_description ? "Soulburn:<br>" + skills[2].soul_description : "")
+                           + `</p></div>` : "<div></div>"
+                      ) +
+                    `<p style="text-align: end; margin-bottom: 0;"><i>` + self.strings.skills_not_enhanced + `</i></p>
+                    </div>`
+                  );
+                },
+                error: function (err) {
+                  console.log(err)
+                  let error = "";
+                  if (err.responseJSON) error = self.strings.e7api_missing_character; //"Couldn't find this character on EpicSevenDB";
+                  else error = self.strings.e7api_couldnt_connect; //"Couldn't connect to EpicSevenDB.";
+                  document.getElementById("heroDetailsRight").innerHTML = "";
+                  $( "#heroDetailsRight" ).append(
+                    `<div style="padding: 12px 16px; margin-top: -4px; background-color: var(--bg-color)"><p style="text-align: center">${error}</p></div>`
+                  );
+                }
+              });
+            }, 10);
           },
           menuLingua: function () {
             $( "#settings_window" ).append(`
@@ -2924,6 +3184,11 @@ icon-bar span img {
             $("body").addClass("modal-open");
           },
           cambiaLingua: function (n) {
+            if (n === this.lingua) {
+               $('#menu_lingua').remove(); 
+               $('body').removeClass('modal-open'); 
+               return;
+            }
             this.lingua = n;
             this.writeSettings();
             this.inizializzaione();
@@ -3336,7 +3601,7 @@ icon-bar span img {
                   (this.HeroDB[tmpArray[i]].attribute != filtro.filter_element && filtro.filter_element != "*") || 
                   (this.HeroDB[tmpArray[i]].rarity != filtro.filter_rarity && filtro.filter_rarity != "*") ||
                   (filtro.filter_gia_aggiunti == "true" && this.myHeroesList[tmpArray[i]] ) ||
-                  (this.thisHeroTranslatedName(this.thisHeroData(tmpArray[i])._id).toLowerCase().indexOf(filtro.ricerca.toLowerCase()) == -1)
+                  (this.thisHeroTranslatedName(this.thisHeroData(tmpArray[i])._id).toLowerCase().indexOf(filtro.ricerca.toLowerCase()) === -1 && this.thisHeroData(tmpArray[i]).name.toLowerCase().indexOf(filtro.ricerca.toLowerCase()) === -1)
               ) {
                  tmpArray.splice(tmpArray.indexOf(tmpArray[i]), 1);
                  i--
@@ -3378,9 +3643,14 @@ icon-bar span img {
             //};
             if (!isNaN(parseInt(valoreRisultatiMassimo.value)) && parseInt(valoreRisultatiMassimo.value) > 0 ) {
               risultati.n = parseInt(valoreRisultatiMassimo.value)
+              if (parseInt(valoreRisultatiMassimo.value) > 10000) {
+                risultati.n = 10000;
+                valoreRisultatiMassimo.value = 10000;
+              }
             } else {
               risultati.n = 200
             };
+
             if (!isNaN(parseInt(valoreMoraleMinimo.value)) && parseInt(valoreMoraleMinimo.value) <= 52 ) {
               risultati.morale = parseInt(valoreMoraleMinimo.value)
             } else {
@@ -3390,21 +3660,38 @@ icon-bar span img {
             if (risultati.numeroMassimo === false && risultati.minMorale === true) {risultati.numeroMassimo = true; risultati.n = 200;} // force a limit of 200 if only min morale is checked to avoid large memory usage
             this.customizedResuts = risultati;
           },
+          editClassQuantity: function (e) {
+            var target = e.parentNode, _classe = e.parentNode.attributes.value.value, n = 0;
+            if (e.className === "incrementa"){
+              if (this.classe.length > 3) return snackbarMessage(this.strings["team_size_exceeded"]);
+              this.classe.push(_classe);
+            } else if (e.className === "decrementa") {
+              if (this.classe.indexOf(_classe) === -1) return
+              this.classe.splice(this.classe.indexOf(_classe), 1);
+            }
+
+            for (var i = 0; i < this.classe.length; i++)
+              if (this.classe[i] === _classe ) n++;
+
+            target.firstElementChild.innerHTML = n;
+            if (n===0) target.firstElementChild.style.display = "none"
+            else target.firstElementChild.style.display = ""
+          },
           aggiornaImposatazioniAvanzate: function () {
-                this.classe = [];
+                //this.classe = [];
                 this.elemento = [];
                 this.debuffs = [];
                 this.buffs = [];
 
                 //Raccogli le impostazioni avanzate
-                var classi = document.getElementsByName("classe");
+                //var classi = document.getElementsByName("classe");
                 var elemento_checkbox = document.getElementsByName("elemento");
                 var debuffs_checkbox = document.getElementsByName("debuff");
                 var buffs_checkbox = document.getElementsByName("buff");
-                for(var i = 0; i < classi.length; i++)  
-                {  
-                    if (classi[i].checked) this.classe.push(classi[i].value);
-                }; 
+                //for(var i = 0; i < classi.length; i++)  
+                //{  
+                //    if (classi[i].checked) this.classe.push(classi[i].value);
+                //}; 
                 for(var i = 0; i < elemento_checkbox.length; i++)  
                 {  
                     if (elemento_checkbox[i].checked) this.elemento.push(elemento_checkbox[i].value);
@@ -3526,7 +3813,7 @@ icon-bar span img {
                   impostazioni_avanzate: "Impostazioni Avanzate",
                   warn_tsize_adv_title: "Hai un sacco di eroi e nessun eroe bloccato",
                   warn_tsize_adv_details: "Attivando le impostazioni avanzate aumenterà il tempo richiesto per il calcolo delle combinazioni. \nPuoi ridurre il tempo richiesto per il calcolo bloccando un personaggio.",
-                  numero_massimo_risultati: "Numero massimo di risultati",
+                  numero_massimo_risultati: "Numero massimo di risultati (max 10.000)",
                   morale_minimo_risultati: "Morale minimo",
                   includi_locked_in_adv: "Gli eroi bloccati contano al fine del raggiungimento delle condizioni avanzate",
                   disabilita_immagini_in_risultati: "Disabilita avatar dei personaggi nei risultati (consigliato se si richiedono tanti risultati)",
@@ -3630,6 +3917,13 @@ icon-bar span img {
                   nixied: "Nixied",
                   nixiedinfo: "Nixied's maps by game8. They have a full guide here: ",
 
+                  //Right click menu
+                  view_on_e7db: "Visualizza dettagli eroe su EpicSevenDB.com",
+                  view_hero_model: "Visualizza modello 2D su e7herder.com",
+                  skills_not_enhanced: "Skills are awakened but not enhanced",
+                  e7api_missing_character: "Questo eroe non è presente nel database di EpicSevenDB",
+                  e7api_couldnt_connect: "Impossibile connettersi a EpicSevenDB",
+
                   tema_notturno: "Tema notturno",
                   vert_iconbar: "Toolbar verticale",
                   notifiche: "Notifiche",
@@ -3666,7 +3960,7 @@ icon-bar span img {
                   impostazioni_avanzate: "高级设置",
                   warn_tsize_adv_title: "你有大量的英雄并且没有锁定任何英雄，计算可能耗费较长时间",
                   warn_tsize_adv_details: "使用高级设定会耗费更多时间计算. \n你可以通过锁定英雄来提高计算速度.",
-                  numero_massimo_risultati: "显示结果数量",
+                  numero_massimo_risultati: "显示结果数量 (MAX 10.000)",
                   morale_minimo_risultati: "最低心情限制",
                   includi_locked_in_adv: "高级设置包括锁定的英雄",
                   disabilita_immagini_in_risultati: "结果页不显示英雄头像 (如果你设定的显示结果数量非常大，关闭英雄头像显示有助于提升性能)",
@@ -3769,6 +4063,13 @@ icon-bar span img {
                   nixied: "尼克斯特的圣所",
                   nixiedinfo: "尼克斯特的圣所地图 by game8. 点击查看详细说明: ",
 
+                  //Right click menu
+                  view_on_e7db: " 前往EpicSevenDB.com查看英雄详细信息",
+                  view_hero_model: "前往e7herder.com查看英雄模型",
+                  skills_not_enhanced: "技能已经觉醒但是并没有强化",
+                  e7api_missing_character: "在 EpicSevenDB 暂时找不到该英雄的信息",
+                  e7api_couldnt_connect: "无法连接到 EpicSevenDB",
+
                   tema_notturno: "夜间模式",
                   vert_iconbar: "垂直工具栏",
                   notifiche: "启用通知",
@@ -3805,7 +4106,7 @@ icon-bar span img {
                   impostazioni_avanzate: "高級設定",
                   warn_tsize_adv_title: "你有大量的英雄並且冇有鎖定任何英雄，計算可能耗費較長時間",
                   warn_tsize_adv_details: "使用高級設定會耗費更多時間計算. \n你可以通過鎖定英雄來提高計算速度.",
-                  numero_massimo_risultati: "顯示結果數量",
+                  numero_massimo_risultati: "顯示結果數量 (MAX 10.000)",
                   morale_minimo_risultati: "最低心情限制",
                   includi_locked_in_adv: "高級設置包括鎖定的英雄",
                   disabilita_immagini_in_risultati: "結果頁不顯示英雄頭像 (如果你設定的顯示結果數量非常大，關閉英雄頭像顯示有助於提升性能)",
@@ -3908,6 +4209,13 @@ icon-bar span img {
                   nixied: "尼克斯特的聖所",
                   nixiedinfo: "尼克斯特的聖所地圖 by game8. 點選檢視詳細說明: ",
 
+                  //Right click menu
+                  view_on_e7db: " 前往EpicSevenDB.com檢視英雄詳細信息",
+                  view_hero_model: "前往e7herder.com檢視英雄模型",
+                  skills_not_enhanced: "技能已經覺醒但是並未強化",
+                  e7api_missing_character: "在 EpicSevenDB 暫時找不到該英雄的信息",
+                  e7api_couldnt_connect: "無法連接到 EpicSevenDB",
+
                   tema_notturno: "夜間模式",
                   vert_iconbar: "垂直工具欄",
                   notifiche: "啟用通知",
@@ -3944,7 +4252,7 @@ icon-bar span img {
                   impostazioni_avanzate: "Paramètre avancé",
                   warn_tsize_adv_title: "Vous avez une grande liste de héros et aucun héros verrouillé",
                   warn_tsize_adv_details: "L'activation de toutes les fonctionnalités avancées augmentera le temps nécessaire pour calculer toutes les combinaisons. \nVous pouvez réduire le temps requis en verrouillant un héros.",
-                  numero_massimo_risultati: "Nombre maximum de résultats de camping",
+                  numero_massimo_risultati: "Nombre maximum de résultats de camping (MAX 10.000)",
                   morale_minimo_risultati: "Minimum morale",
                   includi_locked_in_adv: "Héros verrouillés inclus dans les paramètres avancés",
                   disabilita_immagini_in_risultati: "Désactiver l'avatar du héro dans l'écran des résultats (Améliorer les performances si vous demandez trop de résultats)",
@@ -4037,6 +4345,13 @@ icon-bar span img {
                   nixied: "Nixied",
                   nixiedinfo: "Carte Nixied par game8. Lire le guide complet ici: ",
 
+                  //Right click menu
+                  view_on_e7db: "Voir les détails du héro sur EpicSevenDB.com",
+                  view_hero_model: "Voir le modèle de héro sur e7herder.com",
+                  skills_not_enhanced: "Les compétences sont éveillées mais pas améliorées",
+                  e7api_missing_character: "Impossible de trouver ce héro sur EpicSevenDB",
+                  e7api_couldnt_connect: "Impossible de se connecter à EpicSevenDB",
+
                   tema_notturno: "Mode nuit",
                   vert_iconbar: "Barre d'outils verticale",
                   notifiche: "Notification",
@@ -4074,7 +4389,7 @@ icon-bar span img {
                   impostazioni_avanzate: "Advanced settings",
                   warn_tsize_adv_title: "You have a large roster and no heroes locked",
                   warn_tsize_adv_details: "Activating any advanced features will increse the required time to calculate all the combinations. \nYou can reduce the required time by locking a hero.",
-                  numero_massimo_risultati: "Maximum number of camping results",
+                  numero_massimo_risultati: "Maximum number of camping results (MAX 10.000)",
                   morale_minimo_risultati: "Minimum morale",
                   includi_locked_in_adv: "Locked heroes count towards the fulfillment of the selected advanced settings",
                   disabilita_immagini_in_risultati: "Disable character's avatar in results screen (better performance for your browser if you request too many results)",
@@ -4177,6 +4492,13 @@ icon-bar span img {
                   raid: "RAID",
                   nixied: "Nixied",
                   nixiedinfo: "Nixied's maps by game8. They have a full guide here: ",
+
+                  //Right click menu
+                  view_on_e7db: "View hero details on EpicSevenDB.com",
+                  view_hero_model: "View hero model on e7herder.com",
+                  skills_not_enhanced: "Skills are awakened but not enhanced",
+                  e7api_missing_character: "Couldn't find this character on EpicSevenDB",
+                  e7api_couldnt_connect: "Couldn't connect to EpicSevenDB",
 
                   tema_notturno: "Night theme",
                   vert_iconbar: "Vertical toolbar",
@@ -5315,15 +5637,19 @@ icon-bar span img {
         };
         if (this.lingua === "cn") {
           this.translatedName["dark-tyrant-tenebria"] = "残月的暴君泰妮布里雅";
+          this.translatedName["landy"] = "兰蒂";
         }
         else if (this.lingua === "zht") {
           this.translatedName["dark-tyrant-tenebria"] = "殘月的暴君泰妮布里雅";
+          this.translatedName["landy"] = "蘭蒂";
         }
         else if (this.lingua === "fr") {
           this.translatedName["dark-tyrant-tenebria"] = "Tenebria tyran de l'astre violine";
+          this.translatedName["landy"] = "Landy";
         }
         else {
           this.translatedName["dark-tyrant-tenebria"] = "Dark Tyrant Tenebria";
+          this.translatedName["landy"] = "Landy";
         }
       }
     },
