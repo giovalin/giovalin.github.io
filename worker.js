@@ -48,7 +48,9 @@ function checkScDupe (team) {
     };
     return false;
 };
-
+function hasDuplicates(array) {
+    return array.some((val, i) => array.indexOf(val) !== i);
+};
 function giaInTop(team, top) {
     if (top.length > 0 ) {
       for (var i = 0; i<top.length;i++) {
@@ -374,7 +376,8 @@ onmessage = function(e) {
                             var temp = [];
                             for (var j = 0; j < results.length; j++) {
                                 for (var k = 0; k < currentSubArray.length; k++) {
-                                temp.push(results[j].concat(currentSubArray[k]));
+                                    if ( hasDuplicates(results[j].concat(currentSubArray[k])) ) continue;
+                                    temp.push(results[j].concat(currentSubArray[k]));
                                 }
                             }
                             results = temp;
@@ -397,6 +400,7 @@ onmessage = function(e) {
                         setRequestedClass(e.classe);
                         if ( (e.cartesianLock.length + e.locked.length) > 3 ) campList = ["Ras"]; // placeholder Ras if all heroes are used in multilock or lock-> avoid RangeError
                         var c = printCombos(e.cartesianLock);
+                        console.log(c);
                         var currIndex = 0;
                         var lastProgress = -1;
                         var tot = (Combinatorics.bigCombination(campList,4-e.locked.length-c[0].length).length * c.length).valueOf();

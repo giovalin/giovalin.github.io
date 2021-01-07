@@ -18,10 +18,8 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="msapplication-config" content="./favicons/browserconfig.xml">
     <meta name="theme-color" content="#252B35">
-
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="CeciliaBot">
-    <meta property="og:url" content="/">
     <meta property="og:image" content="/favicons/android-chrome-256x256.png">
     <meta property="og:image:width" content="256">
     <meta property="og:image:height" content="256">
@@ -66,7 +64,7 @@ body {
   color: var(--font-color); /* font color */
 }
 
-html, div, span { /*Firefox scrollbar*/
+html, div, span, form { /*Firefox scrollbar*/
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -152,7 +150,7 @@ span.psw {
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  padding-top: 60px;
+  box-sizing: border-box;
 }
 .modal-open {
     overflow: hidden;
@@ -160,12 +158,101 @@ span.psw {
 }
 /* Modal Content/Box */
 .modal-content {
-  background-color: #fefefe;
-  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-  border: 1px solid #888;
+  margin: 2% auto auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 4px solid #776048;
+  border-radius: 12px;
   width: 80%; /* Could be more or less, depending on screen size */
+  max-height: 90%;
+  padding: 10px;
+  background-color:var(--search-primary-color); 
+  color:var(--font-color);
 }
-
+.modal-big {
+  height: 90%;
+}
+.modal-small {
+  max-width: 760px;
+  overflow: scroll;
+}
+.modal-title {
+  width: 100%;
+  font-size: 35px;
+  text-align: initial;
+}
+.modal-text {
+  width: 100%;
+  font-size: 18px;
+  text-align: initial;
+}
+.modal-three-parts {
+  display: flex; 
+  flex-direction: column;
+}
+.modal-three-parts > div {
+  padding: 16px;
+}
+.modal-three-parts > div:first-of-type {
+  flex: 0 0 5%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-bottom: solid thin #776048;
+  position:relative
+}
+.modal-three-parts > div:not(:first-of-type) {
+  overflow: scroll;
+  flex: 1; 
+  text-align: center;
+}
+.modal-three-parts > div:last-of-type {
+  flex: 0 0 5%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-top: solid thin #776048;
+  min-height: fit-content;
+  overflow: hidden;
+}
+.modal-button {
+  cursor: pointer;
+  height: 48px; 
+  min-width: 130px; 
+  background-color: var(--bg-color-secondary); 
+  border: 1px solid rgb(119, 96, 72); 
+  border-radius: 10px; 
+  color: var(--font-color); 
+  font-size: 20px; 
+  padding: 5px 20px;
+  outline: none;
+}
+.modal-button:not(:last-of-type) {
+  margin-right: 30px;
+}
+.modal-button:hover {
+  opacity: 0.6;
+}
+/* E7 style buttons */
+.green-btn {
+  border: none;
+  background-color: #3ea406;
+  box-shadow: inset 0 40px 10px rgba(0, 0, 0, 0.37), inset 0 -12px 10px #07F95A78, inset 0 -3px 0px rgb(133, 255, 164), inset -10px 20px 30px rgba(0, 0, 0, 0.3), inset 10px 30px 20px rgba(2, 77, 27, 0.3);
+  color: white;
+  text-shadow: 0 0px 3px black;
+}
+.red-btn {
+  border: none;
+  background-color: #a40606;
+  box-shadow: inset 0 40px 10px rgba(0, 0, 0, 0.37), inset 0 -12px 10px #F9070778, inset 0 -3px 0px rgb(255, 133, 133), inset -10px 20px 30px rgba(0, 0, 0, 0.3), inset 10px 30px 20px rgba(77, 2, 2, 0.3);
+  color: white;
+  text-shadow: 0 0px 3px black;
+}
+.brown-btn {
+  border: none;
+  background-color: #a44906;
+  box-shadow: inset 0 40px 10px rgba(0, 0, 0, 0.37), inset 0 -12px 10px #F98F0778, inset 0 -3px 0px rgb(255, 173, 133), inset -10px 20px 30px rgba(0, 0, 0, 0.3), inset 10px 30px 20px rgba(77, 27, 2, 0.3);
+  color: white;
+  text-shadow: 0 0px 3px black;
+}
 /* The Close Button (x) */
 .close {
   position: absolute;
@@ -233,7 +320,7 @@ span.heroImgList {
     -ms-user-select: none;
     user-select: none;
 }
-@media (hover: hover) {
+@media (hover: hover) { /* most likely pc */
   .heroImgList:hover {
     background-color: var(--search-primary-color);
     cursor: pointer;
@@ -244,6 +331,9 @@ span.heroImgList {
   .heroImgList:active {
     transform: scale(2);
   }*/
+  .modal {
+    backdrop-filter: blur(8px);
+  }
 }
 .heroNameLabel {
   font-weight: normal;
@@ -982,6 +1072,34 @@ icon-bar span img {
   background-color: var(--search-border-color);
   color: #ffffff;
 }
+.wrapper-hero-info {
+  height: 100%;
+  width: 100%;
+}
+.rarity-5 {
+  background-image: url(https://assets.epicsevendb.com/star/cm_icon_star.png),url(https://assets.epicsevendb.com/star/cm_icon_star.png),url(https://assets.epicsevendb.com/star/cm_icon_star.png),url(https://assets.epicsevendb.com/star/cm_icon_star.png),url(https://assets.epicsevendb.com/star/cm_icon_star.png);
+  background-size: 1rem 1rem;
+  background-position: 3rem,2.4rem,1.8rem,1.2rem,0.6rem;
+  background-position-y: 99%;
+  background-repeat: no-repeat;
+}
+.rarity-4 {
+  background-image: url(https://assets.epicsevendb.com/star/cm_icon_star.png),url(https://assets.epicsevendb.com/star/cm_icon_star.png),url(https://assets.epicsevendb.com/star/cm_icon_star.png),url(https://assets.epicsevendb.com/star/cm_icon_star.png);
+  background-size: 1rem 1rem;
+  background-position: 2.8rem,2.2rem,1.6rem,1rem;
+  background-position-y: 99%;
+  background-repeat: no-repeat;
+}
+.rarity-3 {
+  background-image: url(https://assets.epicsevendb.com/star/cm_icon_star.png),url(https://assets.epicsevendb.com/star/cm_icon_star.png),url(https://assets.epicsevendb.com/star/cm_icon_star.png);
+  background-size: 1rem 1rem;
+  background-position: 2.5rem,1.9rem,1.3rem;
+  background-position-y: 99%;
+  background-repeat: no-repeat;
+}
+.selectedHero {
+  box-shadow: 0 0 10px 10px var(--icon-bar-active);
+}
 </style>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script defer src="https://www.googletagmanager.com/gtag/js?id=UA-161715700-1"></script>
@@ -1358,6 +1476,17 @@ icon-bar span img {
             </div>
             <div id="whats_new_content" style="display: none;">
               <ul>
+                <li style="color:#007FFF">
+                  <b>07/01/2021</b>: Multi-lock (Cartesian Lock) update and other ui changes<br>
+                  Better character selector for cartesian lock: you can filter and search herooes in the modal window<br>
+                  Removed "(Beta)" tag from Multi-lock because it's working as intended, now you can lock the same hero in multiple slots allowing you to create custom rules with your roster
+                  How to use Multi-lock? You have 4 slots and you can put any hero and as many heroes as you desire and this tool will take a hero from each slot and combine it with heroes from other slots. For examle you can put all your single target DPSs in "Slot 1" and your AOE DPSs in "Slot 2" the result will be a combination of Single Target DPS + AOE DPS + 2 other random heroes from your roster. The potential of this tool is infinite!
+                  Where can I find Multi-lock? At the bottom of the "Advanced settings" tab. Click the book icon to go there!
+                  Have fun and hopefully SG will release new labyrinth content :)
+                </li>
+                <li>
+                  <b>02/01/2021</b>: Boot speed improvements<br>
+                </li>
                 <li style="color:#007FFF">
                   <b>12/09/2020</b>: Contextual menu<br>
                   Right click (long tap on mobile) on a character to open a quick menu where you can read that hero's skills and quickly jump to Epic Seven DB to read more or open the model viewer on e7herder.com.<br>
@@ -1899,10 +2028,10 @@ icon-bar span img {
       </div>
       <br><br>
       <div id="advanced_cartesian" class="box_advanced_settings" style="height:auto;width:100%;display:inline-block;padding-bottom: 25px;padding-top: 5px;">
-        <center>{{strings.multilock}}<i style="color:red">(Beta)</i> <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px" v-on:click="helpWindow('advanced_window', 'multi-lock')"></i></center>
+        <center>{{strings.multilock}}<i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px" v-on:click="helpWindow('advanced_window', 'multi-lock')"></i></center>
         <div v-for="(key,index) in cartesian_lock" style="display:inline-block;margin:20px;width:22%;min-width:230px">
           {{strings.multilock_slot}} {{index+1}}
-          <button type="button" v-on:click="showAddCartesian_lock(index)" class="button_login">{{strings.add_to_slot}}</button>
+          <button type="button" v-on:click="openCartesianLock(index)" class="button_login">{{strings.add_to_slot}}</button>
           <div style="height:300px;max-height:300px;background-color:var(--bg-color);display:block;color:var(--font-color);overflow-x:scroll;overflow-x: hidden;padding-left:10px;padding-top:10px;padding-right:10px;">
             <span v-for="(key,i) in cartesian_lock[index]" style="display:inline-block;position:relative;width:100%">{{thisHeroTranslatedName(thisHeroData(key)._id)}}<span class="removecartesian" style="position:relative;float:right;font-size:16px;" v-on:click="removeCartesian_lock(index, i)">X</span></span>
           </div>
@@ -1921,7 +2050,7 @@ icon-bar span img {
         </thead>
         <tbody>
           <tr v-for="(item, index) in risultati.slice((currentResultsPage-1)*50,(currentResultsPage-1)*50+50)">
-            <td width="4%" style="padding-top: 30px;padding-bottom: 30px;text-align: center;" v-on:click="mostraSalvaRisultato(index+(currentResultsPage-1)*50)"><i class="fa fa-save" aria-hidden="true" style="font-size:30px;"></i>
+            <td width="4%" style="padding-top: 30px;padding-bottom: 30px;text-align: center; cursor: pointer;" v-on:click="mostraSalvaRisultato(index+(currentResultsPage-1)*50)"><i class="fa fa-save" aria-hidden="true" style="font-size:30px;"></i>
               <br>{{index+1+(currentResultsPage-1)*50}}</td>
             <td class="hero_potrait">
               <img v-bind:src="getHeroAssets(thisHeroData(item.team[0])._id).icon" onerror="this.src=app.getHeroAssets(app.thisHeroData(this.alt)._id, 'onerror').icon; this.onerror=null;" style="width:55px;height:55px;" v-bind:alt="item.team[0]" v-bind:titolo="item.team[0]" @contextmenu="rightClickHero( item.team[0], $event)" />
@@ -2180,7 +2309,9 @@ icon-bar span img {
         </div>
       </div>
     </div>
-
+    <template  v-if="isSelectingCartesian">
+      <hero_selector v-bind:selectable="cartesianSlotRoster()" v-bind:selected="cartesian_lock[isSelectingCartesian]" @right-click="rightClickHero" v-bind:slot="isSelectingCartesian" @close-modal="addToCartesianLock"></hero_selector>
+    </template>
 
     <div id="toolbar" class="icon-bar"> <!-- nascondi toolbar durante il calcolo -->
       <!--<span id="icon-bar_user_window" onclick="/*setWindow('user_window')*/" style="background-image: url(./favicons/android-chrome-192x192.png); background-size: cover; background-repeat: no-repeat;"></span>-->
@@ -2290,43 +2421,102 @@ icon-bar span img {
     </ul>
   </script>
 
+  <script type="text/x-template" id="hero_selector">
+    <div class="modal" style="display: block;" @click="ranodomClick($event)">
+      <form class="modal-content modal-big modal-three-parts animate" style="position: relative; z-index: 61; ">
+        <span id="emptyDiv" v-if="filtering==true" @click="filtering=false;" style="z-index: 60; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"></span>
+        <div>
+          <span class="modal-title">{{modalTitle}}</span>
+          <button @click="filtering=true; removeSearchBar()" class="modal-button"><i class="fa fa-sliders" aria-hidden="true"></i>
+            {{strings.filter}}
+          </button>
+          <div v-show="filtering" style="z-index: 62; position: absolute; min-height: 200px; min-width: 300px; background-color: black; top: 90%; border-radius: 10px; border: 1px solid rgb(119, 96, 72); right: 0px; display: flex; text-align: center;">
+            <div v-for="(i,key) in filters" style="flex: 1">
+              <div v-for="j in i" v-bind:style="isActiveFilter(key,j)" style="padding: 10px; margin: 5px; font-size: 25px; box-sizing: border-box; height: 54px" @click="changeFilter( key, j)">
+                <button v-if="j=='all'" style="background-color: white; color: black; padding: 5px 20px; border-radius: 10px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;outline: none;border: none;font-size: 20px;">
+                  {{strings.all}}
+                </button>
+                <img v-else-if="key=='attribute'" v-bind:src="assetsAttribute(j)" />
+                <img v-else-if="key=='role'" v-bind:src="assetsRole(j)" style="height: 34px;" />
+                <span v-else-if="key=='rarity'" v-bind:class="'wrapper-hero-info rarity-' + j" style="display:block; height: 20px;"></span>
+              </div>
+            </div>
+          </div>
+          <button class="modal-button fa fa-search" @click="inputField=true; Vue.nextTick(() => {$refs.editInputField.focus()}); filtering=false">
+            Search
+          </button>
+          <div v-if="inputField" style="display: flex;position: absolute;/*top: 90%;*/z-index: 2;height: 50px;">
+            <button @click="removeSearchBar()" style="flex: 0 1 10px;margin: 0; border-radius: 6px 0 0 6px;font-size: 17px;margin: 0;height: 100%;float: left;background-color: saddlebrown;" class="search_input">
+              X
+            </button>
+            <input ref="editInputField" v-bind:placeholder="strings.cerca_eroe" @keyup="event=>inputCharacter=event.target.value" v-model="inputCharacter" style="flex: 1;width: 100%;border-radius: 0;border: thin;border-style: solid none solid;box-sizing: border-box;height: 100%;" class="search_hero_filter searchBox">
+            <button class="fa fa-search search_input" style="flex: 0 1;height: 100%;margin: 0;">
+            </button>
+          </div>
+        </div>
+        <div>
+          <span v-for="id in heroes" @click="select(hero(id)._id)" @contextmenu="emitRightClick(hero(id)._id,$event)" class="heroImgList" v-bind:style="'z-index: 1; position: relative; display: inline-block; height: 75px; width: 75px; padding: 10px;background-image: url(' + heroIcon(id) + '); background-size: 75px; background-position: center; background-repeat: no-repeat; background-color: transparent !important'">
+            <div v-bind:class="{selectedHero: isSelected(hero(id)._id)}" style="z-index: -1; position: absolute; height: 75px; width: 75px; border-radius: 50px;">
+              <!--<img v-bind:src="hero(id).assets.icon" style="height:100%;">-->
+            </div>
+            <div v-bind:class="'wrapper-hero-info rarity-' + hero(id).rarity"></div> <!-- Hero rarity stars-->
+            <img v-bind:src="assetsRole(hero(id).role)" style="position: absolute; left: 7%; top: 7%; height: 1.7rem;" />
+            <img v-bind:src="assetsAttribute(hero(id).attribute)" style="position: absolute; right: 7%; top: 7%; height: 1.7rem;" />
+          </span>
+          <div v-if="heroes.length==0" style="display: flex; height: 100%;align-items: center;justify-content: center;">
+            <div style="background-color:var(--bg-color); color:var(--font-color); border-radius: 30px; box-shadow:5px 5px 14px 1px var(--search-border-color);align-items: center;padding: 10px 50px;">
+              <template v-if="Object.keys(selectable).length==0">No heroes in your roster!</template>
+              <template v-else>Sorry, your search returned no results...</template>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span class="modal-text">Selected: {{numberSelected}}</span>
+          <button @click="closeModal()" class="modal-button">
+            {{strings.confirm}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </script>
+
 <script defer>
     var userSettings = JSON.parse(localStorage.getItem('Settings') ? localStorage.getItem('Settings') : "{}");
     
     function defaultThemeColor() {
-	try {
-	      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-		 return 'dark';
-	     } else return 'light';
-	} catch (err) {
-	    return 'light';
-	};
+      try {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+            } else return 'light';
+      } catch (err) {
+          return 'light';
+      };
     };
     function toggleCheck() {
-        if (document.getElementById("darkModeCheck").checked === true) {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark'); // salva preferenza per future visite
-        }
-        else {
-            document.documentElement.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', 'light'); // salva preferenza per future visite
-        };    
+      if (document.getElementById("darkModeCheck").checked === true) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          localStorage.setItem('theme', 'dark'); // salva preferenza per future visite
+      }
+      else {
+          document.documentElement.setAttribute('data-theme', 'light');
+          localStorage.setItem('theme', 'light'); // salva preferenza per future visite
+      };    
     };
     const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
 
     if (currentTheme) {
-        document.documentElement.setAttribute('data-theme', currentTheme);
+      document.documentElement.setAttribute('data-theme', currentTheme);
 
-        if (currentTheme === 'dark') {
-            var checkBoxes = $("input[name=darkModeCheck]");
-            checkBoxes.attr('checked', true);
-        };
+      if (currentTheme === 'dark') {
+          var checkBoxes = $("input[name=darkModeCheck]");
+          checkBoxes.attr('checked', true);
+      };
     } else {
-	if (defaultThemeColor() == 'dark') { // check OS settings and set dark theme if necessary
-	    document.documentElement.setAttribute('data-theme', 'dark');
-            var checkBoxes = $("input[name=darkModeCheck]");
-            checkBoxes.attr('checked', true);
-	};
+      if (defaultThemeColor() == 'dark') { // check OS settings and set dark theme if necessary
+          document.documentElement.setAttribute('data-theme', 'dark');
+                var checkBoxes = $("input[name=darkModeCheck]");
+                checkBoxes.attr('checked', true);
+      };
     };
     
     function setWindow(current) {
@@ -2537,61 +2727,6 @@ icon-bar span img {
     app.writeSettings();
   };
 
-  /*
-  //////////////// M O B I L E  S W I P E ////////////////// Maybe use JQuery
-  var touchStart = null;
-  var htoolbarTabs = ['add_window', 'manage_window', 'advanced_window', 'calculate_window', 'extras_window'];
-  var vtoolbarTabs = ['add_window', 'manage_window', 'advanced_window', 'calculate_window', 'my_teams_window', 'raid_map', 'saved_teams_stats', 'settings_window'];
-  var currentTab = "welcome";
-  window.addEventListener("touchstart",function(event){
-   if(event.touches.length === 1){
-      //just one finger touched
-      touchStart = event.touches.item(0).clientX;
-    }else{
-      //a second finger hit the screen, abort the touch
-      touchStart = null;
-    };
-  });
-  window.addEventListener("touchend",function(event){
-    var offset = 120;//at least 120px are a swipe
-    if(touchStart && app && !app.isLoadingResults){ // Can't swipe if loading results
-      var end = event.changedTouches.item(0).clientX;
-      var pageTabs = document.getElementById("toolbar_position").checked ? vtoolbarTabs : htoolbarTabs;
-      var currIndex = pageTabs.indexOf(currentTab);
-      if(end > touchStart + offset){//left -> right swipe
-        currIndex = currIndex-1 < 0 ? pageTabs.length-1 : currIndex-1;
-        setWindow(pageTabs[currIndex]);
-      } else if (end < touchStart - offset ){//left -> right swipe
-        currIndex = currIndex+1 > pageTabs.length-1 ? 0 : currIndex+1;
-        setWindow(pageTabs[currIndex]);
-      };
-      pageTabs[currIndex] === "calculate_window" ? app.calcolaRisultati : null;
-      //snackbarMessage(currIndex);
-    };
-  });
-  document.addEventListener('keydown', swipeTab);
-  function swipeTab(e){
-    if(app && !app.isLoadingResults){ // Can't swipe if loading results
-      var pageTabs = document.getElementById("toolbar_position").checked ? vtoolbarTabs : htoolbarTabs;
-      var currIndex = pageTabs.indexOf(currentTab);
-      switch (e.code) {
-        case 'ArrowRight':
-        case 'ArrowDown':
-          currIndex = currIndex+1 > pageTabs.length-1 ? 0 : currIndex+1;
-          setWindow(pageTabs[currIndex]);
-          break;
-        case 'ArrowLeft':
-        case 'ArrowUp':
-          currIndex = currIndex-1 < 0 ? pageTabs.length-1 : currIndex-1;
-          setWindow(pageTabs[currIndex]);
-          break;
-        default:
-          return;
-      };
-      pageTabs[currIndex] === "calculate_window" ? app.calcolaRisultati : null;
-    };
-  };
-  */
   function openImage (link){
     $( "body" ).append(`
       <div id="imageViewer" style="z-index: 60; position: relative;">
@@ -2767,7 +2902,7 @@ icon-bar span img {
   const pagination = {
     name: 'pagination',
     template: '#pagination',
-      props: {
+    props: {
       maxVisibleButtons: {
         type: Number,
         required: false,
@@ -2843,11 +2978,197 @@ icon-bar span img {
       },
     }
   };
+  
+  const hero_selector = {
+    name: 'hero_selector',
+    template: '#hero_selector',
+    props: {
+      selectable: {
+        type: Array,
+        required: true,
+        default: []
+      },
+      selected: {
+        type: Array,
+        required: false,
+        default: []
+      },
+      title: {
+        type: String,
+        required: false,
+        default: undefined
+      },
+      slot: {
+        type: Number,
+        required: false,
+        default: 0
+      },
+      forceSelection: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      maxSelectable: {
+        type: Number,
+        required: false,
+        default: -1
+      }
+    },
+    data: function () {
+      return {
+        inputField: false,
+        inputCharacter: "",
+        filtering: false,
+        filters: {attribute: ["all","fire","ice","wind","light","dark"], role: ["all", "warrior", "knight", "assassin", "ranger", "mage", "manauser"], rarity: ["all", 5, 4, 3]},
+        filter: {},
+        heroes: Object.keys(this.selectable)
+      }
+    },
+    computed: {
+      modalTitle: function () {
+        if (!this.title) return this.strings.multilock_slot + " " + (parseInt(this.slot) + 1);
+        return title;
+      },
+      strings: function () {
+        try {
+          return JSON.parse(JSON.stringify(this.$root.strings)); /* to avoid direct reference and possible memory leak */
+        } catch (err) { /* for safety */
+          console.log(err);
+          return {};
+        };
+      },
+      translatedNames: function () {
+        try {
+          return JSON.parse(JSON.stringify(this.$root.translatedName)); /* to avoid direct reference and possible memory leak */
+        } catch (err) { /* for safety */
+          console.log(err);
+          return {};
+        };
+      },
+      numberSelected: function () {
+        return this.selected.length;
+      }
+    },
+    methods: {
+      hero: function (id) {
+        return this.selectable[id];
+      },
+      heroIcon: function (id) {
+        if (this.hero(id) && this.hero(id).assets) return this.hero(id).assets.icon;
+        return 'https://assets.epicsevendb.com/_source/face/'+this.hero(id).id+'_s.png';
+      },
+      isSelected: function (hero) {
+        return this.selected.includes(hero);
+      },
+      assetsRole: function(role) {
+        switch (role) {
+          case "manauser": 
+            return "https://assets.epicsevendb.com/class/cm_icon_role_soul-weaver.png"
+            break;
+          case "assassin": 
+            return "https://assets.epicsevendb.com/class/cm_icon_role_thief.png"
+            break;
+          case "warrior": 
+            return "https://assets.epicsevendb.com/class/cm_icon_role_warrior.png"
+            break;
+          case "mage": 
+            return "https://assets.epicsevendb.com/class/cm_icon_role_mage.png"
+            break;
+          case "ranger": 
+            return "https://assets.epicsevendb.com/class/cm_icon_role_ranger.png"
+            break;
+          default:
+            return "https://assets.epicsevendb.com/class/cm_icon_role_knight.png"
+        }
+      },
+      assetsAttribute: function(attr) {
+        switch (attr) {
+          case "fire": 
+            return "https://assets.epicsevendb.com/attribute/cm_icon_profire.png"
+            break;
+          case "ice": 
+            return "https://assets.epicsevendb.com/attribute/cm_icon_proice.png"
+            break;
+          case "wind": 
+            return "https://assets.epicsevendb.com/attribute/cm_icon_proearth.png"
+            break;
+          case "light": 
+            return "https://assets.epicsevendb.com/attribute/cm_icon_prolight.png"
+            break;
+          case "dark": 
+            return "https://assets.epicsevendb.com/attribute/cm_icon_promdark.png"
+            break;
+          default:
+            return "https://assets.epicsevendb.com/attribute/cm_icon_profire.png"
+        }
+      },
+      select: function(e) {
+        if (this.selected.includes(e)) {
+          this.selected.splice(this.selected.indexOf(e), 1)
+        } else {
+          this.selected.push(e);
+        }
+      },
+      localizedName: function (id) {
+        if (this.translatedNames[id]) return this.translatedNames[id];
+        else return "";
+      },
+      isActiveFilter: function (type, filter) {
+        let slectedStyle = {"backgroundColor": "var(--icon-bar-active)", borderRadius: "10px"};
+        if (this.filter[type]) {
+          if (this.filter[type] == filter) return slectedStyle;
+        };
+        if (!this.filter[type] && filter == "all") return slectedStyle;
+        return {"backgroundColor": "transparent"}; // no background-color
+      },
+      heroesFilter: function() {
+        var tmp = JSON.parse(JSON.stringify(this.selectable)); // make a copy
+        let text = this.inputCharacter.toLowerCase();
+        for (var hero in tmp){
+          if (text && tmp[hero].name.toLowerCase().indexOf(text) == -1 && this.localizedName(hero).toLowerCase().indexOf(text) == -1) {delete tmp[hero];continue};
+          for (var i in this.filter) {
+            if (!tmp[hero]) break;
+            if (isNaN(this.filter[i]) && this.filter[i].toLowerCase() == "all") continue;
+            if (tmp[hero][i] != this.filter[i]) delete tmp[hero];
+          };
+        };
+        this.heroes = Object.keys(tmp);
+      },
+      changeFilter: function(type,value) {
+        this.filter[type] = value;
+        this.heroesFilter();
+      },
+      removeSearchBar: function () {
+        this.inputCharacter = "";
+        this.inputField = false;
+      },
+      ranodomClick: function (e) {
+        e.preventDefault();
+        if (e.target.className=="modal") return this.closeModal();
+        //else console.log(e);
+      },
+      emitRightClick(e,event) {
+        this.$emit('right-click', e,event);
+      },
+      closeModal() {
+        if (this.forceSelection && this.selected.length==0) return; // must select something
+        this.$emit('close-modal', this.selected);
+        this.$destroy(true); // manually destroy this component's event listeners to avoid memory leaks
+      }
+    },
+    watch: {
+      inputCharacter: function () {
+        this.filter = {}; //remove filters when searching by name
+        this.heroesFilter();
+      },
+    }
+  };
 
     var app = new Vue({
         el: '#app',
         components: {
           pagination: pagination,
+          hero_selector: hero_selector
         },
         data: function () {
             return {
@@ -2904,6 +3225,7 @@ icon-bar span img {
               noDebuffs:  false,
               mustIncludeDispel: false,
               cartesian_lock: [[],[],[],[]],
+              isSelectingCartesian: false,
               risultati: [],
               currentResultsPage: 1,
               topSavedCamps: [],
@@ -3092,7 +3414,7 @@ icon-bar span img {
 
               /*console.log({windowWidth: windowWidth, windowHeight: windowHeight, clickCoordsX: clickCoordsX, clickCoordsY: clickCoordsY, transformX: transformX+"%", transformY: transformY+"%"})*/
               $( "#app" ).append(`
-              <div id="debugHeroInfo" class="dropdown-content" style="display: inline-block; max-height: 480px; top: `+ clickCoordsY +`px; left: `+clickCoordsX+`px; width: ` + menuWidth + `px; transform: translate(-`+transformX+`%, -`+transformY+`%); border-top: thick solid var(--icon-bar-active); box-sizing: border-box;">
+              <div id="debugHeroInfo" class="dropdown-content" style="z-index: 70; display: inline-block; max-height: 480px; top: `+ clickCoordsY +`px; left: `+clickCoordsX+`px; width: ` + menuWidth + `px; transform: translate(-`+transformX+`%, -`+transformY+`%); border-top: thick solid var(--icon-bar-active); box-sizing: border-box;">
                 <span style="width: 100%; font-size: 24px; text-align: center;"><b>` + this.thisHeroTranslatedName(hero._id) + `</b><b class="close" style="float: right; cursor: pointer; font-size: 30px; margin-right: -10px;" onclick="$('#debugHeroInfo').remove()">x</b></span>
                 <a href="` + e7dbLink + `" target="_blank">` + this.strings.view_on_e7db + `</a>
                 <a href="https://e7herder.com/tools/model-viewer#type=5,id=` + hero.id + `" target="_blank">` + this.strings.view_hero_model + `</a>
@@ -3153,27 +3475,31 @@ icon-bar span img {
           menuLingua: function () {
             $( "#settings_window" ).append(`
               <div id="menu_lingua">
-                <div class="modal" style="padding-top: 60px;display:block;">
-                  <form class="modal-content animate" id="menu_lingua" style="background-color: var(--search-primary-color);color: var(--font-color);max-width:1080px">
-                    <div class="imgcontainer">
-                    <center>` + this.strings.language + `</center><br>
-                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/1200px-Flag_of_the_United_Kingdom.svg.png" width="105" height="70" onclick="app.cambiaLingua('en')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/1200px-Flag_of_South_Korea.svg.png" width="105" height="70"  onclick="app.cambiaLingua('kr')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People%27s_Republic_of_China.svg/1200px-Flag_of_the_People%27s_Republic_of_China.svg.png" width="105" height="70"  onclick="app.cambiaLingua('cn')">
-                    <br><br>
-                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9e/Flag_of_Japan.svg/1200px-Flag_of_Japan.svg.png" width="105" height="70"  onclick="app.cambiaLingua('jp')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/03/Flag_of_Italy.svg/1200px-Flag_of_Italy.svg.png" width="105" height="70"  onclick="app.cambiaLingua('it')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/1200px-Flag_of_France.svg.png" width="105" height="70"  onclick="app.cambiaLingua('fr')">
-                    <br><br>
-                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9a/Flag_of_Spain.svg/1200px-Flag_of_Spain.svg.png" width="105" height="70"  onclick="app.cambiaLingua('es')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/1280px-Flag_of_Portugal.svg.png" width="105" height="70"  onclick="app.cambiaLingua('pt')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/1200px-Flag_of_Germany.svg.png" width="105" height="70"  onclick="app.cambiaLingua('de')">
-                    <br><br>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Flag_of_the_Republic_of_China.svg/1000px-Flag_of_the_Republic_of_China.svg.png" width="105" height="70"  onclick="app.cambiaLingua('zht')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Flag_of_Thailand.svg" width="105" height="70"  onclick="app.cambiaLingua('th')">
+                <div class="modal" style="display:block;">
+                  <form class="modal-content  modal-small modal-three-parts animate" id="menu_lingua">
+                    <div>
+                      <div class="modal-title">
+                        ` + this.strings.language + `
+                      </div>
                     </div>
-                    <div class="container">
-                      <button type="button" onclick="$('#menu_lingua').remove(); $('body').removeClass('modal-open')" class="button_cancelbtn">` + this.strings.back_btn + `</button>
+                    <div>
+                      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/1200px-Flag_of_the_United_Kingdom.svg.png" width="105" height="70" onclick="app.cambiaLingua('en')">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/1200px-Flag_of_South_Korea.svg.png" width="105" height="70"  onclick="app.cambiaLingua('kr')">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People%27s_Republic_of_China.svg/1200px-Flag_of_the_People%27s_Republic_of_China.svg.png" width="105" height="70"  onclick="app.cambiaLingua('cn')">
+                      <br><br>
+                      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9e/Flag_of_Japan.svg/1200px-Flag_of_Japan.svg.png" width="105" height="70"  onclick="app.cambiaLingua('jp')">
+                      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/03/Flag_of_Italy.svg/1200px-Flag_of_Italy.svg.png" width="105" height="70"  onclick="app.cambiaLingua('it')">
+                      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/1200px-Flag_of_France.svg.png" width="105" height="70"  onclick="app.cambiaLingua('fr')">
+                      <br><br>
+                      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9a/Flag_of_Spain.svg/1200px-Flag_of_Spain.svg.png" width="105" height="70"  onclick="app.cambiaLingua('es')">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/1280px-Flag_of_Portugal.svg.png" width="105" height="70"  onclick="app.cambiaLingua('pt')">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/1200px-Flag_of_Germany.svg.png" width="105" height="70"  onclick="app.cambiaLingua('de')">
+                      <br><br>
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Flag_of_the_Republic_of_China.svg/1000px-Flag_of_the_Republic_of_China.svg.png" width="105" height="70"  onclick="app.cambiaLingua('zht')">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Flag_of_Thailand.svg" width="105" height="70"  onclick="app.cambiaLingua('th')">
+                    </div>
+                    <div>
+                      <button type="button" onclick="$('#menu_lingua').remove(); $('body').removeClass('modal-open')" class="modal-button">` + this.strings.back_btn + `</button>
                     </div>
                   </form>
                 </div>
@@ -3194,82 +3520,31 @@ icon-bar span img {
             $('#menu_lingua').remove();
             $('body').removeClass('modal-open');
           },
-          showAddCartesian_lock: function (n) {
-            var eroiSelezionabili = "";
-            self = this;
-            var tmpArray = Object.keys(this.myHeroesList);
-            var sortBy = document.getElementById("myHeroes_sort_by").value;
-            if (sortBy != "date")
-              sortBy!="name"
-              ? tmpArray.sort(function (a,b) {return ((self.HeroDB[a][sortBy] < self.HeroDB[b][sortBy]) ? -1 : ((self.HeroDB[a][sortBy] == self.HeroDB[b][sortBy]) ? 0: 1))})
-              : tmpArray.sort(function (a,b) {return ((self.thisHeroTranslatedName(a) < self.thisHeroTranslatedName(b)) ? -1 : ((self.thisHeroTranslatedName(a) == self.thisHeroTranslatedName(b)) ? 0: 1))});
-            for (var i = 0; i < tmpArray.length; i++ ) {
-              if (!this.cartesian_lock[0].includes(tmpArray[i]) &&  !this.cartesian_lock[1].includes(tmpArray[i]) &&
-                  !this.cartesian_lock[2].includes(tmpArray[i]) &&  !this.cartesian_lock[3].includes(tmpArray[i]) 
-              ) { // don't show already cartesian locked heroes
-                eroiSelezionabili += `
-                <input type="checkbox" id="checkbox_cartesian_lock_` + i + `" name="character" value="` + tmpArray[i] + `" style="display:none"><label for="checkbox_cartesian_lock_` + i + `" class="label"> <img src="`+this.getHeroAssets(this.HeroDB[tmpArray[i]]._id).icon+`" onerror="this.src=app.getHeroAssets('`+this.HeroDB[tmpArray[i]]._id+`', 'onerror').icon; this.onerror=null;" style="height:60px;width:60px;" /></label>`
-              };
-            };
-            $( "#advanced_window" ).append(`
-              <div id="Cartesian_lock">
-                <div class="modal" style="display: block;height:100%; width: 100%; overflow: hidden;">
-                  <form class="modal-content animate" id="Cartesian_lock" style="background-color: var(--search-primary-color);color: var(--font-color);max-width:100%;height: 70%;">
-                    <div style="height: 80%; overflow-y: scroll;">`
-                      +
-                      eroiSelezionabili
-                      +
-                    `</div>
-                    <div class="container">
-                      <div style="display: inline-block;float: right;"> 
-                        <div class="dropdown">
-                          <button type="button" onmouseover="document.getElementById('m_select_classes').style.removeProperty('display')" class="search_hero_filter" style="width: auto; font-size: 16px;height: 44px;margin-top: 8px;width: 138px;">`+this.strings.seleziona+`</button>
-                          <div id="m_select_classes" class="dropdown-content" style="top: -252px">
-                            <div type="button" onclick="app.selectAllClassesCartesian('knight'); this.parentElement.style.display='none'">`+this.strings.knight+`</div>
-                            <div type="button" onclick="app.selectAllClassesCartesian('warrior'); this.parentElement.style.display='none'">`+this.strings.warrior+`</div>
-                            <div type="button" onclick="app.selectAllClassesCartesian('assassin'); this.parentElement.style.display='none'">`+this.strings.thief+`</div>
-                            <div type="button" onclick="app.selectAllClassesCartesian('ranger'); this.parentElement.style.display='none'">`+this.strings.ranger+`</div>
-                            <div type="button" onclick="app.selectAllClassesCartesian('mage'); this.parentElement.style.display='none'">`+this.strings.mage+`</div>
-                            <div type="button" onclick="app.selectAllClassesCartesian('manauser'); this.parentElement.style.display='none'">`+this.strings["soul-weaver"]+`</div>
-                          </div>
-                        </div>
-                        <button type="button" onclick="var hero = document.getElementById('Cartesian_lock').getElementsByTagName('input'); for (var i = 0; i < hero.length; i++) { hero[i].checked = false; };" class="button_cancelbtn" style="float: right;">`+this.strings.deselect_all+`</button>
-                      </div>
-                      <div style="display: inline-block;">
-                        <button type="button" onclick="app.addCartesian_lock(` + n  +`)" class="button_login">` + this.strings.add_selection + `</button>
-                        <button type="button" onclick="$('#Cartesian_lock').remove(); $('body').removeClass('modal-open')" class="button_cancelbtn">` + this.strings.back_btn + `</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>`
-            );
+          openCartesianLock: function (e) {
+            this.isSelectingCartesian = e.toString();
             $("body").addClass("modal-open");
           },
-          selectAllClassesCartesian: function (classe) {
-            var area = document.getElementById("Cartesian_lock");
-            var hero = area.getElementsByTagName("input");
-            for (var i = 0; i < hero.length; i++) {
-              if (this.HeroDB[hero[i].value].role === classe) hero[i].checked = true;
+          cartesianSlotRoster: function() {
+            let tmp = {}, n = this.isSelectingCartesian;
+            for (var i in this.HeroDB) {
+              //if (this.cartesian_lock.flat().includes(i) && !this.cartesian_lock[n].includes(i)) continue;
+              if (this.myHeroesList[i]) tmp[i] = this.thisHeroData(i);
             };
+            return tmp;
           },
-          addCartesian_lock: function (n) {
-            var area = document.getElementById("Cartesian_lock");
-            var hero = area.getElementsByTagName("input");
-            for(var i = 0; i < hero.length; i++)  
-                {  
-                    if (hero[i].checked) this.cartesian_lock[n].push(hero[i].value);
-                };
-            $('#Cartesian_lock').remove();
-            $("body").removeClass("modal-open")
+          addToCartesianLock: function(e) {
+            let n = this.isSelectingCartesian;
+            this.cartesian_lock[n] = e;
+            this.isSelectingCartesian = false;
+            $("body").removeClass("modal-open");
           },
           removeCartesian_lock: function ( n, y) {
             this.cartesian_lock[n].splice(this.cartesian_lock[n].indexOf(this.cartesian_lock[n][y]), 1)
-          }, 
+          },
           mostraSalvaRisultato: function (n) {
             $( "#calculate_window" ).append(`
-              <div id="saveCamp" class="modal" style="padding-top: 60px;display:block; overflow: scroll;">
-                <form class="modal-content animate" id="saveCamp" style="background-color: var(--search-primary-color);color: var(--font-color);max-width:760px">
+              <div id="saveCamp" class="modal" style="display: block;">
+                <form class="modal-content modal-small animate" id="saveCamp">
                   <div class="imgcontainer">
                     <p>` + this.strings.morale + `: ` + this.risultati[n].morale + `</p>
                     <img src="` + this.getHeroAssets(this.HeroDB[this.risultati[n].team[0]]._id).icon + `" onerror="this.src=app.getHeroAssets('` + this.HeroDB[this.risultati[n].team[0]]._id + `', 'onerror').icon;this.onerror=null;" style="height:55px;width:55px;">
@@ -3304,8 +3579,8 @@ icon-bar span img {
                         <input type="checkbox" id="checkbox_arakahan" name="raid_boss" style="position:relative;top:0px;display:none">
                         <label for="checkbox_arakahan" class="label" style="position:relative;top:0px;"> <img src="https://cdn.glitch.com/97cf5510-4561-4fba-a2bd-849e3aed02ba%2FDevourer-Arakahan-284x300.png?v=1590932064956" style="position:relative;top:0px;height:60px;width:60px;" /><p style="position:relative;text-align:center;">` + this.strings.arakahan + `</p></label>
                       </div>
-                      <button type=submit onclick="return app.salvaRisultato(` + n + `)" class="button_login">` + this.strings.save + `</button>
-                      <button type=button onclick="$('#saveCamp').remove(); $('body').removeClass('modal-open')" class="button_cancelbtn">` + this.strings.canc_btn + `</button>
+                      <button type=submit onclick="return app.salvaRisultato(` + n + `)" class="modal-button">` + this.strings.save + `</button>
+                      <button type=button onclick="$('#saveCamp').remove(); $('body').removeClass('modal-open')" class="modal-button">` + this.strings.canc_btn + `</button>
                     </form>
                   </div>
                 </form>
@@ -3387,8 +3662,8 @@ icon-bar span img {
             this.savedCamps[campName].migliorPG1 = this.savedCamps[campName].migliorPG1.toLowerCase().replace(/ /g,"-").replace(/&/g,"").replace(/'/g,"");
             this.savedCamps[campName].migliorPG2 = this.savedCamps[campName].migliorPG2.toLowerCase().replace(/ /g,"-").replace(/&/g,"").replace(/'/g,"");
             $( "#my_teams_window" ).append(`
-              <div id="savedCamp" class="modal" style="padding-top: 60px;display:block;">
-                <form class="modal-content animate" id="savedCamp" style="background-color: var(--search-primary-color);color: var(--font-color);max-width:760px">
+              <div id="savedCamp" class="modal" style="display:block;">
+                <form class="modal-content modal-small animate" id="savedCamp">
                   <div class="imgcontainer">
                     <span onclick="app.eliminaRisultatoSalvato('` + campName.replace(/'/g,"@_#3#9#;").replace(/"/g,'@_#3#4#;').replace(/`/g,'@_#9#6#;') + `')"><i class="fa fa-trash close" style="color: var(--font-color);"></i></span>
                     <p>` + this.strings.morale + `: ` + this.savedCamps[campName].morale + `</p>
@@ -3402,7 +3677,7 @@ icon-bar span img {
                     `</p>
                   </div>
                   <div class="container">
-                    <button type="button" onclick="$('#savedCamp').remove(); $('body').removeClass('modal-open');" class="button_cancelbtn">` + this.strings.back_btn + `</button>
+                    <button type="button" onclick="$('#savedCamp').remove(); $('body').removeClass('modal-open');" class="modal-button">` + this.strings.back_btn + `</button>
                   </div>
                 </form>
               </div>
@@ -3411,17 +3686,17 @@ icon-bar span img {
           },
           modalGenerateURL: function (campName) {
             $( "#settings_window" ).append(`
-              <div id="url_generator" class="modal" style="padding-top: 60px;display:block;">
-                <div class="modal-content animate" style="background-color: var(--search-primary-color);color: var(--font-color);max-width:760px">
+              <div id="url_generator" class="modal" style="display:block;">
+                <div class="modal-content modal-small animate">
                   <div class="imgcontainer">
-                    <div id="url_container" class="box_advanced_settings" style="display: block; width:90%; padding-left: 5%; padding-right: 5%; position: relative; overflow-x: auto; font-size: 16px; white-space: nowrap;">` + 
+                    <div id="url_container" class="box_advanced_settings" style="display: block; width:100%; max-height: 250px; padding: 20px;  position: relative; overflow-x: auto; font-size: 16px; word-break: break-all;background-color: rgb(0,0,0,0.4);box-sizing: border-box;">` + 
                       generateUrl(this.myHeroesList) + 
                    `</div>
                     <button type="button" onclick="copyText('url_container')" class="button_login">` + this.strings.copia + `</button>
                     <br>` + this.strings.url_usage_help + `<br><br>
                   </div>
                   <div class="container">
-                    <button type="button" onclick="$('#url_generator').remove(); $('body').removeClass('modal-open');" class="button_cancelbtn" style="width:100%">` + this.strings.back_btn + `</button>
+                    <button type="button" onclick="$('#url_generator').remove(); $('body').removeClass('modal-open');" class="modal-button" style="width:100%">` + this.strings.back_btn + `</button>
                   </div>
                 </div>
               </div>
@@ -3528,14 +3803,18 @@ icon-bar span img {
             };
 
             $( "#" + sezione).append(`
-              <div id="help_menu" class="modal" style="padding-top: 60px;display:block;">
-                <form class="modal-content animate" id="savedCamp" style="background-color: var(--search-primary-color);color: var(--font-color);max-width:760px">
-                  <div class="imgcontainer">` + titolo + `
+              <div id="help_menu" class="modal" style="display:block;">
+                <form class="modal-content modal-small modal-three-parts animate" id="savedCamp">
+                  <div>
+                    <span class="modal-title">` + titolo + `
+                    </span>
                   </div>
-                  <div style="padding:15px">` + contenuto + `
+                  <div>
+                    <div class="modal-text">` + contenuto + `
+                    </div>
                   </div>
-                  <div class="container">
-                    <button type="button" onclick="$('#help_menu').remove(); $('body').removeClass('modal-open');" class="button_cancelbtn">` + this.strings.back_btn + `</button>
+                  <div>
+                    <button type="button" onclick="$('#help_menu').remove(); $('body').removeClass('modal-open');" class="modal-button">` + this.strings.back_btn + `</button>
                   </div>
                 </form>
               </div>
@@ -3797,6 +4076,7 @@ icon-bar span img {
                   data_by: "Data by EpicSevenDB",
                   all: "All",
                   sort: "Ordina",
+                  filter: "Filtro",
                   modified: "Modifica",
                   name: "Nome",
                   ingame_id: "ID gioco",
@@ -3897,6 +4177,7 @@ icon-bar span img {
                   vera: "Vera",
                   juleeve: "Juleeve",
                   save: "Salva",
+                  confirm: "Conferma",
                   canc_btn: "Annulla",
                   back_btn: "Indietro",
                   error_no_name_provided: "Nome richiesto!",
@@ -3944,6 +4225,7 @@ icon-bar span img {
                   data_by: "数据来源 EpicSevenDB",
                   all: "全部",
                   sort: "排序",
+                  filter: "Filter",
                   modified: "按添加日期",
                   name: "按英雄名称",
                   ingame_id: "按英雄ID",
@@ -4043,6 +4325,7 @@ icon-bar span img {
                   vera: "侍从官培拉",
                   juleeve: "乔里夫议会",
                   save: "保存",
+                  confirm: "Confirm",
                   canc_btn: "取消",
                   back_btn: "返回",
                   error_no_name_provided: "队伍名称不能为空!",
@@ -4090,6 +4373,7 @@ icon-bar span img {
                   data_by: "數據來源 EpicSevenDB",
                   all: "全部",
                   sort: "排序",
+                  filter: "Filter",
                   modified: "按添加日期",
                   name: "按英雄名稱",
                   ingame_id: "按英雄ID",
@@ -4189,6 +4473,7 @@ icon-bar span img {
                   vera: "侍從官培拉",
                   juleeve: "喬裏夫議會",
                   save: "保存",
+                  confirm: "Confirm",
                   canc_btn: "取消",
                   back_btn: "返回",
                   error_no_name_provided: "隊伍名稱不能為空!",
@@ -4236,6 +4521,7 @@ icon-bar span img {
                   data_by: "Source EpicSevenDB",
                   all: "Tous",
                   sort: "Trier par",
+                  filter: "Filter",
                   modified: "Date",
                   name: "Nom",
                   ingame_id: "ID",
@@ -4325,6 +4611,7 @@ icon-bar span img {
                   vera: "Vera",
                   juleeve: "Juleeve",
                   save: "Sauvgarde",
+                  confirm: "Confirm",
                   canc_btn: "Annuler",
                   back_btn: "Retour",
                   error_no_name_provided: "Le nom ne peut pas être vide!",
@@ -4373,6 +4660,7 @@ icon-bar span img {
                   data_by: "Data by EpicSevenDB",
                   all: "All",
                   sort: "Sort by",
+                  filter: "Filter",
                   modified: "Date",
                   name: "Name",
                   ingame_id: "In-game ID",
@@ -4393,7 +4681,7 @@ icon-bar span img {
                   disabilita_immagini_in_risultati: "Disable character's avatar in results screen (better performance for your browser if you request too many results)",
                   deve_contenere_AoE: "Team must have AoE",
                   no_s1_debuffs: "No S1 Debuffs (Except: Provoke, Sleep, Stun and Poison)",
-                  no_debuffs: "No Debuffs (Except: Provoke, Sleep, Stun and Posion)",
+                  no_debuffs: "No Debuffs (Except: Provoke, Sleep, Stun and Poison)",
                   must_include_dispel: "Team must include dispel (remove enemy's buffs or reduce their duration)",
                   classe: "Class",
                   knight: "Knight",
@@ -4473,6 +4761,7 @@ icon-bar span img {
                   vera: "Vera",
                   juleeve: "Juleeve",
                   save: "Save",
+                  confirm: "Confirm",
                   canc_btn: "Cancel",
                   back_btn: "Back",
                   error_no_name_provided: "Name is required!",
@@ -5596,59 +5885,60 @@ icon-bar span img {
       boot: function () {
         try {
           var urlParams = new URLSearchParams(window.location.search);
-          var getDbEng = new XMLHttpRequest();
-          getDbEng.open( "GET", "./HeroDatabase.json", false ); // false for synchronous request
-          getDbEng.send( null );
-          this.HeroDB = JSON.parse(getDbEng.response);
-          this.sortedHeroDB = Object.keys(this.HeroDB).sort(function (a,b) {return ((a < b) ? -1 : ((a == b) ? 0: 1))});
-          this.sortedHeroDB.splice(this.sortedHeroDB.indexOf("dark-tyrant-tenebria"), 1); // remove s tenebria's skin
-          if (!urlParams.get("camproster")) { // get roster from file
-            this.getUserHeroesBoot();
-          } else {// get roster from url
-            this.getUserHeroesURL(urlParams.get("camproster"));
-            window.history.pushState("", "", window.location.pathname); // remove ?camproster= from the URL to avoid accidental refreshes replacing your current team
-          };
+          $.ajax({
+              url: "./HeroDatabase.json",
+              type: 'GET',
+              contentType: 'application/json',
+              success: (response) => {
+                this.HeroDB = response;
+                this.sortedHeroDB = Object.keys(this.HeroDB).sort(function (a,b) {return ((a < b) ? -1 : ((a == b) ? 0: 1))});
+                this.sortedHeroDB.splice(this.sortedHeroDB.indexOf("dark-tyrant-tenebria"), 1); // remove s tenebria's skin
+                if (!urlParams.get("camproster")) { // get roster from file
+                  this.getUserHeroesBoot();
+                } else {// get roster from url
+                  this.getUserHeroesURL(urlParams.get("camproster"));
+                  window.history.pushState("", "", window.location.pathname); // remove ?camproster= from the URL to avoid accidental refreshes replacing your current team
+                };
+                this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
+                this.inizializzazione = false;
+              },
+              error: (jqXHR, textStatus, errorThrown) => {
+                console.log("Can't download Hero Database!");
+              }
+          });
           this.impostaLingua();
           this.inizializzaione();
-          this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
-          this.inizializzazione = false;
         } catch (err) {
           console.log(err);
           document.getElementById("caricamentoIniziale").innerHTML += "<span style='position: fixed; bottom: 0; right: 0; color: red; padding: 10px'><pre>FATAL ERROR<br>"+err+"<br><span style='color:green'>Please retry or contact me.</span></pre></span>";
         };
       },
       inizializzaione: function () {
+        this.translatedName = {};
         self = this;
-        try {
-          var getDb = new XMLHttpRequest();
-          getDb.open( "GET", "https://api.epicsevendb.com/hero?lang=" + this.lingua, false ); // false for synchronous request
-          getDb.send( null );
-          JSON.parse(getDb.response).results.forEach(function(item) {
-            self.translatedName[item._id] = item.name;
-          });
-        } catch (err) {
-          console.log(err);
-          for (var _id in self.HeroDB) {
-            self.translatedName[_id] = self.HeroDB[_id].name;
-          };
-          snackbarMessage("Cannot connect to EpicSevenDB API. Using english gamedata.");
-        };
-        if (this.lingua === "cn") {
-          this.translatedName["dark-tyrant-tenebria"] = "残月的暴君泰妮布里雅";
-          this.translatedName["landy"] = "兰蒂";
-        }
-        else if (this.lingua === "zht") {
-          this.translatedName["dark-tyrant-tenebria"] = "殘月的暴君泰妮布里雅";
-          this.translatedName["landy"] = "蘭蒂";
-        }
-        else if (this.lingua === "fr") {
-          this.translatedName["dark-tyrant-tenebria"] = "Tenebria tyran de l'astre violine";
-          this.translatedName["landy"] = "Landy";
-        }
-        else {
-          this.translatedName["dark-tyrant-tenebria"] = "Dark Tyrant Tenebria";
-          this.translatedName["landy"] = "Landy";
-        }
+        $.ajax({
+          url: "https://api.epicsevendb.com/hero?lang=" + this.lingua,
+          type: 'GET',
+          contentType: 'application/json',
+          success: (response) => {
+            response.results.forEach(function(item) {
+              self.translatedName[item._id] = item.name;
+            });
+            let missing = {
+              "dark-tyrant-tenebria": {cn: "残月的暴君泰妮布里雅", zht: "殘月的暴君泰妮布里雅", fr: "Tenebria tyran de l'astre violine"},
+              "fairytale-tenebria": {jp: "メルヘン テネブレア", cn: "童话泰妮布里雅", zht: "童話泰妮布里雅", kr: "메르헨 테네브리아", fr: "Tenebria des merveilles", es: "Tenebria fantasia", pt: "Tenébria das Fábulas", de: "Märchenhafte Tenebria"},
+              "mort": {cn: "魔勒", zht: "魔勒", kr: "모르트", fr: "Morté", es: "Mort", pt: "Mort", de: "Mort"}
+            };
+            for (var id in missing) {
+              if (missing[id][this.lingua]) self.translatedName[id] = missing[id][this.lingua];
+            };
+            this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
+          },
+          error: (jqXHR, textStatus, errorThrown) => {
+            this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
+            snackbarMessage("Cannot connect to EpicSevenDB API. Using english gamedata.");
+          }
+        });
       }
     },
     computed: {
@@ -5669,23 +5959,23 @@ icon-bar span img {
             this.noDebuffs;
             this.mustIncludeDispel;
             this.customizedResuts;
-           if (Object.keys(this.myHeroesList).length > 3) {
-            this.isLoadingResults = true; // mostra animazione di caricamento
+            if (Object.keys(this.myHeroesList).length > 3) {
+              this.isLoadingResults = true; // mostra animazione di caricamento
 
-            var campList = Object.keys(this.myHeroesList);
-            if (this.locked.length > 0 ) {
-              for (var i = 0; i< this.locked.length; i++){
-                  campList.splice( campList.indexOf(this.locked[i]),1);
-                };
+              var campList = Object.keys(this.myHeroesList);
+              if (this.locked.length > 0 ) {
+                for (var i = 0; i< this.locked.length; i++){
+                    campList.splice( campList.indexOf(this.locked[i]),1);
+                  };
+              };
+              try {
+                camperino.postMessage({HeroDB: this.HeroDB, myHeroesList: this.myHeroesList, campList: campList, locked: this.locked, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs, mustIncludeDispel: this.mustIncludeDispel, cartesianLock: this.cartesian_lock, preferenzeRisultati: this.customizedResuts, risultati: []});
+                this.numeroCombinazioniPossibili = Combinatorics.bigCombination(campList,4-this.locked.length).length;
+              } catch (err) {
+                this.isLoadingResults = false; // remove angelica loading
+                snackbarMessage(`Error: ` + err);
+              };
             };
-            try {
-              camperino.postMessage({HeroDB: this.HeroDB, myHeroesList: this.myHeroesList, campList: campList, locked: this.locked, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs, mustIncludeDispel: this.mustIncludeDispel, cartesianLock: this.cartesian_lock, preferenzeRisultati: this.customizedResuts, risultati: []});
-              this.numeroCombinazioniPossibili = Combinatorics.bigCombination(campList,4-this.locked.length).length;
-            } catch (err) {
-              this.isLoadingResults = false; // remove angelica loading
-              snackbarMessage(`Error: ` + err);
-            };
-          };
       }
   }, // computed
   watch: {
@@ -5694,9 +5984,8 @@ icon-bar span img {
     }
   },
   mounted () {
-	  this.boot();
   },
-  created () {console.log("created")}
+  created () {console.log("CeciliaBot is booting..."), this.boot()}
 });
 
 function debounce(func, wait, immediate) {
