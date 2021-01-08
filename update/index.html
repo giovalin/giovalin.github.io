@@ -1740,7 +1740,7 @@ icon-bar span img {
         <table id="lista_hero_disponibili">
           <tr>
             <td style="text-align: center; padding-bottom: 20px;">
-              <hero-icon v-for="key in displayList" :data="thisHeroData(key)" @clicked="addHero(thisHeroData(key)._id)" @contextmenu="rightClickHero(key, $event)" :displayname="showNamesInGrid" v-bind:style="'opacity:' + (myHeroesList[key] ? 0.5 : 1) "></hero-icon>
+              <hero-icon v-for="key in displayList" :data="thisHeroData(key)" @clicked="addHero(thisHeroData(key)._id)" @contextmenu="rightClickHero(key, $event)" :displayname="showNamesInGrid" :showstars="advancedIcons" v-bind:style="'opacity:' + (myHeroesList[key] ? 0.5 : 1) "></hero-icon>
             </td>
           </tr>
          </table>
@@ -1875,7 +1875,7 @@ icon-bar span img {
         <table id="myHeroes">
           <tr>
             <td style="text-align: center; padding-bottom: 20px;">
-              <hero-icon v-for="key in displayMyHeroes" v-bind:data="thisHeroData(key)" @clicked="lockHero(key)" @remove="removeHero(key)" @contextmenu="rightClickHero(key, $event)" :removable="true" :displayname="showNamesInGrid" :selected="isLocked(key)"></hero-icon>
+              <hero-icon v-for="key in displayMyHeroes" v-bind:data="thisHeroData(key)" @clicked="lockHero(key)" @remove="removeHero(key)" @contextmenu="rightClickHero(key, $event)" :removable="true" :displayname="showNamesInGrid" :showstars="advancedIcons" :selected="isLocked(key)"></hero-icon>
             </td>
           </tr>
         </table>
@@ -2163,6 +2163,21 @@ icon-bar span img {
           </td>
         </tr>
         <tr>
+          <td>
+            <div style="max-height:55px">
+              <span>
+                Advanced hero icons
+              </span>
+              <i style="font-size:38px;float: right;padding:10px;position:relative;top:0px;right:60px;">
+                <label class="switch" style="position:absolute;">
+                  <input type="checkbox" v-model="advancedIcons" />
+                  <i class="slider round"></i>
+                </label>
+              </i>
+            </div>
+          </td>
+        </tr>
+        <tr>
           <td v-on:click="modalGenerateURL()">
             <div style="max-height:55px">
               <span>
@@ -2433,7 +2448,7 @@ icon-bar span img {
           </div>
         </div>
         <div>
-          <hero-icon v-for="id in heroes" v-bind:data="hero(id)" @clicked="select(hero(id)._id)" @contextmenu="emitRightClick(hero(id)._id,$event)" :displayname="$root.showNamesInGrid" :selected="isSelected(hero(id)._id)"></hero-icon>
+          <hero-icon v-for="id in heroes" v-bind:data="hero(id)" @clicked="select(hero(id)._id)" @contextmenu="emitRightClick(hero(id)._id,$event)" :displayname="$root.showNamesInGrid" :showstars="$root.advancedIcons" :selected="isSelected(hero(id)._id)"></hero-icon>
           <!--<span v-for="id in heroes" @click="select(hero(id)._id)" @contextmenu="emitRightClick(hero(id)._id,$event)" class="heroImgList" v-bind:style="'z-index: 1; position: relative; display: inline-block; height: 75px; width: 75px; padding: 10px;background-image: url(' + heroIcon(id) + '); background-size: 75px; background-position: center; background-repeat: no-repeat; background-color: transparent !important'">
             <div v-bind:class="{selectedHero: isSelected(hero(id)._id)}" style="z-index: -1; position: absolute; height: 75px; width: 75px; border-radius: 50px;">
             </div>
@@ -2470,7 +2485,7 @@ icon-bar span img {
         <div v-if="selected" class="top-right animate-flicker">&#128274;</div>
       </div>
       <span v-if="removable" @click="remove(hero._id,$event)" class="removeHero" v-bind:title="'Remove ' + hero.name">x</span>
-      <p v-if="displayname" class="heroNameLabel">{{localizedName()}}</p>
+      <p v-if="displayname" class="heroNameLabel" :style="textFieldSize">{{localizedName()}}</p>
     </div>
   </script>
 
@@ -2999,7 +3014,7 @@ icon-bar span img {
       showstars: {
         type: Boolean,
         required: false,
-        default: false
+        default: true
       },
       hoverable: {
         type: Boolean,
@@ -3023,6 +3038,9 @@ icon-bar span img {
       },
       sizeStyle: function() {
         return {height: this.size + "px", width: this.size + "px"};
+      },
+      textFieldSize: function() {
+        return {width: (this.size + (this.removable ? 20 : 0) ) + "px"};
       },
       imgSrc: function () {
         return this.$root.getHeroAssets(this.hero._id).icon;
@@ -3370,6 +3388,7 @@ icon-bar span img {
               displaySavedCamps: Object.keys(JSON.parse(localStorage.getItem('savedCamps') ? localStorage.getItem('savedCamps') : "{}")),
               customizedResuts: {numeroMassimo: true, n: 200, minMorale: false, morale: 0, noImmagini: false},
               showNamesInGrid: userSettings.heroNameInGrid,
+              advancedIcons: userSettings.advancedIcons==undefined?true:userSettings.advancedIcons,
 	            displayStyle: "grid",
 	            isLoadingResults: false,
               inizializzazione: true, //nascondi tutto durante il caricamento iniziale di vue
@@ -3474,7 +3493,7 @@ icon-bar span img {
             };
           },
           writeSettings: function() {
-            var settings = JSON.stringify({notification: riceviNotifiche, lingua: this.lingua, verticalToolbar: document.getElementById("toolbar_position").checked, heroNameInGrid: document.getElementById("heroNameInGrid").checked});
+            var settings = JSON.stringify({notification: riceviNotifiche, lingua: this.lingua, verticalToolbar: document.getElementById("toolbar_position").checked, heroNameInGrid: document.getElementById("heroNameInGrid").checked, advancedIcons: this.advancedIcons});
             localStorage.setItem('Settings', settings);
             userSettings = JSON.parse(settings);
           },
@@ -6117,6 +6136,9 @@ icon-bar span img {
   watch: {
     risultati: function () { // when new results are calculated go back to page 1
       this.currentResultsPage = 1;
+    },
+    advancedIcons: function() {
+      this.writeSettings();
     }
   },
   mounted () {
