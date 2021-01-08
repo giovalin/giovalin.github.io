@@ -400,7 +400,6 @@ onmessage = function(e) {
                         setRequestedClass(e.classe);
                         if ( (e.cartesianLock.length + e.locked.length) > 3 ) campList = ["Ras"]; // placeholder Ras if all heroes are used in multilock or lock-> avoid RangeError
                         var c = printCombos(e.cartesianLock);
-                        console.log(c);
                         var currIndex = 0;
                         var lastProgress = -1;
                         var tot = (Combinatorics.bigCombination(campList,4-e.locked.length-c[0].length).length * c.length).valueOf();
