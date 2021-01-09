@@ -2334,7 +2334,7 @@ icon-bar span img {
       <hero_selector v-bind:selectable="cartesianSlotRoster()" v-bind:selected="cartesian_lock[isSelectingCartesian]" @right-click="rightClickHero" v-bind:slot="isSelectingCartesian" @close-modal="addToCartesianLock"></hero_selector>
     </template>
 
-    <div class="modal" style="display: block;"><div class="modal-content modal-three-parts">
+    <div v-if="risultati.length==3" class="modal" style="display: block;"><div class="modal-content modal-three-parts">
       <div>
         <span class="modal-title">
           Costumize character icons
@@ -2352,7 +2352,7 @@ icon-bar span img {
         </span>
       </div>
         <div>
-          <button class="modal-button" @click="isLoadingResults=!isLoadingResults">
+          <button class="modal-button" @click="risultati=[]">
               Close
           </button>
         </div>
