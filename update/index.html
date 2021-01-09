@@ -26,7 +26,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-combinatorics@0.5.5/combinatorics.min.js" async></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" async>
 
     <!--<link rel="preload" href="https://i.imgur.com/NDUMMYK.png" as="image" media="(max-width: 90px)">-->
@@ -2334,6 +2334,31 @@ icon-bar span img {
       <hero_selector v-bind:selectable="cartesianSlotRoster()" v-bind:selected="cartesian_lock[isSelectingCartesian]" @right-click="rightClickHero" v-bind:slot="isSelectingCartesian" @close-modal="addToCartesianLock"></hero_selector>
     </template>
 
+    <div class="modal" style="display: block;"><div class="modal-content modal-three-parts">
+      <div>
+        <span class="modal-title">
+          Costumize character icons
+        </span>
+      </div>
+      <div style="min-height: 170px;">
+        <hero-icon :data="thisHeroData('ras')" :hoverable="false" :displayname="showNamesInGrid" :showstars="advancedIcons" style="margin: auto;"></hero-icon>
+      </div>
+      <div>
+        <span>
+          <input type="checkbox" id="heroNameIconCheckbox" v-model="showNamesInGrid">
+          <label for="heroNameIconCheckbox">Hero's name</label>
+          <input type="checkbox" id="advancedIconsCheckbox" v-model="advancedIcons">
+          <label for="advancedIconsCheckbox">Attribute + Role</label>
+        </span>
+      </div>
+        <div>
+          <button class="modal-button" @click="isLoadingResults=!isLoadingResults">
+              Close
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div id="toolbar" class="icon-bar"> <!-- nascondi toolbar durante il calcolo -->
       <!--<span id="icon-bar_user_window" onclick="/*setWindow('user_window')*/" style="background-image: url(./favicons/android-chrome-192x192.png); background-size: cover; background-repeat: no-repeat;"></span>-->
       <span id="icon-bar_add_window" onclick="setWindow('add_window')"><!--&#43;--><i class="fa fa-plus" aria-hidden="true"></i></span>
@@ -2463,14 +2488,14 @@ icon-bar span img {
               </div>
             </div>
           </div>
-          <button class="modal-button fa fa-search" @click="inputField=true; Vue.nextTick(() => {$refs.editInputField.focus()}); filtering=false">
+          <button class="modal-button fa fa-search" @click="snackbarMessage('Temporarily unavailable due to memory leak on Chrome!'); /*openSearchBar()*/">
             {{strings.search}}
           </button>
-          <div v-if="inputField" style="display: flex;position: absolute;/*top: 90%;*/z-index: 2;height: 50px;">
+          <div v-show="inputField" style="display: flex;position: absolute; z-index: 2;height: 50px;">
             <button @click="removeSearchBar()" style="flex: 0 1 10px;margin: 0; border-radius: 6px 0 0 6px;font-size: 17px;margin: 0;height: 100%;float: left;background-color: saddlebrown;" class="search_input">
               X
             </button>
-            <input ref="editInputField" v-bind:placeholder="strings.search+'...'" @keyup="event=>inputCharacter=event.target.value" v-model="inputCharacter" style="flex: 1;width: 100%;border-radius: 0;border: thin;border-style: solid none solid;box-sizing: border-box;height: 100%;" class="search_hero_filter searchBox">
+            <input id="modal_selector_searchbar" :value="inputCharacter" ref="editInputField" v-bind:placeholder="strings.search+'...'" style="flex: 1;width: 100%;border-radius: 0;border: thin;border-style: solid none solid;box-sizing: border-box;height: 100%;" class="search_hero_filter searchBox" />
             <button class="fa fa-search search_input" style="flex: 0 1;height: 100%;margin: 0;">
             </button>
           </div>
@@ -2501,7 +2526,7 @@ icon-bar span img {
         <template v-if="showstars">
           <img v-bind:src="assetsRole(hero.role)" class="role-img" />
           <img v-bind:src="assetsAttribute(hero.attribute)" class="attribute-img" />
-          <div v-bind:class="'wrapper-hero-info rarity-' + hero.rarity"></div>
+          <!--<div v-bind:class="'wrapper-hero-info rarity-' + hero.rarity"></div>-->
         </template>
         <div v-if="selected" class="top-right animate-flicker">&#128274;</div>
       </div>
@@ -3061,7 +3086,7 @@ icon-bar span img {
         return {height: this.size + "px", width: this.size + "px"};
       },
       textFieldSize: function() {
-        return {"max-width": (this.size + (this.removable ? 20 : 0) ) + "px"};
+        return {"width": (this.size + (this.removable ? 20 : 0) ) + "px"};
       },
       imgSrc: function () {
         return this.$root.getHeroAssets(this.hero._id).icon;
@@ -3145,6 +3170,9 @@ icon-bar span img {
       }
     },
     watch: {
+    },
+    beforeDestroy: function(){
+      console.log('DESTROYYYY!!!')
     }
   };
   const hero_selector = {
@@ -3310,6 +3338,13 @@ icon-bar span img {
         this.filter[type] = value;
         this.heroesFilter();
       },
+      openSearchBar: function() {
+        this.inputField=true; 
+        this.filtering=false;
+        this.$nextTick(() => {
+          this.$refs.editInputField.focus();
+        });
+      },
       removeSearchBar: function () {
         this.inputCharacter = "";
         this.inputField = false;
@@ -3325,7 +3360,7 @@ icon-bar span img {
       closeModal() {
         if (this.forceSelection && this.selected.length==0) return; // must select something
         this.$emit('close-modal', this.selected);
-        this.$destroy(true); // manually destroy this component's event listeners to avoid memory leaks
+        this.$destroy(true);
       }
     },
     watch: {
@@ -3333,6 +3368,10 @@ icon-bar span img {
         this.filter = {}; //remove filters when searching by name
         this.heroesFilter();
       },
+    },
+    mounted: function() {
+    },
+    beforeDestroy: function() {
     }
   };
 
@@ -3407,7 +3446,7 @@ icon-bar span img {
               displaySavedCamps: Object.keys(JSON.parse(localStorage.getItem('savedCamps') ? localStorage.getItem('savedCamps') : "{}")),
               customizedResuts: {numeroMassimo: true, n: 200, minMorale: false, morale: 0, noImmagini: false},
               showNamesInGrid: userSettings.heroNameInGrid,
-              advancedIcons: userSettings.advancedIcons==undefined?true:userSettings.advancedIcons,
+              advancedIcons: userSettings.advancedIcons==undefined?false:userSettings.advancedIcons,
 	            displayStyle: "grid",
 	            isLoadingResults: false,
               inizializzazione: true, //nascondi tutto durante il caricamento iniziale di vue
