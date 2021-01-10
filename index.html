@@ -180,6 +180,7 @@ span.psw {
   text-align: initial;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow-x: hidden;
 }
 .modal-text {
   width: 100%;
@@ -297,7 +298,7 @@ span.psw {
      width: 100%;
   }
 }
-  
+
 div.toolbar {
   position: fixed;
   bottom: 0;
@@ -305,7 +306,7 @@ div.toolbar {
   width: 100%;
   border: 3px solid #73AD21;
 }
-  
+
 .heroImgList {
     position: relative;
     padding: 12px;
@@ -727,6 +728,7 @@ icon-bar span img {
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  cursor: pointer;
 }
 .dropdown-content > span {
   color: var(--font-color);
@@ -1751,7 +1753,17 @@ icon-bar span img {
             <div style="max-height:20px;"><i class="fa fa-eye-slash"></i></div>
           </button>
         </div>
-        <button id="myHeroes_sort_by" style="margin-right: 30px; width: auto; font-size: 16px;" class="search_hero_area search_hero_filter" v-on:click="if (displayList.length > 0) alertUserAction('addDisplayed');" style="font-size:16px; width:90px; width: auto;">{{strings.add_displayed_heroes}}</button>
+        <div class="search_hero_area dropdown">
+          <button id="allHeroes_sort_by" class="search_hero_filter" onmouseover="document.getElementById('dropdown_allHeroes_sort_by').style.removeProperty('display')" style="font-size:16px; width:90px;" name="sort_by" value="date">{{strings.sort}}</button>
+          <div id="dropdown_allHeroes_sort_by" class="dropdown-content" style="float:right;">
+            <div class="active" onclick="document.getElementById('allHeroes_sort_by').value='name'; app.filtroTuttiGliEroi(this, 'AllHeroes'); this.parentElement.style.display='none'">{{strings.name}}</div>
+            <div class="active" onclick="document.getElementById('allHeroes_sort_by').value='rarity'; app.filtroTuttiGliEroi(this, 'AllHeroes'); this.parentElement.style.display='none'">{{strings.rarity}}</div>
+            <div class="active" onclick="document.getElementById('allHeroes_sort_by').value='attribute'; app.filtroTuttiGliEroi(this, 'AllHeroes'); this.parentElement.style.display='none'">{{strings.attribute}}</div>
+            <div class="active" onclick="document.getElementById('allHeroes_sort_by').value='role'; app.filtroTuttiGliEroi(this, 'AllHeroes'); this.parentElement.style.display='none'">{{strings.classe}}</div>
+            <div class="active" onclick="document.getElementById('allHeroes_sort_by').value='id'; app.filtroTuttiGliEroi(this, 'AllHeroes'); this.parentElement.style.display='none'">{{strings.ingame_id}}</div>
+          </div>
+        </div>
+        <button style="margin-right: 30px; width: auto; font-size: 16px;" class="search_hero_area search_hero_filter" v-on:click="if (displayList.length > 0) alertUserAction('addDisplayed');" style="font-size:16px; width:90px; width: auto;">{{strings.add_displayed_heroes}}</button>
         <div id="pulsanti_display_add_window" class="search_hero_area" style="display:inline-block">
           <button class="search_hero_filter active" name="display_list" onclick="app.setDisplayStyle(this, 'add_window')" value="grid">
             <div><i class="fa fa-th-large"></i></div>
@@ -1768,7 +1780,7 @@ icon-bar span img {
         <table id="lista_hero_disponibili">
           <tr>
             <td style="text-align: center; padding-bottom: 20px;">
-              <hero-icon v-for="key in displayList" :data="thisHeroData(key)" @clicked="addHero(thisHeroData(key)._id)" @contextmenu="rightClickHero(key, $event)" :displayname="showNamesInGrid" :showstars="advancedIcons" v-bind:style="'opacity:' + (myHeroesList[key] ? 0.5 : 1) "></hero-icon>
+              <hero-icon v-for="key in displayList" :data="key" @clicked="addHero(thisHeroData(key)._id)" @contextmenu="rightClickHero(key, $event)" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" v-bind:style="'opacity:' + (myHeroesList[key] ? 0.5 : 1) "></hero-icon>
             </td>
           </tr>
          </table>
@@ -1884,6 +1896,9 @@ icon-bar span img {
           <div id="dropdown_sort_myHeroes" class="dropdown-content" style="float:right;">
             <div class="active" onclick="document.getElementById('myHeroes_sort_by').value='date'; app.filtroTuttiGliEroi(this, 'MyHeroes'); this.parentElement.style.display='none'">{{strings.modified}}</div>
             <div class="active" onclick="document.getElementById('myHeroes_sort_by').value='name'; app.filtroTuttiGliEroi(this, 'MyHeroes'); this.parentElement.style.display='none'">{{strings.name}}</div>
+            <div class="active" onclick="document.getElementById('myHeroes_sort_by').value='rarity'; app.filtroTuttiGliEroi(this, 'MyHeroes'); this.parentElement.style.display='none'">{{strings.rarity}}</div>
+            <div class="active" onclick="document.getElementById('myHeroes_sort_by').value='attribute'; app.filtroTuttiGliEroi(this, 'MyHeroes'); this.parentElement.style.display='none'">{{strings.attribute}}</div>
+            <div class="active" onclick="document.getElementById('myHeroes_sort_by').value='role'; app.filtroTuttiGliEroi(this, 'MyHeroes'); this.parentElement.style.display='none'">{{strings.classe}}</div>
             <div class="active" onclick="document.getElementById('myHeroes_sort_by').value='id'; app.filtroTuttiGliEroi(this, 'MyHeroes'); this.parentElement.style.display='none'">{{strings.ingame_id}}</div>
           </div>
         </div>
@@ -1903,7 +1918,7 @@ icon-bar span img {
         <table id="myHeroes">
           <tr>
             <td style="text-align: center; padding-bottom: 20px;">
-              <hero-icon v-for="key in displayMyHeroes" v-bind:data="thisHeroData(key)" @clicked="lockHero(key)" @remove="removeHero(key)" @contextmenu="rightClickHero(key, $event)" :removable="true" :displayname="showNamesInGrid" :showstars="advancedIcons" :selected="isLocked(key)"></hero-icon>
+              <hero-icon v-for="key in displayMyHeroes" v-bind:data="key" @clicked="lockHero(key)" @remove="removeHero(key)" @contextmenu="rightClickHero(key, $event)" :removable="true" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr"  :selected="isLocked(key)"></hero-icon>
             </td>
           </tr>
         </table>
@@ -1954,13 +1969,6 @@ icon-bar span img {
             <input type="checkbox" id="includi_locked_in_advanced_settings" onclick="app.personalizzaRisultati()">
             <label for="includi_locked_in_advanced_settings">{{strings.includi_locked_in_adv}}</label>
           </span>
-          <!--<span>
-            <input type="checkbox" id="disattivaImmaingiRisultati" name="disattivaImmaingiRisultati" onclick="app.personalizzaRisultati()">
-            <label for="disattivaImmaingiRisultati">{{strings.disabilita_immagini_in_risultati}}*</label>
-          </span>
-          <span style="color: red">
-            *
-          </span>-->
         </div>
       </div>
       <input type="checkbox" id="AoE" name="AoE" value="AoE" onclick="app.aggiornaImposatazioniAvanzate()">
@@ -2058,17 +2066,17 @@ icon-bar span img {
           <tr v-for="(item, index) in risultati.slice((currentResultsPage-1)*50,(currentResultsPage-1)*50+50)">
             <td width="4%" style="padding-top: 30px;padding-bottom: 30px;text-align: center; cursor: pointer;" v-on:click="mostraSalvaRisultato(index+(currentResultsPage-1)*50)"><i class="fa fa-save" aria-hidden="true" style="font-size:30px;"></i>
               <br>{{index+1+(currentResultsPage-1)*50}}</td>
-            <td class="hero_potrait">
-              <hero-icon v-bind:data="thisHeroData(item.team[0])" @contextmenu="rightClickHero(item.team[0], $event)" :displayname="false" :hoverable="false" :showstars="advancedIcons" :size="60" style="padding: 0;"></hero-icon>
+            <td class="hero_potrait" style="max-width: 100px;">
+              <hero-icon v-bind:data="item.team[0]" @contextmenu="rightClickHero(item.team[0], $event)" :hoverable="false" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" style="padding: 0;"></hero-icon>
             </td>
-            <td class="hero_potrait">
-              <hero-icon v-bind:data="thisHeroData(item.team[1])" @contextmenu="rightClickHero(item.team[1], $event)" :displayname="false" :hoverable="false" :showstars="advancedIcons" :size="60" style="padding: 0;"></hero-icon>
+            <td class="hero_potrait" style="max-width: 100px;">
+              <hero-icon v-bind:data="item.team[1]" @contextmenu="rightClickHero(item.team[1], $event)" :hoverable="false" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" style="padding: 0;"></hero-icon>
             </td>
-            <td class="hero_potrait">
-              <hero-icon v-bind:data="thisHeroData(item.team[2])" @contextmenu="rightClickHero(item.team[2], $event)" :displayname="false" :hoverable="false" :showstars="advancedIcons" :size="60" style="padding: 0;"></hero-icon>
+            <td class="hero_potrait" style="max-width: 100px;">
+              <hero-icon v-bind:data="item.team[2]" @contextmenu="rightClickHero(item.team[2], $event)" :hoverable="false" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" style="padding: 0;"></hero-icon>
             </td>
-            <td class="hero_potrait">
-              <hero-icon v-bind:data="thisHeroData(item.team[3])" @contextmenu="rightClickHero(item.team[3], $event)" :displayname="false" :hoverable="false" :showstars="advancedIcons" :size="60" style="padding: 0;"></hero-icon>
+            <td class="hero_potrait" style="max-width: 100px;">
+              <hero-icon v-bind:data="item.team[3]" @contextmenu="rightClickHero(item.team[3], $event)" :hoverable="false" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" style="padding: 0;"></hero-icon>
             </td>
             <td class="topics"><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG1)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore1)}}</a><br><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG2)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore2)}}</a></td>
             <td style="text-align:center; font-family:sans-serif;font-size:17px" width="3%">{{item.morale}}</td>
@@ -2175,37 +2183,16 @@ icon-bar span img {
             </div>
           </td>
         </tr>
-        <tr>
+        <tr @click="avatars.notSet=true;" style="cursor: pointer;">
           <td>
             <div style="max-height:55px">
               <span>
-                {{strings.hero_name_under_pic_grid}}
+                Customize character icon
               </span>
-              <i style="font-size:38px;float: right;padding:10px;position:relative;top:0px;right:60px;">
-                <label class="switch" style="position:absolute;">
-                  <input type="checkbox" id="heroNameInGrid" name="heroNamesGrid" onchange="toggleNamesInGrid()">
-                  <i class="slider round"></i>
-                </label>
-              </i>
             </div>
           </td>
         </tr>
-        <tr>
-          <td>
-            <div style="max-height:55px">
-              <span>
-                Advanced hero icons
-              </span>
-              <i style="font-size:38px;float: right;padding:10px;position:relative;top:0px;right:60px;">
-                <label class="switch" style="position:absolute;">
-                  <input type="checkbox" v-model="advancedIcons" />
-                  <i class="slider round"></i>
-                </label>
-              </i>
-            </div>
-          </td>
-        </tr>
-        <tr>
+        <tr style="cursor: pointer;">
           <td v-on:click="modalGenerateURL()">
             <div style="max-height:55px">
               <span>
@@ -2214,7 +2201,7 @@ icon-bar span img {
             </div>
           </td>
         </tr>
-        <tr>
+        <tr style="cursor: pointer;">
           <td v-on:click="menuLingua()">
             <div style="max-height:55px">
               <span>
@@ -2330,31 +2317,64 @@ icon-bar span img {
         </div>
       </div>
     </div>
+
     <template  v-if="isSelectingCartesian">
       <hero_selector v-bind:selectable="cartesianSlotRoster()" v-bind:selected="cartesian_lock[isSelectingCartesian]" @right-click="rightClickHero" v-bind:slot="isSelectingCartesian" @close-modal="addToCartesianLock"></hero_selector>
     </template>
 
-    <div class="modal" style="display: block;"><div class="modal-content modal-three-parts">
-      <div>
-        <span class="modal-title">
-          Costumize character icons
-        </span>
-      </div>
-      <div style="min-height: 170px;">
-        <hero-icon :data="thisHeroData('ras')" :hoverable="false" :displayname="showNamesInGrid" :showstars="advancedIcons" style="margin: auto;"></hero-icon>
-      </div>
-      <div>
-        <span>
-          <input type="checkbox" id="heroNameIconCheckbox" v-model="showNamesInGrid">
-          <label for="heroNameIconCheckbox">Hero's name</label>
-          <input type="checkbox" id="advancedIconsCheckbox" v-model="advancedIcons">
-          <label for="advancedIconsCheckbox">Attribute + Role</label>
-        </span>
-      </div>
+    <div v-if="avatars.notSet==true" ref="popup-modal" class="modal" style="display: block;">
+      <div class="modal-content modal-small modal-three-parts">
         <div>
-          <button class="modal-button" @click="isLoadingResults=!isLoadingResults">
-              Close
-          </button>
+          <span class="modal-title">
+            Customize character icon
+          </span>
+        </div>
+        <div>
+          <div style="min-height: 170px;">
+            <hero-icon :data="'alencia'" :removable="true" :hoverable="false" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" style="margin: auto;"></hero-icon>
+          </div>
+          <div>
+            <div style="width:50%; min-width: 350px; margin: auto; text-align: start; font-size: 1.4em;">
+              <input type="checkbox" id="heroNameIconCheckbox" v-model="avatars.name">
+              <label for="heroNameIconCheckbox">Hero's name</label>
+              <br>
+              <input type="checkbox" id="role_attrIconsCheckbox" v-model="avatars.role_attr">
+              <label for="role_attrIconsCheckbox">Attribute + Role</label>
+              <br>
+              <input type="checkbox" id="starsIconsCheckbox" v-model="avatars.stars">
+              <label for="starsIconsCheckbox">Stars</label>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div>
+            <button class="modal-button" @click="avatars.notSet=false; localStorage.setItem('avatars',JSON.stringify(avatars));">
+              {{strings.save}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="localStorage.getItem('last_visit_version')!=VERSION" ref="popup-modal-update" class="modal" style="display: block;">
+      <div class="modal-content modal-small modal-three-parts">
+        <div>
+          <span class="modal-title">
+            What's new!
+          </span>
+        </div>
+        <div style="min-height: 170px;">
+          <b>11/01/2021</b>
+          <span>
+            Description of the latest update goes inside this box :)
+          </span>
+        </div>
+        <div>
+          <div>
+            <button class="modal-button" @click="localStorage.setItem('last_visit_version',VERSION),$refs['popup-modal-update'].style.display='none';">
+                Close
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -2488,23 +2508,23 @@ icon-bar span img {
               </div>
             </div>
           </div>
-          <button class="modal-button fa fa-search" @click="snackbarMessage('Temporarily unavailable due to memory leak on Chrome!'); /*openSearchBar()*/">
+          <button class="modal-button fa fa-search" style="opacity: 0.5;" @click="snackbarMessage('Temporarily unavailable due to memory leak on Chrome!'); /*openSearchBar()*/">
             {{strings.search}}
           </button>
-          <div v-show="inputField" style="display: flex;position: absolute; z-index: 2;height: 50px;">
+          <!--<div v-show="inputField" style="display: flex;position: absolute; z-index: 2;height: 50px;">
             <button @click="removeSearchBar()" style="flex: 0 1 10px;margin: 0; border-radius: 6px 0 0 6px;font-size: 17px;margin: 0;height: 100%;float: left;background-color: saddlebrown;" class="search_input">
               X
             </button>
             <input id="modal_selector_searchbar" :value="inputCharacter" ref="editInputField" v-bind:placeholder="strings.search+'...'" style="flex: 1;width: 100%;border-radius: 0;border: thin;border-style: solid none solid;box-sizing: border-box;height: 100%;" class="search_hero_filter searchBox" />
             <button class="fa fa-search search_input" style="flex: 0 1;height: 100%;margin: 0;">
             </button>
-          </div>
+          </div>-->
         </div>
         <div>
-          <hero-icon v-for="id in heroes" v-bind:data="hero(id)" @clicked="select(hero(id)._id)" @contextmenu="emitRightClick(hero(id)._id,$event)" :displayname="$root.showNamesInGrid" :showstars="$root.advancedIcons" :selected="isSelected(hero(id)._id)"></hero-icon>
+          <hero-icon v-for="id in filteredData" v-bind:data="id" @clicked="select(id)" @contextmenu="emitRightClick(id,$event)" :displayname="$root.avatars.name" :showstars="$root.avatars.stars" :role_attr="$root.avatars.role_attr" :selected="isSelected(id)"></hero-icon>
           <div v-if="heroes.length==0" style="display: flex; height: 100%;align-items: center;justify-content: center;">
             <div style="background-color:var(--bg-color); color:var(--font-color); border-radius: 30px; box-shadow:5px 5px 14px 1px var(--search-border-color);align-items: center;padding: 10px 50px;">
-              <template v-if="Object.keys(selectable).length==0">No heroes in your roster!</template>
+              <template v-if="filteredData.length==0">No heroes in your roster!</template>
               <template v-else>Sorry, your search returned no results...</template>
             </div>
           </div>
@@ -2523,11 +2543,11 @@ icon-bar span img {
     <div @click="emitLeftClick(hero._id,$event)" @contextmenu="emitRightClick(hero._id,$event)" class="heroImgList" v-bind:class="{ hoverIcon: hoverable }">
       <div :style="sizeStyle" style="position: relative; display: inline-block; vertical-align: top;">
         <img v-bind:src="imgSrc" v-bind:onerror="'this.src=app.getHeroAssets(\''+hero._id+'\', \'onerror\').icon;this.onerror=null;'" :alt="localizedName()" class="heroAvatar">
-        <template v-if="showstars">
+        <template v-if="role_attr">
           <img v-bind:src="assetsRole(hero.role)" class="role-img" />
           <img v-bind:src="assetsAttribute(hero.attribute)" class="attribute-img" />
-          <!--<div v-bind:class="'wrapper-hero-info rarity-' + hero.rarity"></div>-->
         </template>
+        <div v-if="showstars" v-bind:class="'wrapper-hero-info rarity-' + hero.rarity"></div>
         <div v-if="selected" class="top-right animate-flicker">&#128274;</div>
       </div>
       <span v-if="removable" class="removeHero" v-bind:title="'Remove ' + hero.name">×</span>
@@ -2540,21 +2560,21 @@ icon-bar span img {
     
     function defaultThemeColor() {
       try {
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
           return 'dark';
-            } else return 'light';
+        } else return 'light';
       } catch (err) {
           return 'light';
       };
     };
     function toggleCheck() {
       if (document.getElementById("darkModeCheck").checked === true) {
-          document.documentElement.setAttribute('data-theme', 'dark');
-          localStorage.setItem('theme', 'dark'); // salva preferenza per future visite
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark'); // salva preferenza per future visite
       }
       else {
-          document.documentElement.setAttribute('data-theme', 'light');
-          localStorage.setItem('theme', 'light'); // salva preferenza per future visite
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light'); // salva preferenza per future visite
       };    
     };
     const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
@@ -2563,14 +2583,14 @@ icon-bar span img {
       document.documentElement.setAttribute('data-theme', currentTheme);
 
       if (currentTheme === 'dark') {
-          var checkBoxes = $("input[name=darkModeCheck]");
-          checkBoxes.attr('checked', true);
+        var checkBoxes = $("input[name=darkModeCheck]");
+        checkBoxes.attr('checked', true);
       };
     } else {
       if (defaultThemeColor() == 'dark') { // check OS settings and set dark theme if necessary
-          document.documentElement.setAttribute('data-theme', 'dark');
-                var checkBoxes = $("input[name=darkModeCheck]");
-                checkBoxes.attr('checked', true);
+        document.documentElement.setAttribute('data-theme', 'dark');
+        var checkBoxes = $("input[name=darkModeCheck]");
+        checkBoxes.attr('checked', true);
       };
     };
     
@@ -3038,9 +3058,9 @@ icon-bar span img {
     template: '#hero_icon',
     props: {
       data: {
-        type: Object,
+        type: String,
         required: true,
-        default: {}
+        default: 'ras'
       },
       removable: {
         type: Boolean,
@@ -3057,10 +3077,15 @@ icon-bar span img {
         required: false,
         default: true
       },
+      role_attr: {
+        type: String,
+        required: false,
+        default: true
+      },
       showstars: {
         type: Boolean,
         required: false,
-        default: true
+        default: false
       },
       hoverable: {
         type: Boolean,
@@ -3080,7 +3105,7 @@ icon-bar span img {
     },
     computed: {
       hero: function() {
-        return this.data;
+        return this.$root.thisHeroData(this.data) || {};
       },
       sizeStyle: function() {
         return {height: this.size + "px", width: this.size + "px"};
@@ -3220,17 +3245,24 @@ icon-bar span img {
         filtering: false,
         filters: {attribute: ["all","fire","ice","wind","light","dark"], role: ["all", "warrior", "knight", "assassin", "ranger", "mage", "manauser"], rarity: ["all", 5, 4, 3, "selected"]},
         filter: {},
-        heroes: Object.keys(this.selectable)
+        filteredData: this.selectable
       }
     },
     computed: {
+      heroes: function() {
+        let tmp = {};
+        for (var i in this.selectable) {
+          tmp[this.selectable[i]] = this.$root.HeroDB[this.selectable[i]];
+        };
+        return tmp;
+      },
       modalTitle: function () {
         if (!this.title) return this.strings.multilock_slot + " " + (parseInt(this.slot) + 1);
         return title;
       },
       strings: function () {
         try {
-          return JSON.parse(JSON.stringify(this.$root.strings)); /* to avoid direct reference and possible memory leak */
+          return this.$root.strings; /* to avoid direct reference and possible memory leak */
         } catch (err) { /* for safety */
           console.log(err);
           return {};
@@ -3238,7 +3270,7 @@ icon-bar span img {
       },
       translatedNames: function () {
         try {
-          return JSON.parse(JSON.stringify(this.$root.translatedName)); /* to avoid direct reference and possible memory leak */
+          return this.$root.translatedName; /* to avoid direct reference and possible memory leak */
         } catch (err) { /* for safety */
           console.log(err);
           return {};
@@ -3250,11 +3282,7 @@ icon-bar span img {
     },
     methods: {
       hero: function (id) {
-        return this.selectable[id];
-      },
-      heroIcon: function (id) {
-        if (this.hero(id) && this.hero(id).assets) return this.hero(id).assets.icon;
-        return 'https://assets.epicsevendb.com/_source/face/'+this.hero(id).id+'_s.png';
+        return this.heroes[id];
       },
       isSelected: function (hero) {
         return this.selected.includes(hero);
@@ -3321,7 +3349,7 @@ icon-bar span img {
         return {"backgroundColor": "transparent"}; // no background-color
       },
       heroesFilter: function() {
-        var tmp = JSON.parse(JSON.stringify(this.selectable)); // make a copy
+        var tmp = JSON.parse(JSON.stringify(this.heroes)); // make a copy
         let text = this.inputCharacter.toLowerCase();
         for (var hero in tmp){
           if (text && tmp[hero].name.toLowerCase().indexOf(text) == -1 && this.localizedName(hero).toLowerCase().indexOf(text) == -1) {delete tmp[hero];continue};
@@ -3332,7 +3360,7 @@ icon-bar span img {
             if (tmp[hero][i] != this.filter[i]) delete tmp[hero];
           };
         };
-        this.heroes = Object.keys(tmp);
+        this.filteredData = Object.keys(tmp);
       },
       changeFilter: function(type,value) {
         this.filter[type] = value;
@@ -3384,6 +3412,8 @@ icon-bar span img {
         },
         data: function () {
             return {
+              VERSION: 1.0,
+              avatars: JSON.parse(localStorage.getItem('avatars') || '{"name": false, "role_attr": true, "stars": false, "notSet": true}'),
               strings: {},
               HeroDB: {},
               sortedHeroDB: [],
@@ -3531,10 +3561,10 @@ icon-bar span img {
             this.updateUserData();
           },
           isInTeam: function(hero) {
-                if (this.myHeroesList[hero])
-                  return true
-                else 
-                  return false;
+            if (this.myHeroesList[hero])
+              return true
+            else 
+              return false;
           },
           isLocked: function(hero) {
             if (this.locked.includes(hero))
@@ -3682,7 +3712,7 @@ icon-bar span img {
                   else error = self.strings.e7api_couldnt_connect; //"Couldn't connect to EpicSevenDB.";
                   document.getElementById("heroDetailsRight").innerHTML = "";
                   $( "#heroDetailsRight" ).append(
-                    `<div style="padding: 12px 16px; margin-top: -4px; background-color: var(--bg-color)"><p style="text-align: center">${error}</p></div>`
+                    `<div style="padding: 12px 16px; margin-top: -4px; background-color: var(--bg-color)"><p style="text-align: center; border-color: red;">${error}</p></div>`
                   );
                 }
               });
@@ -3741,10 +3771,10 @@ icon-bar span img {
             $("body").addClass("modal-open");
           },
           cartesianSlotRoster: function() {
-            let tmp = {}, n = this.isSelectingCartesian;
+            let tmp = [], n = this.isSelectingCartesian;
             for (var i in this.HeroDB) {
               //if (this.cartesian_lock.flat().includes(i) && !this.cartesian_lock[n].includes(i)) continue;
-              if (this.myHeroesList[i]) tmp[i] = this.thisHeroData(i);
+              if (this.myHeroesList[i]) tmp.push(i);
             };
             return tmp;
           },
@@ -4061,6 +4091,9 @@ icon-bar span img {
             if (document.getElementById("myHeroes_sort_by").value=="name")
               this.displayMyHeroes.sort(function (a,b) {return ((self.thisHeroTranslatedName(a) < self.thisHeroTranslatedName(b)) ? -1 : ((self.thisHeroTranslatedName(a) == self.thisHeroTranslatedName(b)) ? 0: 1))});
           },
+          sortHeroes: function (sortBy, a, b) {
+            return this.thisHeroData(a)[sortBy] > this.thisHeroData(a)[sortBy] ? this.thisHeroData(a).name < this.thisHeroData(a).name : -1
+          },
           filtroTuttiGliEroi: function (button, listToModify) {
             self = this;
             var tmpArray, pulsantiIn, filtro = {};
@@ -4069,12 +4102,12 @@ icon-bar span img {
               pulsantiIn = document.getElementById("add_window"); // determina in che sezione sono i pulsanti
               //if (button.className == "search_hero_filter") 
               filtro["ricerca"] = document.getElementById("inputInTuttiGliEroi").value; // ottieni il testo digitato nella casella
+              var sortBy = document.getElementById("allHeroes_sort_by").value;
+              if (sortBy != "date") tmpArray.sort((x, y) => { return (this.thisHeroData(x)[sortBy] > this.thisHeroData(y)[sortBy] ) - (this.thisHeroData(x)[sortBy] < this.thisHeroData(y)[sortBy] ) || (this.thisHeroData(x).name > this.thisHeroData(y).name ) - (this.thisHeroData(x).name < this.thisHeroData(y).name ) });
             } else if (listToModify === "MyHeroes")  {
               tmpArray = Object.keys(this.myHeroesList);
               var sortBy = document.getElementById("myHeroes_sort_by").value;
-              if (sortBy != "date") tmpArray.sort(function (a,b) {return ((self.HeroDB[a][sortBy] < self.HeroDB[b][sortBy]) ? -1 : ((self.HeroDB[a][sortBy] == self.HeroDB[b][sortBy]) ? 0: 1))})
-              //: tmpArray.sort(function (a,b) {return ((self.thisHeroTranslatedName(a) < self.thisHeroTranslatedName(b)) ? -1 : ((self.thisHeroTranslatedName(a) == self.thisHeroTranslatedName(b)) ? 0: 1))});
-              //if (button.className == "search_hero_filter")
+              if (sortBy != "date") tmpArray.sort((x, y) => { return (this.thisHeroData(x)[sortBy] > this.thisHeroData(y)[sortBy] ) - (this.thisHeroData(x)[sortBy] < this.thisHeroData(y)[sortBy] ) || (this.thisHeroData(x).name > this.thisHeroData(y).name ) - (this.thisHeroData(x).name < this.thisHeroData(y).name ) });
               filtro["ricerca"] =  document.getElementById("inputInMyHeroes").value; // ottieni il testo digitato nella casella
               pulsantiIn = document.getElementById("manage_window"); // determina in che sezione sono i pulsanti
             };
@@ -4317,6 +4350,8 @@ icon-bar span img {
                   no_debuffs: "No Debuffs (Esclusi: Provoke, Sleep, Stun e Poison)",
                   must_include_dispel: "Team deve contenere dispel (Rimuovi o riduci la durata dei buff dal nemico)",
                   classe: "Classe",
+                  attribute: "Attributo",
+                  rarity: "Rarità",
                   knight: "Knight",
                   warrior: "Warrior",
                   thief: "Thief",
@@ -4467,6 +4502,8 @@ icon-bar span img {
                   no_debuffs: "技能不带Debuff (挑衅, 睡眠, 晕眩 和中毒除外)",
                   must_include_dispel: "队伍必须包含驱散角色",
                   classe: "职业",
+                  attribute: "Attribute",
+                  rarity: "Rarity",
                   knight: "骑士",
                   warrior: "战士",
                   thief: "盗贼",
@@ -4616,6 +4653,8 @@ icon-bar span img {
                   no_debuffs: "技能不帶Debuff (挑釁, 睡眠，暈眩 和中毒除外)",
                   must_include_dispel: "隊伍必須包含驅散角色",
                   classe: "職階",
+                  attribute: "Attribute",
+                  rarity: "Rarity",
                   knight: "騎士",
                   warrior: "戰士",
                   thief: "盜賊",
@@ -4765,6 +4804,8 @@ icon-bar span img {
                   no_debuffs: "Non Debuff (Sauf: Provoquer, Sommeil, Etourdir et Poison)",
                   must_include_dispel: "L'équipe doit contenir stripper",
                   classe: "Classe",
+                  attribute: "Attribute",
+                  rarity: "Rarity",
                   elemento: "Elément",
                   buff: "Buff",
                   debuff: "Debuff",
@@ -4905,6 +4946,8 @@ icon-bar span img {
                   no_debuffs: "No Debuffs (Except: Provoke, Sleep, Stun and Poison)",
                   must_include_dispel: "Team must include dispel (remove enemy's buffs or reduce their duration)",
                   classe: "Class",
+                  attribute: "Attribute",
+                  rarity: "Rarity",
                   knight: "Knight",
                   warrior: "Warrior",
                   thief: "Thief",
