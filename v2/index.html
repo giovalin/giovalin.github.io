@@ -25,8 +25,9 @@
     <meta property="og:image:height" content="256">
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-combinatorics@0.5.5/combinatorics.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-combinatorics@0.5.5/combinatorics.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" async>-->
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
     <!--<link rel="preload" href="https://i.imgur.com/NDUMMYK.png" as="image" media="(max-width: 90px)">-->
@@ -327,7 +328,7 @@ div.toolbar {
   user-select: none;
 }
 .imgResults {
-  padding: 0;
+  padding: 0 !important;
   cursor: default !important;
 }
 .imgResults:hover {
@@ -400,15 +401,16 @@ div.toolbar {
   cursor: pointer;
 }
 
-                  .center {
-                    max-width: 800px;
-                    margin: auto;
-                  }
-                  .topics {
-                    text-align:center; 
-                    font-family:sans-serif;
-                    font-size:16px
-                  }
+.center {
+  max-width: 800px;
+  margin: auto;
+}
+.topics {
+  text-align:center; 
+  font-family:sans-serif;
+  font-size:16px;
+  min-width: 100px;
+}
   
   
   
@@ -2068,9 +2070,9 @@ icon-bar span img {
           <th style="white-space: nowrap;">{{strings.morale}}</th>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in risultati.slice((currentResultsPage-1)*50,(currentResultsPage-1)*50+50)">
-            <td width="4%" style="padding-top: 30px;padding-bottom: 30px;text-align: center; cursor: pointer;" v-on:click="mostraSalvaRisultato(index+(currentResultsPage-1)*50)"><i class="fa fa-save" aria-hidden="true" style="font-size:30px;"></i>
-              <br>{{index+1+(currentResultsPage-1)*50}}</td>
+          <tr v-for="(item, index) in risultati.slice((currentResultsPage-1)*25,(currentResultsPage-1)*25+25)">
+            <td width="4%" style="padding-top: 30px;padding-bottom: 30px;text-align: center; cursor: pointer;" v-on:click="mostraSalvaRisultato(index+(currentResultsPage-1)*25)"><i class="fa fa-save" aria-hidden="true" style="font-size:30px;"></i>
+              <br>{{index+1+(currentResultsPage-1)*25}}</td>
             <td class="hero_potrait" style="max-width: 100px;">
               <hero-icon v-bind:data="item.team[0]" @contextmenu="rightClickHero(item.team[0], $event)" :hoverable="false" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
             </td>
@@ -2089,9 +2091,9 @@ icon-bar span img {
         </tbody>
       </table>
       <pagination
-        :total-pages="Math.ceil( risultati.length/50 )"
+        :total-pages="Math.ceil( risultati.length/25 )"
         :total="risultati.length"
-        :per-page="50"
+        :per-page="25"
         :current-page="currentResultsPage"
         @pagechanged="changeResultsPage"
       />
@@ -2335,9 +2337,9 @@ icon-bar span img {
           </span>
         </div>
         <div>
-          <div style="min-height: 170px;">
-            <div style="display: inline-block;">
-              <hero-icon :data="'alencia'" @clicked="avatars.scale=0.9" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="0.75" style="margin: auto;"></hero-icon>
+          <div style="min-height: 265px;">
+            <div style="display: inline-block; height: 180px; width: 90px;">
+              <hero-icon :data="'alencia'" @clicked="avatars.scale=0.9" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="0.75" style="margin: auto; box-sizing: border-box; height: 114px;"></hero-icon>
               <span style="display: block;">
                 <input type="radio" id="scale0.9" value="0.9" v-model="avatars.scale">
                 <label for="scale0.9">
@@ -2345,8 +2347,8 @@ icon-bar span img {
                 </label>
               </span>
             </div>
-            <div style="display: inline-block;">
-              <hero-icon :data="'alencia'" @clicked="avatars.scale=1" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="1" style="margin: auto;"></hero-icon>
+            <div style="display: inline-block; height: 180px; width: 120px;">
+              <hero-icon :data="'alencia'" @clicked="avatars.scale=1" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="1" style="margin: auto; box-sizing: border-box; height: 142px;"></hero-icon>
               <span style="display: block;">
                 <input type="radio" id="scale1" value="1" v-model="avatars.scale">
                 <label for="scale1">
@@ -2354,8 +2356,17 @@ icon-bar span img {
                 </label>
               </span>
             </div>
-            <div style="display: inline-block;">
-              <hero-icon :data="'alencia'" @clicked="avatars.scale=1.25" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="1.25" style="margin: auto;"></hero-icon>
+            <div style="display: inline-block; height: 180px; width: 140px;">
+              <hero-icon :data="'alencia'" @clicked="avatars.scale=1.15" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="1.15" style="margin: auto; box-sizing: border-box; height:163px"></hero-icon>
+              <span style="display: block;">
+                <input type="radio" id="scale1.15" value="1.15" v-model="avatars.scale">
+                <label for="scale1.15">
+                  Medium
+                </label>
+              </span>
+            </div>
+            <div style="display: inline-block; height: 180px; width: 150px;">
+              <hero-icon :data="'alencia'" @clicked="avatars.scale=1.25" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="1.25" style="margin: auto; box-sizing: border-box; height: 177px;"></hero-icon>
               <span style="display: block;">
                 <input type="radio" id="scale1.25" value="1.25" v-model="avatars.scale">
                 <label for="scale1.25">
@@ -2376,7 +2387,7 @@ icon-bar span img {
               <label for="starsIconsCheckbox">Stars</label>
               <br>
               <input type="checkbox" id="hoverIconsCheckbox" v-model="avatars.hoverable">
-              <label for="hoverIconsCheckbox">Zoom on mouse over</label>
+              <label for="hoverIconsCheckbox">Zoom on mouse over (PC only)</label>
             </div>
           </div>
         </div>
@@ -2399,14 +2410,18 @@ icon-bar span img {
           </span>
         </div>
         <div style="min-height: 170px;">
-          <b>11/01/2021</b>
-          <span>
-            Description of the latest update goes inside this box :)
+          <span style="text-align: start; display: inline-block;">
+            <b>11/01/2021</b><br><br><br>
+            Some UI changes;<br>
+            You can now customize character icons, on the first visit you will be prompted to change them;<br>
+            Multi-lock changes: better UI with filters when selecting characters to add to each slot, you can lock the same hero on multiple slots;<br>
+            <br><br><br>
+            <a href="/old.html" style="text-align: center; text-decoration: none; color: var(--font-color);">If you are encountering issues with this version you can click here to use the old version.</a>
           </span>
         </div>
         <div>
           <div>
-            <button class="modal-button" @click="last_version=VERSION">
+            <button class="modal-button" @click="last_version=VERSION; /*localStorage.setItem('last_version', JSON.stringify(last_version))*/">
                 Close
             </button>
           </div>
@@ -2575,17 +2590,17 @@ icon-bar span img {
   </script>
 
   <script type="text/x-template" id="hero_icon">
-    <div @click="emitLeftClick(hero._id,$event)" @contextmenu="emitRightClick(hero._id,$event)" class="heroImgList" v-bind:class="{ hoverIcon: hoverable }">
+    <div @click="emitLeftClick(hero()._id,$event)" @contextmenu="emitRightClick(hero()._id,$event)" class="heroImgList" v-bind:class="{ hoverIcon: hoverable }" :style="{ padding: 12*scale + 'px' }">
       <div :style="sizeStyle" style="position: relative; display: inline-block; vertical-align: top;">
-        <img v-bind:src="imgSrc" v-bind:onerror="'this.src=app.getHeroAssets(\''+hero._id+'\', \'onerror\').icon;this.onerror=null;'" :alt="localizedName()" class="heroAvatar">
+        <img v-bind:src="imgSrc()" v-bind:onerror="'this.src=app.getHeroAssets(\''+hero()._id+'\', \'onerror\').icon;this.onerror=null;'" :alt="localizedName()" class="heroAvatar">
         <template v-if="role_attr">
-          <img v-bind:src="assetsRole(hero.role)" class="role-img" />
-          <img v-bind:src="assetsAttribute(hero.attribute)" class="attribute-img" />
+          <img v-bind:src="assetsRole(hero().role)" class="role-img" />
+          <img v-bind:src="assetsAttribute(hero().attribute)" class="attribute-img" />
         </template>
-        <div v-if="showstars" v-bind:class="'wrapper-hero-info rarity-' + hero.rarity"></div>
+        <div v-if="showstars" v-bind:class="'wrapper-hero-info rarity-' + hero().rarity"></div>
         <div v-if="selected" class="top-right animate-flicker">&#128274;</div>
       </div>
-      <span v-if="removable" class="removeHero" :style="{ fontSize: 20*scale + 'px' }" v-bind:title="'Remove ' + hero.name">×</span>
+      <span v-if="removable" class="removeHero" :style="{ fontSize: 20*scale + 'px' }" v-bind:title="'Remove ' + hero().name">×</span>
       <p v-if="displayname" class="heroNameLabel" :style="textFieldSize">{{localizedName()}}</p>
     </div>
   </script>
@@ -3140,36 +3155,23 @@ icon-bar span img {
     },
     data: function() {
       return {
-        selected: false,
+        //selected: false,
       }
     },
     computed: {
-      hero: function() {
-        return this.$root.thisHeroData(this.data) || {};
-      },
       sizeStyle: function() {
         return {height: this.size*this.scale + "px", width: this.size*this.scale + "px"};
       },
       textFieldSize: function() {
-        return {"width": (this.size + (this.removable ? 20 : 0) ) + "px", fontSize: 16*this.scale+"px"};
+        return {"width": (this.size*this.scale + (this.removable ? 20*this.scale : 0) ) + "px", fontSize: 16*this.scale+"px", height: 38*this.scale+"px"};
       },
-      imgSrc: function () {
-        return this.$root.getHeroAssets(this.hero._id).icon;
-      },
-      translatedNames: function() {
-        try {
-          return this.$root.translatedName;
-          return JSON.parse(JSON.stringify(this.$root.translatedName));
-        } catch (err) {
-          /* for safety */
-          console.log(err);
-          return {};
-        };
-      }
     },
     methods: {
       hero: function() {
-        return this.data;
+        return this.$root.thisHeroData(this.data) || {};
+      },
+      imgSrc: function () {
+        return this.$root.getHeroAssets(this.hero()._id).icon;
       },
       isSelected: function(hero) {
         return this.selected;
@@ -3217,11 +3219,11 @@ icon-bar span img {
         }
       },
       localizedName: function() {
-        let id = this.hero._id;
-        if (this.translatedNames[id])
-          return this.translatedNames[id];
+        let id = this.hero()._id;
+        if (this.$root.translatedName[id])
+          return this.$root.translatedName[id];
         else
-          return this.hero.name;
+          return this.hero().name;
       },
       remove: function(key,event) {
         this.$emit('remove', key);
@@ -3237,7 +3239,8 @@ icon-bar span img {
     watch: {
     },
     beforeDestroy: function(){
-      console.log('DESTROYYYY!!!')
+      //console.log('DESTROYYYY!!!');
+      //this.$destroy(true);
     }
   };
   const hero_selector = {
@@ -3516,8 +3519,6 @@ icon-bar span img {
               savedCamps: JSON.parse(localStorage.getItem('savedCamps') ? localStorage.getItem('savedCamps') : "{}"),
               displaySavedCamps: Object.keys(JSON.parse(localStorage.getItem('savedCamps') ? localStorage.getItem('savedCamps') : "{}")),
               customizedResuts: {numeroMassimo: true, n: 200, minMorale: false, morale: 0, noImmagini: false},
-              showNamesInGrid: userSettings.heroNameInGrid,
-              advancedIcons: userSettings.advancedIcons==undefined?false:userSettings.advancedIcons,
 	            displayStyle: "grid",
 	            isLoadingResults: false,
               inizializzazione: true, //nascondi tutto durante il caricamento iniziale di vue
@@ -3625,7 +3626,7 @@ icon-bar span img {
             };
           },
           writeSettings: function() {
-            var settings = JSON.stringify({notification: riceviNotifiche, lingua: this.lingua, verticalToolbar: document.getElementById("toolbar_position").checked, heroNameInGrid: document.getElementById("heroNameInGrid").checked, advancedIcons: this.advancedIcons});
+            var settings = JSON.stringify({notification: riceviNotifiche, lingua: this.lingua, verticalToolbar: document.getElementById("toolbar_position").checked});
             localStorage.setItem('Settings', settings);
             userSettings = JSON.parse(settings);
           },
@@ -3752,6 +3753,7 @@ icon-bar span img {
                   if (err.responseJSON) error = self.strings.e7api_missing_character; //"Couldn't find this character on EpicSevenDB";
                   else error = self.strings.e7api_couldnt_connect; //"Couldn't connect to EpicSevenDB.";
                   document.getElementById("heroDetailsRight").innerHTML = "";
+                  document.getElementById("debugHeroInfo").style.borderColor = "red";
                   $( "#heroDetailsRight" ).append(
                     `<div style="padding: 12px 16px; margin-top: -4px; background-color: var(--bg-color)"><p style="text-align: center; border-color: red;">${error}</p></div>`
                   );
