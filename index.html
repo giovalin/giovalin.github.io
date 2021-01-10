@@ -2396,7 +2396,7 @@ icon-bar span img {
     </div>
 
      <!-- Mostra durante il calcolo -->
-    <div v-show="isLoadingResults" id="loading_camp_results">
+    <div v-if="isLoadingResults" id="loading_camp_results">
       <div style="opacity: 0.3; filter: alpha(opacity=30); height:100%; width:100%; position:fixed; z-index:99; top: 0; right: 0;">
       </div> <!-- prevent user from changing menu -->
       <div class="center_img box_advanced_settings" style="height:200px;width:200px">
