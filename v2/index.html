@@ -25,10 +25,9 @@
     <meta property="og:image:height" content="256">
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-combinatorics@0.5.5/combinatorics.min.js" async></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/js-combinatorics@0.5.5/combinatorics.min.js" async></script>-->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
     <link rel="preload" href="/HeroDatabase.json" as="fetch">
-    <link rel="preload" href="/worker.js" as="worker">
     <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" async>-->
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
@@ -2336,7 +2335,7 @@ icon-bar span img {
       <div class="modal-content modal-small modal-three-parts animate">
         <div>
           <span class="modal-title">
-            Customize character icon
+            {{strings.customize_ch_icons}}
           </span>
         </div>
         <div>
@@ -2347,7 +2346,7 @@ icon-bar span img {
                 <span style="display: block;">
                   <input type="radio" id="scale0.9" value="0.9" v-model="avatars.scale">
                   <label for="scale0.9">
-                    Small
+                    {{strings.small}}
                   </label>
                 </span>
               </div>
@@ -2356,7 +2355,7 @@ icon-bar span img {
                 <span style="display: block;">
                   <input type="radio" id="scale1" value="1" v-model="avatars.scale">
                   <label for="scale1">
-                    Default
+                    {{strings.default}}
                   </label>
                 </span>
               </div>
@@ -2367,7 +2366,7 @@ icon-bar span img {
                 <span style="display: block;">
                   <input type="radio" id="scale1.15" value="1.15" v-model="avatars.scale">
                   <label for="scale1.15">
-                    Medium
+                    {{strings.medium}}
                   </label>
                 </span>
               </div>
@@ -2376,7 +2375,7 @@ icon-bar span img {
                 <span style="display: block;">
                   <input type="radio" id="scale1.25" value="1.25" v-model="avatars.scale">
                   <label for="scale1.25">
-                    Large
+                    {{strings.large}}
                   </label>
                 </span>
               </div>
@@ -2386,28 +2385,28 @@ icon-bar span img {
             <div style="width:100%; min-width: 350px; margin: auto; text-align: start; font-size: 1.4em;">
               <span style="position: relative;width: 100%;display: inline-block;padding: 10px;">
                 <label class="switch" style="width: 100%;" for="heroNameIconCheckbox">
-                  <span style="height: 35px; line-height: 35px;">Hero's name</span>
+                  <span style="height: 35px; line-height: 35px;">{{strings.name}}</span>
                   <input type="checkbox" id="heroNameIconCheckbox" v-model="avatars.name">
                   <i class="slider round"></i>
                 </label>
               </span>
               <span style="position: relative;width: 100%;display: inline-block;padding: 10px;">
                 <label class="switch" style="width: 100%;" for="role_attrIconsCheckbox">
-                  <span style="height: 35px; line-height: 35px;">Attribute and Role</span>
+                  <span style="height: 35px; line-height: 35px;">{{strings.attr_role}}</span>
                   <input type="checkbox" id="role_attrIconsCheckbox" v-model="avatars.role_attr">
                   <i class="slider round"></i>
                 </label>
               </span>
               <span style="position: relative;width: 100%;display: inline-block;padding: 10px;">
                 <label class="switch" style="width: 100%;" for="starsIconsCheckbox">
-                  <span style="height: 35px; line-height: 35px;">Stars</span>
+                  <span style="height: 35px; line-height: 35px;">{{strings.stars}}</span>
                   <input type="checkbox" id="starsIconsCheckbox" v-model="avatars.stars">
                   <i class="slider round"></i>
                 </label>
               </span>
               <span style="position: relative;width: 100%;display: inline-block;padding: 10px;">
                 <label class="switch" style="width: 100%;" for="hoverIconsCheckbox">
-                  <span style="height: 35px; line-height: 35px;">Zoom on mouse over (PC only)</span>
+                  <span style="height: 35px; line-height: 35px; display: inline-block; max-width: 80%;">{{strings.enable_mouseover_zoom}}</span>
                   <input type="checkbox" id="hoverIconsCheckbox" v-model="avatars.hoverable">
                   <i class="slider round"></i>
                 </label>
@@ -2417,7 +2416,7 @@ icon-bar span img {
         </div>
         <div>
           <span v-if="avatars.notSet" class="modal-text">
-            If you wish, you can change your settings at any time in the settings tab!
+            {{strings.settings_samll_help}}
           </span>
           <button class="modal-button" @click="avatars.notSet=false; this.localStorage.setItem('avatars',JSON.stringify(avatars));">
             {{strings.save}}
@@ -2435,18 +2434,14 @@ icon-bar span img {
         </div>
         <div style="min-height: 170px;">
           <span style="text-align: start; display: inline-block;">
-            <b>11/01/2021</b><br><br><br>
-            Some UI changes;<br>
-            You can now customize character icons, on the first visit you will be prompted to change them;<br>
-            Multi-lock changes: better UI with filters when selecting characters to add to each slot, you can lock the same hero on multiple slots;<br>
-            <br><br><br>
+            T E X T   H E R E
             <a href="/old.html" style="text-align: center; text-decoration: none; color: var(--font-color);">If you are encountering issues with this version you can click here to use the old version.</a>
           </span>
         </div>
         <div>
           <div>
             <button class="modal-button" @click="last_version=VERSION; /*localStorage.setItem('last_version', JSON.stringify(last_version))*/">
-                Close
+              {{strings.confirm}}
             </button>
           </div>
         </div>
@@ -2616,7 +2611,7 @@ icon-bar span img {
   <script type="text/x-template" id="hero_icon">
     <div @click="emitLeftClick(data._id,$event)" @contextmenu="emitRightClick(data._id,$event)" class="heroImgList" v-bind:class="{ hoverIcon: hoverable }" :style="{ padding: 12*scale + 'px' }">
       <div :style="sizeStyle" style="position: relative; display: inline-block; vertical-align: top;">
-        <img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + data.id + '_s.png'" v-bind:onerror="'this.src=app.getHeroAssets(\''+data._id+'\', \'onerror\').icon;this.onerror=null;'" :alt="name" class="heroAvatar">
+        <img :src="'https://assets.epicsevendb.com/_source/face/' + data.id + '_s.png'" v-bind:onerror="'this.src=app.getHeroAssets(\''+data._id+'\', \'onerror\').icon;this.onerror=null;'" :alt="name" class="heroAvatar">
         <template v-if="role_attr">
           <img v-bind:src="assetsRole(data.role)" class="role-img" />
           <img v-bind:src="assetsAttribute(data.attribute)" class="attribute-img" />
@@ -4512,6 +4507,15 @@ icon-bar span img {
                   hero_name_under_pic_grid: "Mostra il nome eroe sotto l'immagine",
                   genera_url: "Genera URL",
                   url_usage_help: "Copia e incolla questo URL nel browser o dispositivo desiderato per generare una copia dei tuoi eroi attuali.",
+                  customize_ch_icons: "Personalizza icone",
+                  small: "Piccola",
+                  default: "Predefinita",
+                  medium: "Media",
+                  large: "Grande",
+                  settings_samll_help: "Puoi cambiare le preferenze ogni volta che vuoi nella finestra impostazioni",
+                  attr_role: "Elemento e classe",
+                  stars: "Stelle (Rango)",
+                  enable_mouseover_zoom: "Ingrandisci al passaggio del mouse (solo su PC)",
                   copia: "Copia",
                   save: "Salva",
                   confirm: "Conferma",
@@ -4663,6 +4667,15 @@ icon-bar span img {
                   hero_name_under_pic_grid: "在英雄头像下方显示英雄名字",
                   genera_url: "生成URL链接",
                   url_usage_help: "复制这个链接到新设备来导入你的英雄列表. <br>设备间并不会自动同步, 如果你修改了英雄列表，下次导入前需要重新生成URL链接.",
+                  customize_ch_icons: "Customize character icons",
+                  small: "Small",
+                  default: "Default",
+                  medium: "Medium",
+                  large: "Large",
+                  settings_samll_help: "If you wish, you can change your settings at any time in the settings tab!",
+                  attr_role: "Attribute and Role",
+                  stars: "Stars",
+                  enable_mouseover_zoom: "Zoom on mouse over (PC only)",
                   copia: "复制",
                   save: "保存",
                   confirm: "Confirm",
@@ -4814,6 +4827,15 @@ icon-bar span img {
                   hero_name_under_pic_grid: "在英雄頭像下方顯示英雄名字",
                   genera_url: "生成URL鏈接",
                   url_usage_help: "復制這個鏈接到新設備來導入你的英雄列表. <br>設備間並不會自動同步, 如果你修改了英雄列表，下次導入前需要重新生成URL鏈接.",
+                  customize_ch_icons: "Customize character icons",
+                  small: "Small",
+                  default: "Default",
+                  medium: "Medium",
+                  large: "Large",
+                  settings_samll_help: "If you wish, you can change your settings at any time in the settings tab!",
+                  attr_role: "Attribute and Role",
+                  stars: "Stars",
+                  enable_mouseover_zoom: "Zoom on mouse over (PC only)",
                   copia: "復制",
                   save: "保存",
                   confirm: "Confirm",
@@ -4955,6 +4977,15 @@ icon-bar span img {
                   hero_name_under_pic_grid: "Afficher le nom du héros sous le portrait",
                   genera_url: "Générer une URL",
                   url_usage_help: "Copiez et collez cette URL sur un nouvel appareil ou navigateur pour générer une copie de votre liste de héros actuelle. <br>Les modifications ne sont pas synchronisées, si vous changez votre liste, vous devrez générer une nouvelle URL.",
+                  customize_ch_icons: "Customize character icons",
+                  small: "Small",
+                  default: "Default",
+                  medium: "Medium",
+                  large: "Large",
+                  settings_samll_help: "If you wish, you can change your settings at any time in the settings tab!",
+                  attr_role: "Attribute and Role",
+                  stars: "Stars",
+                  enable_mouseover_zoom: "Zoom on mouse over (PC only)",
                   copia: "Copier",
                   save: "Sauvgarde",
                   confirm: "Confirm",
@@ -5108,6 +5139,15 @@ icon-bar span img {
                   hero_name_under_pic_grid: "Hero's name under the portrait",
                   genera_url: "Generate URL",
                   url_usage_help: "Copy and paste this URL to a new device or browser to generate a copy of your current roster. <br>Changes are not synchronized, if you change your roster you will have to generate a new URL.",
+                  customize_ch_icons: "Customize character icons",
+                  small: "Small",
+                  default: "Default",
+                  medium: "Medium",
+                  large: "Large",
+                  settings_samll_help: "If you wish, you can change your settings at any time in the settings tab!",
+                  attr_role: "Attribute and Role",
+                  stars: "Stars",
+                  enable_mouseover_zoom: "Zoom on mouse over (PC only)",
                   copia: "Copy",
                   save: "Save",
                   confirm: "Confirm",
@@ -6289,7 +6329,7 @@ icon-bar span img {
               };
               try {
                 camperino.postMessage({HeroDB: this.HeroDB, myHeroesList: this.myHeroesList, campList: campList, locked: this.locked, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs, mustIncludeDispel: this.mustIncludeDispel, cartesianLock: this.cartesian_lock, preferenzeRisultati: this.customizedResuts, risultati: []});
-                this.numeroCombinazioniPossibili = Combinatorics.bigCombination(campList,4-this.locked.length).length;
+                //this.numeroCombinazioniPossibili = Combinatorics.bigCombination(campList,4-this.locked.length).length;
               } catch (err) {
                 this.isLoadingResults = false; // remove angelica loading
                 snackbarMessage(`Error: ` + err);
