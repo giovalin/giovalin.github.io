@@ -643,8 +643,9 @@ icon-bar span img {
                   .slider {
                     position: absolute;
                     cursor: pointer;
+                    width: 60px;
                     top: 0;
-                    left: 0;
+                    /*left: 0;*/
                     right: 0;
                     bottom: 0;
                     background-color: #ccc;
@@ -1770,7 +1771,7 @@ icon-bar span img {
             <div class="active" onclick="document.getElementById('allHeroes_sort_by').value='id'; app.filtroTuttiGliEroi(this, 'AllHeroes'); this.parentElement.style.display='none'">{{strings.ingame_id}}</div>
           </div>
         </div>
-        <button style="margin-right: 30px; width: auto; font-size: 16px;" class="search_hero_area search_hero_filter" v-on:click="if (displayList.length > 0) alertUserAction('addDisplayed');" style="font-size:16px; width:90px; width: auto;">{{strings.add_displayed_heroes}}</button>
+        <button style="margin-right: 30px; width: auto; font-size: 16px;" class="search_hero_area search_hero_filter" v-on:click="alertUserAction('addDisplayed');" style="font-size:16px; width:90px; width: auto;">{{strings.add_displayed_heroes}}</button>
         <div id="pulsanti_display_add_window" class="search_hero_area" style="display:inline-block">
           <button class="search_hero_filter active" name="display_list" onclick="app.setDisplayStyle(this, 'add_window')" value="grid">
             <div><i class="fa fa-th-large"></i></div>
@@ -1787,7 +1788,7 @@ icon-bar span img {
         <table id="lista_hero_disponibili">
           <tr>
             <td style="text-align: center; padding-bottom: 20px;">
-              <hero-icon v-for="key in displayList" :data="key" @clicked="addHero(thisHeroData(key)._id)" @contextmenu="rightClickHero(key, $event)" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="avatars.scale" :hoverable="avatars.hoverable" v-bind:style="'opacity:' + (myHeroesList[key] ? 0.5 : 1) "></hero-icon>
+              <hero-icon v-for="key in displayList" :data="thisHeroData(key)" :key="key" @clicked="addHero(thisHeroData(key)._id)" @contextmenu="rightClickHero(key, $event)" :displayname="avatars.name" :name="thisHeroTranslatedName(key)" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="avatars.scale" :hoverable="avatars.hoverable" v-bind:style="'opacity:' + (myHeroesList[key] ? 0.5 : 1) "></hero-icon>
             </td>
           </tr>
          </table>
@@ -1909,7 +1910,7 @@ icon-bar span img {
             <div class="active" onclick="document.getElementById('myHeroes_sort_by').value='id'; app.filtroTuttiGliEroi(this, 'MyHeroes'); this.parentElement.style.display='none'">{{strings.ingame_id}}</div>
           </div>
         </div>
-        <button id="myHeroes_sort_by" style="margin-right: 30px; width: auto; font-size: 16px;" class="search_hero_area search_hero_filter" v-on:click="if (displayMyHeroes.length > 0) alertUserAction('removeDisplayed');" style="font-size:16px; width:90px; width: auto;">{{strings.remove_displayed_heroes}}</button>
+        <button id="myHeroes_sort_by" style="margin-right: 30px; width: auto; font-size: 16px;" class="search_hero_area search_hero_filter" v-on:click="alertUserAction('removeDisplayed');" style="font-size:16px; width:90px; width: auto;">{{strings.remove_displayed_heroes}}</button>
         <div id="pulsanti_display_manage_window" class="search_hero_area" style="display:inline-block"> <!-- Grid/List buttons-->
           <button class="search_hero_filter active" name="display_list" onclick="app.setDisplayStyle(this, 'manage_window')" value="grid">
             <div><i class="fa fa-th-large"></i></div>
@@ -1925,7 +1926,7 @@ icon-bar span img {
         <table id="myHeroes">
           <tr>
             <td style="text-align: center; padding-bottom: 20px;">
-              <hero-icon v-for="key in displayMyHeroes" v-bind:data="key" @clicked="lockHero(key)" @remove="removeHero(key)" @contextmenu="rightClickHero(key, $event)" :removable="true" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="avatars.scale" :hoverable="avatars.hoverable" :selected="isLocked(key)"></hero-icon>
+              <hero-icon v-for="key in displayMyHeroes" v-bind:data="thisHeroData(key)" :key="key" @clicked="lockHero(key)" @remove="removeHero(key)" @contextmenu="rightClickHero(key, $event)" :removable="true" :displayname="avatars.name" :name="thisHeroTranslatedName(key)" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="avatars.scale" :hoverable="avatars.hoverable" :selected="isLocked(key)"></hero-icon>
             </td>
           </tr>
         </table>
@@ -2074,16 +2075,16 @@ icon-bar span img {
             <td width="4%" style="padding-top: 30px;padding-bottom: 30px;text-align: center; cursor: pointer;" v-on:click="mostraSalvaRisultato(index+(currentResultsPage-1)*25)"><i class="fa fa-save" aria-hidden="true" style="font-size:30px;"></i>
               <br>{{index+1+(currentResultsPage-1)*25}}</td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="item.team[0]" @contextmenu="rightClickHero(item.team[0], $event)" :hoverable="false" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[0])" :key="item.team[0]" @contextmenu="rightClickHero(item.team[0], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[0])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="item.team[1]" @contextmenu="rightClickHero(item.team[1], $event)" :hoverable="false" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[1])" :key="item.team[1]" @contextmenu="rightClickHero(item.team[1], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[1])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="item.team[2]" @contextmenu="rightClickHero(item.team[2], $event)" :hoverable="false" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[2])" :key="item.team[2]" @contextmenu="rightClickHero(item.team[2], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[2])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="item.team[3]" @contextmenu="rightClickHero(item.team[3], $event)" :hoverable="false" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[3])" :key="item.team[3]" @contextmenu="rightClickHero(item.team[3], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[3])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
             </td>
             <td class="topics"><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG1)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore1)}}</a><br><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG2)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore2)}}</a></td>
             <td style="text-align:center; font-family:sans-serif;font-size:17px" width="3%">{{item.morale}}</td>
@@ -2326,7 +2327,7 @@ icon-bar span img {
     </div>
 
     <template  v-if="isSelectingCartesian">
-      <hero_selector v-bind:selectable="cartesianSlotRoster()" v-bind:selected="cartesian_lock[isSelectingCartesian]" @right-click="rightClickHero" v-bind:slot="isSelectingCartesian" @close-modal="addToCartesianLock"></hero_selector>
+      <hero_selector v-bind:selectable="cartesianSlotRoster()" v-bind:selected="cartesian_lock[isSelectingCartesian]" @right-click="rightClickHero" v-bind:slotnumber="isSelectingCartesian" @close-modal="addToCartesianLock"></hero_selector>
     </template>
 
     <div v-if="avatars.notSet==true" ref="popup-modal" class="modal" style="display: block;">
@@ -2338,56 +2339,77 @@ icon-bar span img {
         </div>
         <div>
           <div style="min-height: 265px;">
-            <div style="display: inline-block; height: 180px; width: 90px;">
-              <hero-icon :data="'alencia'" @clicked="avatars.scale=0.9" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="0.75" style="margin: auto; box-sizing: border-box; height: 114px;"></hero-icon>
-              <span style="display: block;">
-                <input type="radio" id="scale0.9" value="0.9" v-model="avatars.scale">
-                <label for="scale0.9">
-                  Small
-                </label>
-              </span>
+            <div style="display: inline-block">
+              <div style="display: inline-block; height: 180px; width: 90px;">
+                <hero-icon :data="thisHeroData('alencia')" @clicked="avatars.scale=0.9" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :name="thisHeroTranslatedName('alencia')" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="0.75" style="margin: auto; box-sizing: border-box; height: 114px;"></hero-icon>
+                <span style="display: block;">
+                  <input type="radio" id="scale0.9" value="0.9" v-model="avatars.scale">
+                  <label for="scale0.9">
+                    Small
+                  </label>
+                </span>
+              </div>
+              <div style="display: inline-block; height: 180px; width: 120px;">
+                <hero-icon :data="thisHeroData('alencia')" @clicked="avatars.scale=1" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :name="thisHeroTranslatedName('alencia')" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="1" style="margin: auto; box-sizing: border-box; height: 142px;"></hero-icon>
+                <span style="display: block;">
+                  <input type="radio" id="scale1" value="1" v-model="avatars.scale">
+                  <label for="scale1">
+                    Default
+                  </label>
+                </span>
+              </div>
             </div>
-            <div style="display: inline-block; height: 180px; width: 120px;">
-              <hero-icon :data="'alencia'" @clicked="avatars.scale=1" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="1" style="margin: auto; box-sizing: border-box; height: 142px;"></hero-icon>
-              <span style="display: block;">
-                <input type="radio" id="scale1" value="1" v-model="avatars.scale">
-                <label for="scale1">
-                  Default
-                </label>
-              </span>
-            </div>
-            <div style="display: inline-block; height: 180px; width: 140px;">
-              <hero-icon :data="'alencia'" @clicked="avatars.scale=1.15" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="1.15" style="margin: auto; box-sizing: border-box; height:163px"></hero-icon>
-              <span style="display: block;">
-                <input type="radio" id="scale1.15" value="1.15" v-model="avatars.scale">
-                <label for="scale1.15">
-                  Medium
-                </label>
-              </span>
-            </div>
-            <div style="display: inline-block; height: 180px; width: 150px;">
-              <hero-icon :data="'alencia'" @clicked="avatars.scale=1.25" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="1.25" style="margin: auto; box-sizing: border-box; height: 177px;"></hero-icon>
-              <span style="display: block;">
-                <input type="radio" id="scale1.25" value="1.25" v-model="avatars.scale">
-                <label for="scale1.25">
-                  Large
-                </label>
-              </span>
+            <div style="display: inline-block">
+              <div style="display: inline-block; height: 180px; width: 140px;">
+                <hero-icon :data="thisHeroData('alencia')" @clicked="avatars.scale=1.15" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :name="thisHeroTranslatedName('alencia')" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="1.15" style="margin: auto; box-sizing: border-box; height:163px"></hero-icon>
+                <span style="display: block;">
+                  <input type="radio" id="scale1.15" value="1.15" v-model="avatars.scale">
+                  <label for="scale1.15">
+                    Medium
+                  </label>
+                </span>
+              </div>
+              <div style="display: inline-block; height: 180px; width: 150px;">
+                <hero-icon :data="thisHeroData('alencia')" @clicked="avatars.scale=1.25" :removable="true" :hoverable="avatars.hoverable" :displayname="avatars.name" :name="thisHeroTranslatedName('alencia')" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="1.25" style="margin: auto; box-sizing: border-box; height: 177px;"></hero-icon>
+                <span style="display: block;">
+                  <input type="radio" id="scale1.25" value="1.25" v-model="avatars.scale">
+                  <label for="scale1.25">
+                    Large
+                  </label>
+                </span>
+              </div>
             </div>
           </div>
           <div>
-            <div style="width:50%; min-width: 350px; margin: auto; text-align: start; font-size: 1.4em;">
-              <input type="checkbox" id="heroNameIconCheckbox" v-model="avatars.name">
-              <label for="heroNameIconCheckbox">Hero's name</label>
-              <br>
-              <input type="checkbox" id="role_attrIconsCheckbox" v-model="avatars.role_attr">
-              <label for="role_attrIconsCheckbox">Attribute + Role</label>
-              <br>
-              <input type="checkbox" id="starsIconsCheckbox" v-model="avatars.stars">
-              <label for="starsIconsCheckbox">Stars</label>
-              <br>
-              <input type="checkbox" id="hoverIconsCheckbox" v-model="avatars.hoverable">
-              <label for="hoverIconsCheckbox">Zoom on mouse over (PC only)</label>
+            <div style="width:100%; min-width: 350px; margin: auto; text-align: start; font-size: 1.4em;">
+              <span style="position: relative;width: 100%;display: inline-block;padding: 10px;">
+                <label class="switch" style="width: 100%;" for="heroNameIconCheckbox">
+                  <span style="height: 35px; line-height: 35px;">Hero's name</span>
+                  <input type="checkbox" id="heroNameIconCheckbox" v-model="avatars.name">
+                  <i class="slider round"></i>
+                </label>
+              </span>
+              <span style="position: relative;width: 100%;display: inline-block;padding: 10px;">
+                <label class="switch" style="width: 100%;" for="role_attrIconsCheckbox">
+                  <span style="height: 35px; line-height: 35px;">Attribute and Role</span>
+                  <input type="checkbox" id="role_attrIconsCheckbox" v-model="avatars.role_attr">
+                  <i class="slider round"></i>
+                </label>
+              </span>
+              <span style="position: relative;width: 100%;display: inline-block;padding: 10px;">
+                <label class="switch" style="width: 100%;" for="starsIconsCheckbox">
+                  <span style="height: 35px; line-height: 35px;">Stars</span>
+                  <input type="checkbox" id="starsIconsCheckbox" v-model="avatars.stars">
+                  <i class="slider round"></i>
+                </label>
+              </span>
+              <span style="position: relative;width: 100%;display: inline-block;padding: 10px;">
+                <label class="switch" style="width: 100%;" for="hoverIconsCheckbox">
+                  <span style="height: 35px; line-height: 35px;">Zoom on mouse over (PC only)</span>
+                  <input type="checkbox" id="hoverIconsCheckbox" v-model="avatars.hoverable">
+                  <i class="slider round"></i>
+                </label>
+              </span>
             </div>
           </div>
         </div>
@@ -2395,14 +2417,14 @@ icon-bar span img {
           <span v-if="avatars.notSet" class="modal-text">
             If you wish, you can change your settings at any time in the settings tab!
           </span>
-          <button class="modal-button" @click="avatars.notSet=false; localStorage.setItem('avatars',JSON.stringify(avatars));">
+          <button class="modal-button" @click="avatars.notSet=false; this.localStorage.setItem('avatars',JSON.stringify(avatars));">
             {{strings.save}}
           </button>
         </div>
       </div>
     </div>
 
-    <div v-if="last_version!=VERSION" ref="popup-modal-update" class="modal" style="display: block;">
+    <!--<div v-if="last_version!=VERSION" ref="popup-modal-update" class="modal" style="display: block;">
       <div class="modal-content modal-small modal-three-parts">
         <div>
           <span class="modal-title">
@@ -2427,14 +2449,14 @@ icon-bar span img {
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
 
     <div id="toolbar" class="icon-bar"> <!-- nascondi toolbar durante il calcolo -->
       <!--<span id="icon-bar_user_window" onclick="/*setWindow('user_window')*/" style="background-image: url(./favicons/android-chrome-192x192.png); background-size: cover; background-repeat: no-repeat;"></span>-->
       <span id="icon-bar_add_window" onclick="setWindow('add_window')"><!--&#43;--><i class="fa fa-plus" aria-hidden="true"></i></span>
       <span id="icon-bar_manage_window" onclick="setWindow('manage_window')"><!--&#9998;--><i class="fa fa-pencil-alt" aria-hidden="true"></i></span>
       <span id="icon-bar_advanced_window" onclick="setWindow('advanced_window')"><!--&#9876;--><i class="fa fa-book" aria-hidden="true"></i></span>
-      <span id="icon-bar_calculate_window" v-on:click="calcolaRisultati; setWindow('calculate_window');" style="font-size:36px;">
+      <span id="icon-bar_calculate_window" onclick="app.calcolaRisultati; window.setWindow('calculate_window');" style="font-size:36px;">
         <!--Calcola-->
         <img src="https://cdn.glitch.com/5c21c869-ea9a-48ba-b019-90cd493f45cd%2Fcamp-fire-icon%20small.png?v=1585067234171" alt="calculate" style="margin-bottom: -10px; height: 40px;" />
       </span>
@@ -2502,7 +2524,7 @@ icon-bar span img {
       </li>
   
       <li v-for="page in pages" class="pagination-item">
-        <button 
+        <button
           type="button" 
           @click="onClickPage(page.name)"
           :disabled="page.isDisabled"
@@ -2558,7 +2580,7 @@ icon-bar span img {
               </div>
             </div>
           </div>
-          <button class="modal-button fa fa-search" style="opacity: 0.5;" @click="snackbarMessage('Temporarily unavailable due to memory leak on Chrome!'); /*openSearchBar()*/">
+          <button class="modal-button fa fa-search" style="opacity: 0.5;" @click="this.snackbarMessage('Temporarily unavailable due to memory leak on Chrome!'); /*openSearchBar()*/">
             {{strings.search}}
           </button>
           <!--<div v-show="inputField" style="display: flex;position: absolute; z-index: 2;height: 50px;">
@@ -2571,7 +2593,7 @@ icon-bar span img {
           </div>-->
         </div>
         <div>
-          <hero-icon v-for="id in filteredData" v-bind:data="id" @clicked="select(id)" @contextmenu="emitRightClick(id,$event)" :displayname="$root.avatars.name" :showstars="$root.avatars.stars" :role_attr="$root.avatars.role_attr" :scale="$root.avatars.scale" :hoverable="$root.avatars.hoverable" :selected="isSelected(id)"></hero-icon>
+          <hero-icon v-for="id in filteredData" v-bind:data="$root.thisHeroData(id)" :key="id" @clicked="select(id)" @contextmenu="emitRightClick(id,$event)" :displayname="$root.avatars.name" :name="$root.thisHeroTranslatedName(id)" :showstars="$root.avatars.stars" :role_attr="$root.avatars.role_attr" :scale="$root.avatars.scale" :hoverable="$root.avatars.hoverable" :selected="isSelected(id)"></hero-icon>
           <div v-if="heroes.length==0" style="display: flex; height: 100%;align-items: center;justify-content: center;">
             <div style="background-color:var(--bg-color); color:var(--font-color); border-radius: 30px; box-shadow:5px 5px 14px 1px var(--search-border-color);align-items: center;padding: 10px 50px;">
               <template v-if="filteredData.length==0">No heroes in your roster!</template>
@@ -2590,18 +2612,18 @@ icon-bar span img {
   </script>
 
   <script type="text/x-template" id="hero_icon">
-    <div @click="emitLeftClick(hero()._id,$event)" @contextmenu="emitRightClick(hero()._id,$event)" class="heroImgList" v-bind:class="{ hoverIcon: hoverable }" :style="{ padding: 12*scale + 'px' }">
+    <div @click="emitLeftClick(data._id,$event)" @contextmenu="emitRightClick(data._id,$event)" class="heroImgList" v-bind:class="{ hoverIcon: hoverable }" :style="{ padding: 12*scale + 'px' }">
       <div :style="sizeStyle" style="position: relative; display: inline-block; vertical-align: top;">
-        <img v-bind:src="imgSrc()" v-bind:onerror="'this.src=app.getHeroAssets(\''+hero()._id+'\', \'onerror\').icon;this.onerror=null;'" :alt="localizedName()" class="heroAvatar">
+        <img v-bind:src="imgSrc()" v-bind:onerror="'this.src=app.getHeroAssets(\''+data._id+'\', \'onerror\').icon;this.onerror=null;'" :alt="name" class="heroAvatar">
         <template v-if="role_attr">
-          <img v-bind:src="assetsRole(hero().role)" class="role-img" />
-          <img v-bind:src="assetsAttribute(hero().attribute)" class="attribute-img" />
+          <img v-bind:src="assetsRole(data.role)" class="role-img" />
+          <img v-bind:src="assetsAttribute(data.attribute)" class="attribute-img" />
         </template>
-        <div v-if="showstars" v-bind:class="'wrapper-hero-info rarity-' + hero().rarity"></div>
+        <div v-if="showstars" v-bind:class="'wrapper-hero-info rarity-' + data.rarity"></div>
         <div v-if="selected" class="top-right animate-flicker">&#128274;</div>
       </div>
-      <span v-if="removable" class="removeHero" :style="{ fontSize: 20*scale + 'px' }" v-bind:title="'Remove ' + hero().name">×</span>
-      <p v-if="displayname" class="heroNameLabel" :style="textFieldSize">{{localizedName()}}</p>
+      <span v-if="removable" class="removeHero" :style="{ fontSize: 20*scale + 'px' }" v-bind:title="'Remove ' + name">×</span>
+      <p v-if="displayname" class="heroNameLabel" :style="textFieldSize">{{name}}</p>
     </div>
   </script>
 
@@ -3108,9 +3130,14 @@ icon-bar span img {
     template: '#hero_icon',
     props: {
       data: {
-        type: String,
+        type: Object,
         required: true,
-        default: 'ras'
+        default: {}
+      },
+      name: {
+        type: String,
+        required: false,
+        default: "Name"
       },
       removable: {
         type: Boolean,
@@ -3123,12 +3150,12 @@ icon-bar span img {
         default: false
       },
       displayname: {
-        type: String,
+        type: Boolean,
         required: false,
-        default: true
+        default: false
       },
       role_attr: {
-        type: String,
+        type: Boolean,
         required: false,
         default: true
       },
@@ -3167,11 +3194,9 @@ icon-bar span img {
       },
     },
     methods: {
-      hero: function() {
-        return this.$root.thisHeroData(this.data) || {};
-      },
       imgSrc: function () {
-        return this.$root.getHeroAssets(this.hero()._id).icon;
+        return "https://assets.epicsevendb.com/_source/face/" + this.data.id + "_s.png";
+        //return this.$root.getHeroAssets(this.data._id).icon;
       },
       isSelected: function(hero) {
         return this.selected;
@@ -3218,13 +3243,6 @@ icon-bar span img {
             return "https://assets.epicsevendb.com/attribute/cm_icon_profire.png"
         }
       },
-      localizedName: function() {
-        let id = this.hero()._id;
-        if (this.$root.translatedName[id])
-          return this.$root.translatedName[id];
-        else
-          return this.hero().name;
-      },
       remove: function(key,event) {
         this.$emit('remove', key);
       },
@@ -3265,10 +3283,10 @@ icon-bar span img {
         required: false,
         default: undefined
       },
-      slot: {
-        type: Number,
+      slotnumber: {
+        type: String,
         required: false,
-        default: 0
+        default: "0"
       },
       forceSelection: {
         type: Boolean,
@@ -3300,21 +3318,13 @@ icon-bar span img {
         return tmp;
       },
       modalTitle: function () {
-        if (!this.title) return this.strings.multilock_slot + " " + (parseInt(this.slot) + 1);
+        if (!this.title) return this.strings.multilock_slot + " " + (parseInt(this.slotnumber) + 1);
         return title;
       },
       strings: function () {
         try {
           return this.$root.strings;
         } catch (err) { /* for safety */
-          console.log(err);
-          return {};
-        };
-      },
-      translatedNames: function () {
-        try {
-          return this.$root.translatedName;
-        } catch (err) {
           console.log(err);
           return {};
         };
@@ -3395,7 +3405,7 @@ icon-bar span img {
         var tmp = JSON.parse(JSON.stringify(this.heroes)); // make a copy
         let text = this.inputCharacter.toLowerCase();
         for (var hero in tmp){
-          if (text && tmp[hero].name.toLowerCase().indexOf(text) == -1 && this.localizedName(hero).toLowerCase().indexOf(text) == -1) {delete tmp[hero];continue};
+          if (text && tmp[hero].name.toLowerCase().indexOf(text) == -1 && this.name.toLowerCase().indexOf(text) == -1) {delete tmp[hero];continue};
           for (var i in this.filter) {
             if (!tmp[hero]) break;
             if (isNaN(this.filter[i]) && this.filter[i].toLowerCase() == "all") continue;
@@ -3540,9 +3550,13 @@ icon-bar span img {
             return this.HeroDB[hero]
           },
           thisHeroTranslatedName: function(heroid) {
+            if (!heroid) return; 
             if (this.translatedName[heroid]) {
               return this.translatedName[heroid]
-            } else return this.HeroDB[heroid].name
+            } else {
+              if (!this.thisHeroData(heroid)) return heroid;
+              return this.thisHeroData(heroid).name;
+            }
           },
           getHeroAssets: function (_id, f) {
             if (this.HeroDB[_id]){
@@ -3633,8 +3647,10 @@ icon-bar span img {
           alertUserAction: function (f) {
             let action, message;
             if (f === "addDisplayed") {
+              if (this.displayList.length==0) return;
               message = this.strings.confirm_add_heroes.replace(/<N>/g, this.displayList.length);
             } else if (f === "removeDisplayed") {
+              if (this.displayMyHeroes.length==0) return;
               message = this.strings.confirm_remove_heroes.replace(/<N>/g, this.displayMyHeroes.length);
             };
             var answer = window.confirm(message);
