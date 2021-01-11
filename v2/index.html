@@ -28,8 +28,8 @@
     <script src="https://cdn.jsdelivr.net/npm/js-combinatorics@0.5.5/combinatorics.min.js" async></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
     <link rel="preload" href="/HeroDatabase.json" as="fetch">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css">
-    <!--<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">-->
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" async>-->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
     <!--<link rel="preload" href="https://i.imgur.com/NDUMMYK.png" as="image" media="(max-width: 90px)">-->
     <style>
@@ -2594,7 +2594,7 @@ icon-bar span img {
           </div>-->
         </div>
         <div>
-          <hero-icon v-for="id in filteredData" v-bind:data="$root.thisHeroData(id)" :key="id" @clicked="select(id)" @contextmenu="emitRightClick(id,$event)" :displayname="$root.avatars.name" :name="$root.thisHeroTranslatedName(id)" :showstars="$root.avatars.stars" :role_attr="$root.avatars.role_attr" :scale="$root.avatars.scale" :hoverable="$root.avatars.hoverable" :selected="isSelected(id)"></hero-icon>
+          <hero-icon v-for="id in filteredData" v-bind:data="$root.thisHeroData(id)" :key="id" @clicked="select(id)" @contextmenu="emitRightClick(id,$event)" :displayname="$root.avatars.name" :name="$root.thisHeroTranslatedName(id)" :showstars="$root.avatars.stars" :role_attr="$root.avatars.role_attr" :scale="$root.avatars.scale" :hoverable="$root.avatars.hoverable" :selected="this.isSelected(id)"></hero-icon>
           <div v-if="heroes.length==0" style="display: flex; height: 100%;align-items: center;justify-content: center;">
             <div style="background-color:var(--bg-color); color:var(--font-color); border-radius: 30px; box-shadow:5px 5px 14px 1px var(--search-border-color);align-items: center;padding: 10px 50px;">
               <template v-if="filteredData.length==0">No heroes in your roster!</template>
@@ -2615,7 +2615,7 @@ icon-bar span img {
   <script type="text/x-template" id="hero_icon">
     <div @click="emitLeftClick(data._id,$event)" @contextmenu="emitRightClick(data._id,$event)" class="heroImgList" v-bind:class="{ hoverIcon: hoverable }" :style="{ padding: 12*scale + 'px' }">
       <div :style="sizeStyle" style="position: relative; display: inline-block; vertical-align: top;">
-        <img v-bind:src="imgSrc()" v-bind:onerror="'this.src=app.getHeroAssets(\''+data._id+'\', \'onerror\').icon;this.onerror=null;'" :alt="name" class="heroAvatar">
+        <img v-bind:src="'https://assets.epicsevendb.com/_source/face/' + data.id + '_s.png'" v-bind:onerror="'this.src=app.getHeroAssets(\''+data._id+'\', \'onerror\').icon;this.onerror=null;'" :alt="name" class="heroAvatar">
         <template v-if="role_attr">
           <img v-bind:src="assetsRole(data.role)" class="role-img" />
           <img v-bind:src="assetsAttribute(data.attribute)" class="attribute-img" />
@@ -3195,13 +3195,6 @@ icon-bar span img {
       },
     },
     methods: {
-      imgSrc: function () {
-        return "https://assets.epicsevendb.com/_source/face/" + this.data.id + "_s.png";
-        //return this.$root.getHeroAssets(this.data._id).icon;
-      },
-      isSelected: function(hero) {
-        return this.selected;
-      },
       assetsRole: function(role) {
         switch (role) {
           case "manauser":
@@ -3468,7 +3461,7 @@ icon-bar span img {
             return {
               VERSION: 1.0,
               last_version: localStorage.getItem('last_version'), /* if different from VERSION a popup will appear*/
-              avatars: JSON.parse(localStorage.getItem('avatars') || '{"name": false, "role_attr": true, "stars": false, "scale": 1, "hoverable": true, "notSet": false}'),
+              avatars: JSON.parse(localStorage.getItem('avatars') || '{"name": false, "role_attr": true, "stars": false, "scale": 1, "hoverable": true, "notSet": true}'),
               strings: {},
               HeroDB: {},
               sortedHeroDB: [],
