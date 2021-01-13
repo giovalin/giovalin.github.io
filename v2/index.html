@@ -2590,7 +2590,7 @@ icon-bar span img {
           </div>-->
         </div>
         <div>
-          <hero-icon v-for="id in filteredData" v-bind:data="$root.thisHeroData(id)" :key="id" @clicked="select(id)" @contextmenu="emitRightClick(id,$event)" :displayname="$root.avatars.name" :name="$root.thisHeroTranslatedName(id)" :showstars="$root.avatars.stars" :role_attr="$root.avatars.role_attr" :scale="$root.avatars.scale" :hoverable="$root.avatars.hoverable" :selected="this.isSelected(id)"></hero-icon>
+          <hero-icon v-for="id in filteredData" v-bind:data="$root.thisHeroData(id)" :key="id" @clicked="select(id)" @contextmenu="emitRightClick(id,$event)" :displayname="$root.avatars.name" :name="$root.thisHeroTranslatedName(id)" :showstars="$root.avatars.stars" :role_attr="$root.avatars.role_attr" :scale="$root.avatars.scale" :hoverable="$root.avatars.hoverable" :selected="isSelected(id)"></hero-icon>
           <div v-if="heroes.length==0" style="display: flex; height: 100%;align-items: center;justify-content: center;">
             <div style="background-color:var(--bg-color); color:var(--font-color); border-radius: 30px; box-shadow:5px 5px 14px 1px var(--search-border-color);align-items: center;padding: 10px 50px;">
               <template v-if="filteredData.length==0">No heroes in your roster!</template>
