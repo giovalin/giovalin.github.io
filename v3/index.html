@@ -1926,7 +1926,7 @@ icon-bar span img {
         <table id="myHeroes">
           <tr>
             <td style="text-align: center; padding-bottom: 20px;">
-              <hero-icon v-for="key in roster" v-show="displayMyHeroes.includes(key)" v-bind:data="thisHeroData(key)" :key="key" @clicked="lockHero(key)" @remove="removeHero(key)" @contextmenu="rightClickHero(key, $event)" :removable="true" :displayname="avatars.name" :name="thisHeroTranslatedName(key)" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="avatars.scale" :hoverable="avatars.hoverable" :selected="isLocked(key)"></hero-icon>
+              <hero-icon v-for="key in roster" v-show="displayMyHeroes.includes(key)" v-bind:data="thisHeroData(key)" :key="key" @clicked="lockHero(key)" @remove="removeHero(key)" @contextmenu="rightClickHero(key, $event)" :removable="true" :displayname="avatars.name" :name="thisHeroTranslatedName(key)" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="parseInt(avatars.scale)" :hoverable="avatars.hoverable" :selected="isLocked(key)"></hero-icon>
             </td>
           </tr>
         </table>
@@ -2075,16 +2075,16 @@ icon-bar span img {
             <td width="4%" style="padding-top: 30px;padding-bottom: 30px;text-align: center; cursor: pointer;" v-on:click="mostraSalvaRisultato(index+(currentResultsPage-1)*25)"><i class="fa fa-save" aria-hidden="true" style="font-size:30px;"></i>
               <br>{{index+1+(currentResultsPage-1)*25}}</td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[0])" :key="item.team[0]" @contextmenu="rightClickHero(item.team[0], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[0])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[0])" :key="item.team[0]" @contextmenu="rightClickHero(item.team[0], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[0])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseInt(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[1])" :key="item.team[1]" @contextmenu="rightClickHero(item.team[1], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[1])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[1])" :key="item.team[1]" @contextmenu="rightClickHero(item.team[1], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[1])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseInt(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[2])" :key="item.team[2]" @contextmenu="rightClickHero(item.team[2], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[2])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[2])" :key="item.team[2]" @contextmenu="rightClickHero(item.team[2], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[2])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseInt(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[3])" :key="item.team[3]" @contextmenu="rightClickHero(item.team[3], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[3])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[3])" :key="item.team[3]" @contextmenu="rightClickHero(item.team[3], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[3])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseInt(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="topics"><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG1)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore1)}}</a><br><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG2)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore2)}}</a></td>
             <td style="text-align:center; font-family:sans-serif;font-size:17px" width="3%">{{item.morale}}</td>
@@ -2589,7 +2589,7 @@ icon-bar span img {
           </div>-->
         </div>
         <div>
-          <hero-icon v-for="id in filteredData" v-bind:data="$root.thisHeroData(id)" :key="id" @clicked="select(id)" @contextmenu="emitRightClick(id,$event)" :displayname="$root.avatars.name" :name="$root.thisHeroTranslatedName(id)" :showstars="$root.avatars.stars" :role_attr="$root.avatars.role_attr" :scale="$root.avatars.scale" :hoverable="$root.avatars.hoverable" :selected="isSelected(id)"></hero-icon>
+          <hero-icon v-for="id in filteredData" v-bind:data="$root.thisHeroData(id)" :key="id" @clicked="select(id)" @contextmenu="emitRightClick(id,$event)" :displayname="$root.avatars.name" :name="$root.thisHeroTranslatedName(id)" :showstars="$root.avatars.stars" :role_attr="$root.avatars.role_attr" :scale="parseInt($root.avatars.scale)" :hoverable="$root.avatars.hoverable" :selected="isSelected(id)"></hero-icon>
           <div v-if="heroes.length==0" style="display: flex; height: 100%;align-items: center;justify-content: center;">
             <div style="background-color:var(--bg-color); color:var(--font-color); border-radius: 30px; box-shadow:5px 5px 14px 1px var(--search-border-color);align-items: center;padding: 10px 50px;">
               <template v-if="filteredData.length==0">No heroes in your roster!</template>
