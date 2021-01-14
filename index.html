@@ -25,11 +25,10 @@
     <meta property="og:image:height" content="256">
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/npm/js-combinatorics@0.5.5/combinatorics.min.js" async></script>-->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
-    <link rel="preload" href="/HeroDatabase.json" as="fetch">
-    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" async>-->
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <script src="https://cdn.jsdelivr.net/npm/js-combinatorics@0.5.5/combinatorics.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" async>
+    <!--<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">-->
 
     <!--<link rel="preload" href="https://i.imgur.com/NDUMMYK.png" as="image" media="(max-width: 90px)">-->
     <style>
@@ -1130,17 +1129,16 @@ icon-bar span img {
   background-position-y: 99%;
   background-repeat: no-repeat;
 }
-.attribute-img {
+.attribute-role {
   position: absolute;
-  right: -5%;
   top: -5%;
-  height: 35%;
-}
-.role-img {
-  position: absolute;
   left: -5%;
-  top: -5%;
-  height: 35%;
+  height: 110%;
+  width: 110%;
+  background-position: 0% 0%, 100% 0%;
+  background-repeat: no-repeat;
+  background-size: 35%;
+
 }
 </style>
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -1754,22 +1752,23 @@ icon-bar span img {
             <img src="https://assets.epicsevendb.com/class/cm_icon_role_soul-weaver.png">
           </button>
         </div>
+        <!--
         <div class="search_hero_area">
           <button class="search_hero_filter" name="filter_gia_aggiunti" onclick=app.filtroTuttiGliEroi(this) value="false">
             <div style="max-height:20px;"><i class="fa fa-eye"></i></div>
-          </button><!--
-          --><button class="search_hero_filter active" name="filter_gia_aggiunti" onclick=app.filtroTuttiGliEroi(this) value="true"> <!-- di default nascondi eroi già aggiunti -->
+          </button>--><!--
+          --><!--<button class="search_hero_filter active" name="filter_gia_aggiunti" onclick=app.filtroTuttiGliEroi(this) value="true">
             <div style="max-height:20px;"><i class="fa fa-eye-slash"></i></div>
           </button>
-        </div>
+        </div>-->
         <div class="search_hero_area dropdown">
-          <button id="allHeroes_sort_by" class="search_hero_filter" onmouseover="document.getElementById('dropdown_allHeroes_sort_by').style.removeProperty('display')" style="font-size:16px; width:90px;" name="sort_by" value="date">{{strings.sort}}</button>
+          <button id="allHeroes_sort_by" class="search_hero_filter" onmouseover="document.getElementById('dropdown_allHeroes_sort_by').style.removeProperty('display')" style="font-size:16px; width:90px;" name="sort_by" value="name">{{strings.sort}}</button>
           <div id="dropdown_allHeroes_sort_by" class="dropdown-content" style="float:right;">
-            <div class="active" onclick="document.getElementById('allHeroes_sort_by').value='name'; app.filtroTuttiGliEroi(this, 'AllHeroes'); this.parentElement.style.display='none'">{{strings.name}}</div>
-            <div class="active" onclick="document.getElementById('allHeroes_sort_by').value='rarity'; app.filtroTuttiGliEroi(this, 'AllHeroes'); this.parentElement.style.display='none'">{{strings.rarity}}</div>
-            <div class="active" onclick="document.getElementById('allHeroes_sort_by').value='attribute'; app.filtroTuttiGliEroi(this, 'AllHeroes'); this.parentElement.style.display='none'">{{strings.attribute}}</div>
-            <div class="active" onclick="document.getElementById('allHeroes_sort_by').value='role'; app.filtroTuttiGliEroi(this, 'AllHeroes'); this.parentElement.style.display='none'">{{strings.classe}}</div>
-            <div class="active" onclick="document.getElementById('allHeroes_sort_by').value='id'; app.filtroTuttiGliEroi(this, 'AllHeroes'); this.parentElement.style.display='none'">{{strings.ingame_id}}</div>
+            <div class="active" onclick="app.databaseSort='name'; this.parentElement.style.display='none'">{{strings.name}}</div>
+            <div class="active" onclick="app.databaseSort='rarity'; this.parentElement.style.display='none'">{{strings.rarity}}</div>
+            <div class="active" onclick="app.databaseSort='attribute'; this.parentElement.style.display='none'">{{strings.attribute}}</div>
+            <div class="active" onclick="app.databaseSort='role'; this.parentElement.style.display='none'">{{strings.classe}}</div>
+            <div class="active" onclick="app.databaseSort='id'; this.parentElement.style.display='none'">{{strings.ingame_id}}</div>
           </div>
         </div>
         <button style="margin-right: 30px; width: auto; font-size: 16px;" class="search_hero_area search_hero_filter" v-on:click="alertUserAction('addDisplayed');" style="font-size:16px; width:90px; width: auto;">{{strings.add_displayed_heroes}}</button>
@@ -1789,7 +1788,7 @@ icon-bar span img {
         <table id="lista_hero_disponibili">
           <tr>
             <td style="text-align: center; padding-bottom: 20px;">
-              <hero-icon v-for="key in displayList" :data="thisHeroData(key)" :key="key" @clicked="addHero(thisHeroData(key)._id)" @contextmenu="rightClickHero(key, $event)" :displayname="avatars.name" :name="thisHeroTranslatedName(key)" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="avatars.scale" :hoverable="avatars.hoverable" v-bind:style="'opacity:' + (myHeroesList[key] ? 0.5 : 1) "></hero-icon>
+              <hero-icon v-for="key in sortedHeroDB" v-show="displayList.includes(key)" :data="thisHeroData(key)" :key="key" @clicked="addHero(thisHeroData(key)._id)" @contextmenu="rightClickHero(key, $event)" :displayname="avatars.name" :name="thisHeroTranslatedName(key)" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="avatars.scale" :hoverable="avatars.hoverable" v-bind:style="'opacity:' + (myHeroesList[key] ? 0.5 : 1) "></hero-icon>
             </td>
           </tr>
          </table>
@@ -1903,12 +1902,12 @@ icon-bar span img {
         <div class="search_hero_area dropdown">
           <button id="myHeroes_sort_by" class="search_hero_filter" onmouseover="document.getElementById('dropdown_sort_myHeroes').style.removeProperty('display')" style="font-size:16px; width:90px;" name="sort_by" value="date">{{strings.sort}}</button>
           <div id="dropdown_sort_myHeroes" class="dropdown-content" style="float:right;">
-            <div class="active" onclick="document.getElementById('myHeroes_sort_by').value='date'; app.filtroTuttiGliEroi(this, 'MyHeroes'); this.parentElement.style.display='none'">{{strings.modified}}</div>
-            <div class="active" onclick="document.getElementById('myHeroes_sort_by').value='name'; app.filtroTuttiGliEroi(this, 'MyHeroes'); this.parentElement.style.display='none'">{{strings.name}}</div>
-            <div class="active" onclick="document.getElementById('myHeroes_sort_by').value='rarity'; app.filtroTuttiGliEroi(this, 'MyHeroes'); this.parentElement.style.display='none'">{{strings.rarity}}</div>
-            <div class="active" onclick="document.getElementById('myHeroes_sort_by').value='attribute'; app.filtroTuttiGliEroi(this, 'MyHeroes'); this.parentElement.style.display='none'">{{strings.attribute}}</div>
-            <div class="active" onclick="document.getElementById('myHeroes_sort_by').value='role'; app.filtroTuttiGliEroi(this, 'MyHeroes'); this.parentElement.style.display='none'">{{strings.classe}}</div>
-            <div class="active" onclick="document.getElementById('myHeroes_sort_by').value='id'; app.filtroTuttiGliEroi(this, 'MyHeroes'); this.parentElement.style.display='none'">{{strings.ingame_id}}</div>
+            <div class="active" onclick="app.rosterSort='date'; this.parentElement.style.display='none'">{{strings.modified}}</div>
+            <div class="active" onclick="app.rosterSort='name'; this.parentElement.style.display='none'">{{strings.name}}</div>
+            <div class="active" onclick="app.rosterSort='rarity'; this.parentElement.style.display='none'">{{strings.rarity}}</div>
+            <div class="active" onclick="app.rosterSort='attribute'; this.parentElement.style.display='none'">{{strings.attribute}}</div>
+            <div class="active" onclick="app.rosterSort='role'; this.parentElement.style.display='none'">{{strings.classe}}</div>
+            <div class="active" onclick="app.rosterSort='id'; this.parentElement.style.display='none'">{{strings.ingame_id}}</div>
           </div>
         </div>
         <button id="myHeroes_sort_by" style="margin-right: 30px; width: auto; font-size: 16px;" class="search_hero_area search_hero_filter" v-on:click="alertUserAction('removeDisplayed');" style="font-size:16px; width:90px; width: auto;">{{strings.remove_displayed_heroes}}</button>
@@ -1927,7 +1926,7 @@ icon-bar span img {
         <table id="myHeroes">
           <tr>
             <td style="text-align: center; padding-bottom: 20px;">
-              <hero-icon v-for="key in displayMyHeroes" v-bind:data="thisHeroData(key)" :key="key" @clicked="lockHero(key)" @remove="removeHero(key)" @contextmenu="rightClickHero(key, $event)" :removable="true" :displayname="avatars.name" :name="thisHeroTranslatedName(key)" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="avatars.scale" :hoverable="avatars.hoverable" :selected="isLocked(key)"></hero-icon>
+              <hero-icon v-for="key in roster" v-show="displayMyHeroes.includes(key)" v-bind:data="thisHeroData(key)" :key="key" @clicked="lockHero(key)" @remove="removeHero(key)" @contextmenu="rightClickHero(key, $event)" :removable="true" :displayname="avatars.name" :name="thisHeroTranslatedName(key)" :showstars="avatars.stars" :role_attr="avatars.role_attr" :scale="parseInt(avatars.scale)" :hoverable="avatars.hoverable" :selected="isLocked(key)"></hero-icon>
             </td>
           </tr>
         </table>
@@ -2076,16 +2075,16 @@ icon-bar span img {
             <td width="4%" style="padding-top: 30px;padding-bottom: 30px;text-align: center; cursor: pointer;" v-on:click="mostraSalvaRisultato(index+(currentResultsPage-1)*25)"><i class="fa fa-save" aria-hidden="true" style="font-size:30px;"></i>
               <br>{{index+1+(currentResultsPage-1)*25}}</td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[0])" :key="item.team[0]" @contextmenu="rightClickHero(item.team[0], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[0])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[0])" :key="item.team[0]" @contextmenu="rightClickHero(item.team[0], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[0])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseInt(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[1])" :key="item.team[1]" @contextmenu="rightClickHero(item.team[1], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[1])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[1])" :key="item.team[1]" @contextmenu="rightClickHero(item.team[1], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[1])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseInt(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[2])" :key="item.team[2]" @contextmenu="rightClickHero(item.team[2], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[2])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[2])" :key="item.team[2]" @contextmenu="rightClickHero(item.team[2], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[2])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseInt(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[3])" :key="item.team[3]" @contextmenu="rightClickHero(item.team[3], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[3])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="avatars.scale" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[3])" :key="item.team[3]" @contextmenu="rightClickHero(item.team[3], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[3])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseInt(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="topics"><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG1)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore1)}}</a><br><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG2)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore2)}}</a></td>
             <td style="text-align:center; font-family:sans-serif;font-size:17px" width="3%">{{item.morale}}</td>
@@ -2590,7 +2589,7 @@ icon-bar span img {
           </div>-->
         </div>
         <div>
-          <hero-icon v-for="id in filteredData" v-bind:data="$root.thisHeroData(id)" :key="id" @clicked="select(id)" @contextmenu="emitRightClick(id,$event)" :displayname="$root.avatars.name" :name="$root.thisHeroTranslatedName(id)" :showstars="$root.avatars.stars" :role_attr="$root.avatars.role_attr" :scale="$root.avatars.scale" :hoverable="$root.avatars.hoverable" :selected="this.isSelected(id)"></hero-icon>
+          <hero-icon v-for="id in filteredData" v-bind:data="$root.thisHeroData(id)" :key="id" @clicked="select(id)" @contextmenu="emitRightClick(id,$event)" :displayname="$root.avatars.name" :name="$root.thisHeroTranslatedName(id)" :showstars="$root.avatars.stars" :role_attr="$root.avatars.role_attr" :scale="parseInt($root.avatars.scale)" :hoverable="$root.avatars.hoverable" :selected="isSelected(id)"></hero-icon>
           <div v-if="heroes.length==0" style="display: flex; height: 100%;align-items: center;justify-content: center;">
             <div style="background-color:var(--bg-color); color:var(--font-color); border-radius: 30px; box-shadow:5px 5px 14px 1px var(--search-border-color);align-items: center;padding: 10px 50px;">
               <template v-if="filteredData.length==0">No heroes in your roster!</template>
@@ -2612,10 +2611,7 @@ icon-bar span img {
     <div @click="emitLeftClick(data._id,$event)" @contextmenu="emitRightClick(data._id,$event)" class="heroImgList" v-bind:class="{ hoverIcon: hoverable }" :style="{ padding: 12*scale + 'px' }">
       <div :style="sizeStyle" style="position: relative; display: inline-block; vertical-align: top;">
         <img :src="'https://assets.epicsevendb.com/_source/face/' + data.id + '_s.png'" v-bind:onerror="'this.src=app.getHeroAssets(\''+data._id+'\', \'onerror\').icon;this.onerror=null;'" :alt="name" class="heroAvatar">
-        <template v-if="role_attr">
-          <img v-bind:src="assetsRole(data.role)" class="role-img" />
-          <img v-bind:src="assetsAttribute(data.attribute)" class="attribute-img" />
-        </template>
+        <div v-if="role_attr" class="attribute-role" :style="'background-image:url('+assetsRole(data.role)+'),url('+assetsAttribute(data.attribute)+')'"></div>
         <div v-if="showstars" v-bind:class="'wrapper-hero-info rarity-' + data.rarity"></div>
         <div v-if="selected" class="top-right animate-flicker">&#128274;</div>
       </div>
@@ -3459,9 +3455,12 @@ icon-bar span img {
               last_version: localStorage.getItem('last_version'), /* if different from VERSION a popup will appear*/
               avatars: JSON.parse(localStorage.getItem('avatars') || '{"name": false, "role_attr": true, "stars": false, "scale": 1, "hoverable": true, "notSet": true}'),
               strings: {},
+
+              /* Database (add hero window) */
               HeroDB: {},
-              sortedHeroDB: [],
+              databaseSort: "name",
               displayList: [],
+
               buffList: {
                 "stic_debuf_impossible": {"name": "Immunity", "id": 12},
                 "stic_att_up": {"name": "Attack up", "id": 1},
@@ -3498,9 +3497,13 @@ icon-bar span img {
                 "stic_vampire": {"name": "Vampire", "id": 23},
                 "stic_bomb": {"name": "Bomb", "id": 53}
               },
+
+              /* User's roster */
               myHeroesList: {},
               displayMyHeroes: [],
-              rosterLength: 0,
+              rosterLength: 0, /* Used to make roster object reactive*/
+              rosterSort: 'date',
+
               locked: [],
               classe: [],
               elemento: [],
@@ -4133,13 +4136,6 @@ icon-bar span img {
             };
             this.displayStyle = layout.value;
           },
-          sortDisplayedHeroesByName() { // on language change call this function to sort by hero name
-            self=this;
-            this.sortedHeroDB.sort(function (a,b) {return ((self.thisHeroTranslatedName(a) < self.thisHeroTranslatedName(b)) ? -1 : ((self.thisHeroTranslatedName(a) == self.thisHeroTranslatedName(b)) ? 0: 1))});
-            this.filtroTuttiGliEroi({tipo:'refresh',casella:'',value:'',className: 'search_hero_filter', name: 'bodyLoad'},'AllHeroes');
-            if (document.getElementById("myHeroes_sort_by").value=="name")
-              this.displayMyHeroes.sort(function (a,b) {return ((self.thisHeroTranslatedName(a) < self.thisHeroTranslatedName(b)) ? -1 : ((self.thisHeroTranslatedName(a) == self.thisHeroTranslatedName(b)) ? 0: 1))});
-          },
           sortHeroes: function (sortBy, a, b) {
             return this.thisHeroData(a)[sortBy] > this.thisHeroData(a)[sortBy] ? this.thisHeroData(a).name < this.thisHeroData(a).name : -1
           },
@@ -4151,12 +4147,8 @@ icon-bar span img {
               pulsantiIn = document.getElementById("add_window"); // determina in che sezione sono i pulsanti
               //if (button.className == "search_hero_filter") 
               filtro["ricerca"] = document.getElementById("inputInTuttiGliEroi").value; // ottieni il testo digitato nella casella
-              var sortBy = document.getElementById("allHeroes_sort_by").value;
-              if (sortBy != "date") tmpArray.sort((x, y) => { return (this.thisHeroData(x)[sortBy] > this.thisHeroData(y)[sortBy] ) - (this.thisHeroData(x)[sortBy] < this.thisHeroData(y)[sortBy] ) || (this.thisHeroData(x).name > this.thisHeroData(y).name ) - (this.thisHeroData(x).name < this.thisHeroData(y).name ) });
             } else if (listToModify === "MyHeroes")  {
               tmpArray = Object.keys(this.myHeroesList);
-              var sortBy = document.getElementById("myHeroes_sort_by").value;
-              if (sortBy != "date") tmpArray.sort((x, y) => { return (this.thisHeroData(x)[sortBy] > this.thisHeroData(y)[sortBy] ) - (this.thisHeroData(x)[sortBy] < this.thisHeroData(y)[sortBy] ) || (this.thisHeroData(x).name > this.thisHeroData(y).name ) - (this.thisHeroData(x).name < this.thisHeroData(y).name ) });
               filtro["ricerca"] =  document.getElementById("inputInMyHeroes").value; // ottieni il testo digitato nella casella
               pulsantiIn = document.getElementById("manage_window"); // determina in che sezione sono i pulsanti
             };
@@ -6250,8 +6242,6 @@ icon-bar span img {
               contentType: 'application/json',
               success: (response) => {
                 this.HeroDB = response;
-                this.sortedHeroDB = Object.keys(this.HeroDB).sort(function (a,b) {return ((a < b) ? -1 : ((a == b) ? 0: 1))});
-                this.sortedHeroDB.splice(this.sortedHeroDB.indexOf("dark-tyrant-tenebria"), 1); // remove s tenebria's skin
                 if (!urlParams.get("camproster")) { // get roster from file
                   this.getUserHeroesBoot();
                 } else {// get roster from url
@@ -6301,6 +6291,23 @@ icon-bar span img {
       }
     },
     computed: {
+        databaseNumber: function() {
+          return Object.keys(this.HeroDB).length-this.rosterLength;
+        },
+        sortedHeroDB: function () {
+          this.databaseNumber;
+          var sortBy = this.databaseSort, list = Object.keys(this.HeroDB), banned = ["dark-tyrant-tenebria"];
+          for (var i=0; i<list.length;i++) if (this.myHeroesList[list[i]] || banned.includes(list[i])) list.splice(list.indexOf(list[i]),1),i--;
+          if (sortBy !="rarity") return list.sort((x, y) => { return (this.thisHeroData(x)[sortBy] > this.thisHeroData(y)[sortBy] ) - (this.thisHeroData(x)[sortBy] < this.thisHeroData(y)[sortBy] ) || (this.thisHeroData(x).name > this.thisHeroData(y).name ) - (this.thisHeroData(x).name < this.thisHeroData(y).name ) });
+          else if (sortBy =="rarity") return list.sort((x, y) => { return (this.thisHeroData(x)[sortBy] < this.thisHeroData(y)[sortBy] ) - (this.thisHeroData(x)[sortBy] > this.thisHeroData(y)[sortBy] ) || (this.thisHeroData(x).name > this.thisHeroData(y).name ) - (this.thisHeroData(x).name < this.thisHeroData(y).name ) });
+        },
+        roster: function() {
+          this.rosterLength;
+          var sortBy = this.rosterSort;
+          if (sortBy != "date" && sortBy !="rarity") return Object.keys(this.myHeroesList).sort((x, y) => { return (this.thisHeroData(x)[sortBy] > this.thisHeroData(y)[sortBy] ) - (this.thisHeroData(x)[sortBy] < this.thisHeroData(y)[sortBy] ) || (this.thisHeroData(x).name > this.thisHeroData(y).name ) - (this.thisHeroData(x).name < this.thisHeroData(y).name ) });
+          else if (sortBy =="rarity") return Object.keys(this.myHeroesList).sort((x, y) => { return (this.thisHeroData(x)[sortBy] < this.thisHeroData(y)[sortBy] ) - (this.thisHeroData(x)[sortBy] > this.thisHeroData(y)[sortBy] ) || (this.thisHeroData(x).name > this.thisHeroData(y).name ) - (this.thisHeroData(x).name < this.thisHeroData(y).name ) });
+          else return Object.keys(this.myHeroesList);
+        },
         computedGetSavedTeamsStats: function () {
           this.getSavedTeamsStats();
         },
@@ -6329,7 +6336,7 @@ icon-bar span img {
               };
               try {
                 camperino.postMessage({HeroDB: this.HeroDB, myHeroesList: this.myHeroesList, campList: campList, locked: this.locked, classe: this.classe, elemento: this.elemento, debuffs: this.debuffs, buffs: this.buffs, AoE: this.AoE, noS1debuffs: this.noS1debuffs, noDebuffs: this.noDebuffs, mustIncludeDispel: this.mustIncludeDispel, cartesianLock: this.cartesian_lock, preferenzeRisultati: this.customizedResuts, risultati: []});
-                //this.numeroCombinazioniPossibili = Combinatorics.bigCombination(campList,4-this.locked.length).length;
+                this.numeroCombinazioniPossibili = Combinatorics.bigCombination(campList,4-this.locked.length).length;
               } catch (err) {
                 this.isLoadingResults = false; // remove angelica loading
                 snackbarMessage(`Error: ` + err);
@@ -6341,8 +6348,8 @@ icon-bar span img {
     risultati: function () { // when new results are calculated go back to page 1
       this.currentResultsPage = 1;
     },
-    advancedIcons: function() {
-      this.writeSettings();
+    rosterLength: function () {
+      this.sortedHeroDB;
     }
   },
   mounted () {
