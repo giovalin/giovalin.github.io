@@ -2073,16 +2073,16 @@ icon-bar span img {
             <td width="4%" style="padding-top: 30px;padding-bottom: 30px;text-align: center; cursor: pointer;" v-on:click="mostraSalvaRisultato(index+(currentResultsPage-1)*25)"><i class="fa fa-save" aria-hidden="true" style="font-size:30px;"></i>
               <br>{{index+1+(currentResultsPage-1)*25}}</td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[0])" :key="item.team[0]" @contextmenu="rightClickHero(item.team[0], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[0])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" :lang="lingua" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[0])" :key="item.team[0]" @contextmenu="rightClickHero(item.team[0], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[0])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[1])" :key="item.team[1]" @contextmenu="rightClickHero(item.team[1], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[1])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" :lang="lingua" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[1])" :key="item.team[1]" @contextmenu="rightClickHero(item.team[1], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[1])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[2])" :key="item.team[2]" @contextmenu="rightClickHero(item.team[2], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[2])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" :lang="lingua" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[2])" :key="item.team[2]" @contextmenu="rightClickHero(item.team[2], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[2])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[3])" :key="item.team[3]" @contextmenu="rightClickHero(item.team[3], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[3])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" :lang="lingua" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[3])" :key="item.team[3]" @contextmenu="rightClickHero(item.team[3], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[3])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="topics"><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG1)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore1)}}</a><br><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG2)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore2)}}</a></td>
             <td style="text-align:center; font-family:sans-serif;font-size:17px" width="3%">{{item.morale}}</td>
@@ -2193,7 +2193,7 @@ icon-bar span img {
           <td>
             <div style="max-height:55px">
               <span>
-                Customize character icon
+                {{strings.customize_ch_icons}}
               </span>
             </div>
           </td>
@@ -3181,7 +3181,7 @@ icon-bar span img {
         return {height: this.size*this.scale + "px", width: this.size*this.scale + "px"};
       },
       textFieldSize: function() {
-        return {"width": (this.size*this.scale + (this.removable ? 20*this.scale : 0) ) + "px", fontSize: 14*this.scale+"px", height: 44*this.scale+"px"};
+        return {"width": (this.size*this.scale + (this.removable ? 20*this.scale : 0) ) + "px", fontSize: 14*this.scale+"px", height: 50*this.scale+"px"};
       },
     },
     methods: {
