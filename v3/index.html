@@ -1684,7 +1684,7 @@ icon-bar span img {
 
     <!--ADD HEROES WINDOW-->
     <div id="add_window" style="display:none;">
-      <h2><span style="position:relative;top:10px;vertical-align: middle">{{strings.aggiungi}} <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px" v-on:click="helpWindow('add_window', 'add_heroes_help')"></i></span>
+      <h2><span style="position:relative;top:10px;vertical-align: middle">{{strings.aggiungi}} <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px; cursor: pointer;" v-on:click="helpWindow('add_window', 'add_heroes_help')"></i></span>
         <div style="display: inline-block;">
           <input type="text" id="inputInTuttiGliEroi" class="search_hero_filter searchBox" onkeyup="app.filtroTuttiGliEroi({tipo:'input',casella:this,value:this.value,className: 'search_hero_filter', name: 'ricerca'})" v-bind:placeholder="strings.search+'...'" title="Type in a name">
           <button class="search_input"><i class="fa fa-search" aria-hidden="true"></i></button>
@@ -1815,7 +1815,7 @@ icon-bar span img {
       <h2>
         <span style="position:relative;top:10px;vertical-align: middle">{{strings.i_tuoi_eroi}}
           <span style="display: inline-block; background: rgb(250,0,80); border-radius: 4px; min-width: 40px; height: 25px; padding: 4px; text-align: center; color: white; font-size: 20px;">{{rosterLength}}</span>
-          <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px" v-on:click="helpWindow('manage_window', 'manage_heroes_help')"></i> 
+          <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px; cursor: pointer;" v-on:click="helpWindow('manage_window', 'manage_heroes_help')"></i> 
         </span>
           <div style="display: inline-block;">
             <input type="text" id="inputInMyHeroes" class="search_hero_filter searchBox" onkeyup="app.filtroTuttiGliEroi({tipo:'input',casella:this,value:this.value,className: 'search_hero_filter', name: 'ricerca'}, 'MyHeroes')" v-bind:placeholder="strings.search+'...'" title="Type in a name">
@@ -1955,7 +1955,7 @@ icon-bar span img {
         <p style="margin:0 0 8px 0"><b>{{ strings.warn_tsize_adv_title }}</b></p>
         <p style="margin: 0; white-space: pre-wrap; font-size: 15px;">{{ strings.warn_tsize_adv_details }}</p>
       </div>
-      <h2>{{strings.impostazioni_avanzate}}  <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px" v-on:click="helpWindow('advanced_window', 'advanced_settings')"></i></h2>
+      <h2>{{strings.impostazioni_avanzate}}  <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px; cursor: pointer;" v-on:click="helpWindow('advanced_window', 'advanced_settings')"></i></h2>
       <div style="float: right;">
         <button class="search_hero_filter" onclick="document.getElementById('impostazioni_risultati').style.display='block'" style="font-size:16px; width:70px;" name="sort_by"><i class="fa fa-cog" aria-hidden="true"></i></button>
         <div id="impostazioni_risultati" class="dropdown-content" style="right: 32px; z-index: 2;">
@@ -2048,7 +2048,7 @@ icon-bar span img {
       </div>
       <br><br>
       <div id="advanced_cartesian" class="box_advanced_settings" style="height:auto;width:100%;display:inline-block;padding-bottom: 25px;padding-top: 5px;">
-        <center>{{strings.multilock}}<i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px" v-on:click="helpWindow('advanced_window', 'multi-lock')"></i></center>
+        <center>{{strings.multilock}}<i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px; cursor: pointer;" v-on:click="helpWindow('advanced_window', 'multi-lock')"></i></center>
         <div v-for="(key,index) in cartesian_lock" style="display:inline-block;margin:20px;width:22%;min-width:230px">
           {{strings.multilock_slot}} {{index+1}}
           <button type="button" v-on:click="openCartesianLock(index)" class="button_login">{{strings.add_to_slot}}</button>
@@ -2060,7 +2060,7 @@ icon-bar span img {
     </div>
 
     <div id="calculate_window" class="center" style="display:none;">
-      <h2>{{strings.risultati}}  <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px" v-on:click="helpWindow('calculate_window', 'results_help')"></i></h2>
+      <h2>{{strings.risultati}}  <i class="fa fa-question-circle" aria-hidden="true" style="font-size:20px; cursor: pointer;" v-on:click="helpWindow('calculate_window', 'results_help')"></i></h2>
       <table>
         <thead>
           <th></th>
@@ -2073,16 +2073,16 @@ icon-bar span img {
             <td width="4%" style="padding-top: 30px;padding-bottom: 30px;text-align: center; cursor: pointer;" v-on:click="mostraSalvaRisultato(index+(currentResultsPage-1)*25)"><i class="fa fa-save" aria-hidden="true" style="font-size:30px;"></i>
               <br>{{index+1+(currentResultsPage-1)*25}}</td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[0])" :key="item.team[0]" @contextmenu="rightClickHero(item.team[0], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[0])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[0])" :key="index+' - 1'" @contextmenu="rightClickHero(item.team[0], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[0])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[1])" :key="item.team[1]" @contextmenu="rightClickHero(item.team[1], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[1])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[1])" :key="index+' - 2'" @contextmenu="rightClickHero(item.team[1], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[1])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[2])" :key="item.team[2]" @contextmenu="rightClickHero(item.team[2], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[2])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[2])" :key="index+' - 3'" @contextmenu="rightClickHero(item.team[2], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[2])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="hero_potrait" style="max-width: 100px;">
-              <hero-icon v-bind:data="thisHeroData(item.team[3])" :key="item.team[3]" @contextmenu="rightClickHero(item.team[3], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[3])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" class="imgResults"></hero-icon>
+              <hero-icon v-bind:data="thisHeroData(item.team[3])" :key="index+' - 4'" @contextmenu="rightClickHero(item.team[3], $event)" :hoverable="false" :displayname="avatars.name" :name="thisHeroTranslatedName(item.team[3])" :showstars="avatars.stars" :role_attr="avatars.role_attr" :size="60" :scale="parseFloat(avatars.scale)" class="imgResults"></hero-icon>
             </td>
             <td class="topics"><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG1)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore1)}}</a><br><b>{{thisHeroTranslatedName(thisHeroData(item.migliorPG2)._id)}}</b>: <a>{{translateTopics(item.opzioneMigliore2)}}</a></td>
             <td style="text-align:center; font-family:sans-serif;font-size:17px" width="3%">{{item.morale}}</td>
@@ -2608,7 +2608,7 @@ icon-bar span img {
   <script type="text/x-template" id="hero_icon">
     <div @click="emitLeftClick(data._id,$event)" @contextmenu="emitRightClick(data._id,$event)" class="heroImgList" v-bind:class="{ hoverIcon: hoverable }" :style="{ padding: 12*scale + 'px' }">
       <div :style="sizeStyle" style="position: relative; display: inline-block; vertical-align: top;">
-        <img :src="'https://assets.epicsevendb.com/_source/face/' + data.id + '_s.png'" v-bind:onerror="'this.src=app.getHeroAssets(\''+data._id+'\', \'onerror\').icon;this.onerror=null;'" :alt="name" class="heroAvatar">
+        <img v-bind:src="$root.getHeroAssets(data._id).icon" v-bind:onerror="'this.src=app.getHeroAssets(\''+data._id+'\', \'onerror\').icon;this.onerror=null;'" :alt="name" class="heroAvatar">
         <div v-if="role_attr" class="attribute-role" :style="'background-image:url('+assetsRole(data.role)+'),url('+assetsAttribute(data.attribute)+')'"></div>
         <div v-if="showstars" v-bind:class="'wrapper-hero-info rarity-' + data.rarity"></div>
         <div v-if="selected" class="top-right animate-flicker">&#128274;</div>
