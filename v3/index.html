@@ -6325,7 +6325,7 @@ icon-bar span img {
             this.customizedResuts;
             if (Object.keys(this.myHeroesList).length > 3) {
               this.isLoadingResults = true; // mostra animazione di caricamento
-
+              console.log("Start calculating...");
               var campList = Object.keys(this.myHeroesList);
               if (this.locked.length > 0 ) {
                 for (var i = 0; i< this.locked.length; i++){
