@@ -15,7 +15,6 @@ self.addEventListener('install', event => {
   console.log('Installing service worker!');
   
   event.waitUntil( // delete all old caches
-    
     caches.keys().then(function(cacheNames) {
       return Promise.all(
         cacheNames.filter(function(thisCache) {
@@ -24,8 +23,9 @@ self.addEventListener('install', event => {
           return caches.delete(thisCache);
         })
       )
-    });
-    
+    })
+   );
+   event.waitUntil(
     caches.open(nomeCache)
       .then(cache => {
         return cache.addAll(precacheResources);
