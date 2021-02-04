@@ -19,7 +19,7 @@ self.addEventListener('install', event => {
     caches.keys().then(function(cacheNames) {
       return Promise.all(
         cacheNames.filter(function(thisCache) {
-          thisCache == nomeCache ? false : true;
+          return thisCache == nomeCache ? false : true;
         }).map(function(thisCache) {
           return caches.delete(thisCache);
         })
