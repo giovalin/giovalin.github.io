@@ -60,7 +60,7 @@ self.addEventListener('fetch', function(event) {
     //return;
     event.respondWith(async function (){
       const cachedResponse = await caches.match(event.request);
-      if (cachedResponse) return cachedResponse;
+      //if (cachedResponse) return cachedResponse;
       
         return await fetch (event.request)
         .then(async response => { // cache response for next time
