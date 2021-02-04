@@ -8,7 +8,7 @@ const precacheResources = [
   'HeroDatabase.json',
   'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
   'https://cdn.jsdelivr.net/npm/js-combinatorics@0.5.5/combinatorics.min.js',
-  'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
+  'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js',
   'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.min.css'
 ];
 
