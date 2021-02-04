@@ -66,11 +66,11 @@ self.addEventListener('fetch', function(event) {
         return await fetch (event.request)
         .then(response => { // cache response for next time
           if (response.clone().status === 200 || response.clone().status === 304) {
-            return caches.open(nomeCache).then(cache => {
-              cache.put(event.request.url, response.clone());
-              return response;
+            await caches.open(nomeCache).then(cache => {
+              cache.put(event.request.url, response.clone()); 
             });
-          }// else throw new Error();
+            return response;
+          } else throw new Error();
         });
       } catch (error) {
         // Both failed
