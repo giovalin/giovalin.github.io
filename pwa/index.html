@@ -6387,6 +6387,13 @@ function debounce(func, wait, immediate) {
     if (e.error && e.error.message.indexOf("e.target.parentNode")===-1) snackbarMessage("ERROR<br>"+e.message + "<br>"+e.error.fileName+" "+e.error.lineNumber+":"+e.error.columnNumber);
     return false;
   });
+
+
+// creating service-worker.js using sw-precache
+
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+}
 </script>
 </body>
 </html>
