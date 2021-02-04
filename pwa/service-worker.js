@@ -89,10 +89,10 @@ self.addEventListener('fetch', function(event) {
     return;
   }
   
-  //Default
-  console.log("Default");
+  //Default -> extra stuff that doesn't need cache
   event.respondWith(async function (){
-    const cachedResponse = await chaches.match(event.request);
-    return cachedResponse || fetch(event.request);
+    //const cachedResponse = await chaches.match(event.request);
+    //return cachedResponse || fetch(event.request);
+    return fetch(event.request);
   });
 });
