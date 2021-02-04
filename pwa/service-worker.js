@@ -60,7 +60,7 @@ self.addEventListener('fetch', function(event) {
     //return;
     event.respondWith(async function (){
       const cachedResponse = await caches.match(event.request);
-      if (cachedResponse) //return cachedResponse;
+      if (cachedResponse) return cachedResponse;
       
       try {
         return await fetch (event.request)
@@ -70,7 +70,7 @@ self.addEventListener('fetch', function(event) {
               cache.put(event.request.url, response.clone());
               return response;
             });
-          } else throw new Error();
+          }// else throw new Error();
         });
       } catch (error) {
         // Both failed
