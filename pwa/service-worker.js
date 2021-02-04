@@ -15,6 +15,7 @@ self.addEventListener('install', event => {
   console.log('Installing service worker!');
   
   event.waitUntil( // delete all old caches
+    
     caches.keys().then(function(cacheNames) {
       return Promise.all(
         cacheNames.filter(function(thisCache) {
@@ -22,13 +23,13 @@ self.addEventListener('install', event => {
         }).map(function(thisCache) {
           return caches.delete(thisCache);
         })
-      );
-    })
+      )
+    });
     
     caches.open(nomeCache)
       .then(cache => {
         return cache.addAll(precacheResources);
-      })
+      });
   );
   self.skipWaiting(); // run even an older version is running
 });
