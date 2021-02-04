@@ -12,8 +12,19 @@ const precacheResources = [
 ];
 
 self.addEventListener('install', event => {
-  console.log('Service worker install event!');
-  event.waitUntil(
+  console.log('Installing service worker!');
+  
+  event.waitUntil( // delete all old caches
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.filter(function(thisCache) {
+          thisCache == nomeCache ? false : true;
+        }).map(function(thisCache) {
+          return caches.delete(thisCache);
+        })
+      );
+    })
+    
     caches.open(nomeCache)
       .then(cache => {
         return cache.addAll(precacheResources);
