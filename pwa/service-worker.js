@@ -13,7 +13,7 @@ const precacheResources = [
 
 self.addEventListener('install', event => {
   console.log('Installing service worker!');
-  /*
+
   event.waitUntil( // delete all old caches
     caches.keys().then(function(cacheNames) {
       return Promise.all(
@@ -24,12 +24,12 @@ self.addEventListener('install', event => {
         })
       )
     })
-   );*/
+   );
    event.waitUntil(
     caches.open(nomeCache)
       .then(cache => {
         return cache.addAll(precacheResources);
-      });
+      })
   );
   self.skipWaiting(); // run even an older version is running
 });
