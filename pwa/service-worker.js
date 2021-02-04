@@ -2,7 +2,6 @@
 const nomeCache = "cache-v1";
 
 const precacheResources = [
-  '/',
   'index.html',
   'worker.js',
   'HeroDatabase.json',
@@ -62,15 +61,13 @@ self.addEventListener('fetch', function(event) {
       const cachedResponse = await caches.match(event.request);
       //if (cachedResponse) return cachedResponse;
       
-        return await fetch (event.request)
-        .then(async response => { // cache response for next time
-          if (response.clone().status === 200 || response.clone().status === 304) {
-            await caches.open(nomeCache).then(cache => {
-              cache.put(event.request.url, response.clone()); 
-            });
-            return response;
-          } else return;
+      return await fetch (event.request)
+      .then(async response => { // cache response for next time
+        await caches.open(nomeCache).then(cache => {
+          cache.put(event.request.url, response.clone()); 
         });
+        return response;
+      });
     }());
     return;
   }
