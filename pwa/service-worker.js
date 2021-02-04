@@ -39,6 +39,7 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', function(event) {
+  if (event.request.method !== 'GET') return;
   //URL
   const requestURL = new URL (event.request.url);
   
@@ -105,6 +106,6 @@ self.addEventListener('fetch', function(event) {
   event.respondWith(async function (){
     //const cachedResponse = await chaches.match(event.request);
     //return cachedResponse || fetch(event.request);
-    return fetch(event.request);
+    return fetch(event.request).then(response => return response);
   });
 });
