@@ -62,7 +62,6 @@ self.addEventListener('fetch', function(event) {
       const cachedResponse = await caches.match(event.request);
       if (cachedResponse) return cachedResponse;
       
-      try {
         return await fetch (event.request)
         .then(async response => { // cache response for next time
           if (response.clone().status === 200 || response.clone().status === 304) {
@@ -70,13 +69,8 @@ self.addEventListener('fetch', function(event) {
               cache.put(event.request.url, response.clone()); 
             });
             return response;
-          } else throw new Error();
+          } else return;
         });
-      } catch (error) {
-        // Both failed
-        console.log("asset failed")
-        return;
-      };
     }());
     return;
   }
