@@ -106,6 +106,6 @@ self.addEventListener('fetch', function(event) {
   event.respondWith(async function (){
     //const cachedResponse = await chaches.match(event.request);
     //return cachedResponse || fetch(event.request);
-    return fetch(event.request).then(response => return response);
+    return fetch(event.request).then(response => {return response});
   });
 });
