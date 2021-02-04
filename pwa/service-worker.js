@@ -74,6 +74,7 @@ self.addEventListener('fetch', function(event) {
         });
       } catch (error) {
         // Both failed
+        console.log("asset failed")
         return;
       };
     }());
@@ -81,7 +82,6 @@ self.addEventListener('fetch', function(event) {
   }
 
   else if (requestURL.hostname === "cdn.jsdelivr.net") {
-    //console.log("depend. stuff");
     event.respondWith (async function (){
       try { // try online
         return await fetch(event.request)
